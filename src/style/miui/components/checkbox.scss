@@ -1,0 +1,39 @@
+$checkboxWrapperHeight: 2rem;
+$editTextWrapperPadding: 5px;
+$checkboxWidth: 2rem;
+$editTextWrapperDisabledOpacity: .6;
+
+.miui-checkbox-wrapper {
+    display: inline-flex;
+    align-items: center;
+    height: $checkboxWrapperHeight;
+    overflow: hidden;
+    line-height: 1;
+    font-size: var(--fontSize15);
+
+    .miui-checkbox {
+        width: $checkboxWrapperHeight;
+        height: $checkboxWrapperHeight;
+        border-radius: $checkboxWidth / 2;
+        @include shadowBorder(var(--black05), 1px);
+        background-color: var(--black05);
+        margin: 0 $editTextWrapperPadding;
+    
+        &_checked {
+            background-color: var(--accentColor);
+        }
+
+        &_disabled {
+            opacity: $editTextWrapperDisabledOpacity;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+    }
+
+    .label {
+        &_checked {
+            color: var(--accentColor);
+        }
+        margin-right: $editTextWrapperPadding;
+    }
+}
