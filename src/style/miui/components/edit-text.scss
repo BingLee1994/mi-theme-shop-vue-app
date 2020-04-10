@@ -1,0 +1,74 @@
+$editTextWrapperHeight: 4.5rem;
+$editTextWrapperPadding: 10px 15px;
+$editTextWrapperBorderWidth: 3px;
+$editTextIconWidth: 2rem;
+$editTextWrapperRadius: 1rem;
+$editTextWrapperMargin: 15px;
+$editTextWrapperDisabledOpacity: .6;
+
+.miui-edit-text-wrapper {
+    display: inline-flex;
+    @include shadowBorder(var(--accentColor), 2px);
+    align-items: center;
+    padding: $editTextWrapperPadding;
+    box-sizing: border-box;
+    height: $editTextWrapperHeight;
+    border-radius: $editTextWrapperRadius;
+    overflow: hidden;
+    line-height: 1;
+    font-size: var(--fontSize15);
+    caret-color: var(--accentColor);
+
+    &_widen {
+        display: flex;
+        width: calc(100% - #{$editTextWrapperMargin} * 2);
+        margin: $editTextWrapperMargin;
+    }
+
+    &_disabled {
+        opacity: $editTextWrapperDisabledOpacity;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    input {
+        line-height: inherit;
+        margin-top: 1px;
+        -webkit-appearance: none;
+        border: none;
+        background: none;
+        font-size: var(--fontSize15);
+        width: 100%;
+        flex: {
+            grow: 1;
+            shrink: 1;
+            basis: 0
+        }
+        &:-webkit-placeholder {
+            color: red;
+        }
+        caret-color: inherit;
+        color: inherit;
+    }
+
+    .icon {
+        width: $editTextIconWidth;
+        height: $editTextIconWidth;
+    }
+
+    .icon ~ input {
+        margin-right: 5px;
+    }
+
+    .icon + input {
+        margin-left: 5px;
+    }
+
+    .password-icon {
+        background: green;
+    }
+
+    .clear-icon {
+        background: red;
+    }
+}
