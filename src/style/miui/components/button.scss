@@ -1,0 +1,38 @@
+$buttonHeightNormal: 5rem;
+$buttonHeightMedium: 4.5rem;
+$buttonMargin:15px;
+.miui-button {
+    --main-background: var(--black05);
+    --main-background-active: var(--black10);
+
+    background: var(--main-background);
+    padding: #{($buttonHeightNormal - $primaryFontSize) / 2} #{$buttonHeightNormal / 2};
+    font-size: var(--primaryFontSize);
+    min-height: $buttonHeightMedium;
+    line-height: 1;
+    box-sizing: border-box;
+    border-radius: $buttonHeightNormal / 2;
+    font-weight: bold;
+    margin-left: $buttonMargin;
+    user-select: none;
+    cursor: pointer;
+    &_widden {
+        display: block;
+        width: calc(100% - #{$buttonMargin} * 2);
+        margin: $buttonMargin;
+    }
+    &_disabled {
+        pointer-events: none;
+        cursor: not-allowed;
+    }
+    &:active {
+        background: var(--main-background-active);
+    }
+    &_primary {
+        color: var(--accentColor);
+        &:active {
+            background: var(--accentColor);
+            color: var(--white90);
+        }
+    }
+}
