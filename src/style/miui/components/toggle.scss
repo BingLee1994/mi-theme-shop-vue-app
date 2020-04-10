@@ -1,0 +1,57 @@
+$toggleHeight: 3rem;
+$toggleWidth: 5rem;
+$toggleButtonWidth: 2rem;
+$toggleTrackPadding: ($toggleHeight - $toggleButtonWidth) / 2;
+$toggleMargin: 5px;
+$toggleDisabledOpacity: .5;
+
+.miui-toggle-wrapper {
+    display: inline-flex;
+    justify-content: left;
+    align-items: center;
+    margin: 0 #{$toggleMargin};
+    .miui-toggle {
+        height: $toggleHeight;
+        width: $toggleWidth;
+        background-color: var(--black05);
+        border-radius: $toggleHeight / 2;
+        @include shadowBorder(var(--black05), 1px);
+        box-sizing: border-box;
+        transition: background-color .2s ease;
+        cursor: pointer;
+        padding: {
+            left: $toggleTrackPadding;
+            top: $toggleTrackPadding;
+        }
+    
+        &::before {
+            content: '';
+            display: inline-block;
+            width: $toggleButtonWidth;
+            height: $toggleButtonWidth;
+            border-radius: $toggleButtonWidth / 2;
+            background: white;
+            transform: translateX(0);
+            transition: transform .2s ease;
+        }
+    
+        &_checked {
+            background-color: var(--accentColor);
+            border: none;
+            &::before {
+                transform: translateX(#{$toggleWidth - $toggleTrackPadding*2 - $toggleButtonWidth});
+            }
+        }
+    
+        &_disabled {
+            cursor: not-allowed;
+            opacity: $toggleDisabledOpacity;
+        }
+    }
+    .label {
+        margin-left: $toggleMargin * 2;
+        &_checked {
+            color: var(--accentColor);
+        }
+    }
+}
