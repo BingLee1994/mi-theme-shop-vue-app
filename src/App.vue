@@ -1,0 +1,119 @@
+<template>
+  <div id="app" class="miui">
+    <ActionBar title="设置"/>
+    <ActionBar title="设置" showBackButton />
+    <ActionBar title="设置" showBackButton showSearchBox searchBoxPlaceholder="搜索设定"/>
+    <Button
+      @click="log('click')"
+      @tap="log('tap')"
+    >123</Button>
+    <Button primary>123</Button>
+    <Button disabled>789</Button>
+    <Button widen><font>101</font></Button>
+    <Button title='点击我'>1112</Button>
+    <Button title='点击我'>aaa</Button>
+    <Toggle :value="true" />
+    <Toggle disabled />
+    <Toggle
+      v-model="isChecked"
+      @click="toggleChange"
+      :label="isChecked?'开关开启':'开关关闭'"
+      labelClass="bold"
+    /><br>
+    <EditText :width="120" />
+    <EditText name="hehe" widen placeholder="123" v-model="usn">
+      <template slot="prepend-text">
+        <font>用户名：</font><span>用户名：</span><span>用户名：</span>
+      </template>
+    </EditText>
+    <EditText widen
+      type="password"
+      showPasswordButton placeholder="请输入密码"
+      v-model="pwd"
+      @focus="pwdFocus"
+      @blur="pwdBlur"
+    >
+      <template slot="prepend-text">
+        <font class="highlight">用户名：</font><span>用户名：</span><span>用户名：</span>
+      </template>
+    </EditText>
+    <EditText widen type="password" disabled showPasswordButton placeholder="请输入密码" value="qqq">
+      <template slot="prepend-text">
+        <font class="highlight">用户名：</font><span>用户名：</span><span>用户名：</span>
+      </template>
+    </EditText>
+    <EditText widen type="text" showClearButton showPasswordButton placeholder="带清除按钮" v-model="content">
+      <template slot="prepend-text">
+        <font class="highlight">用户名：</font><span>用户名：</span><span>用户名：</span>
+      </template>
+    </EditText>
+    用户名:{{usn}} <br>
+    密码：{{pwd}} <br>
+    内容: {{content}} <br>
+
+    <button @click="syncText">测试sync</button>
+    <Checkbox label="123"/>
+    <Checkbox checked label="123"/>
+    <Checkbox checked label="123" disabled/>
+
+    <SearchEditText placeholder="123" id="tst"/>
+
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/article">Article</router-link> |
+      <router-link to="/user/billy">User</router-link>
+    </div>
+
+    <Dialog title="删除？" primaryButton="ok" secondaryButton="cancel"/>
+    <!-- 路由渲染出口 -->
+    <router-view />
+  </div>
+</template>
+
+<script>
+import Button from '@miui/buttons/button'
+import Toggle from '@miui/toggle'
+import Checkbox from '@miui/checkbox'
+import EditText from '@miui/edit-text/edit-text'
+import SearchEditText from '@miui/action-bar/search-edit-text'
+import ActionBar from '@miui/action-bar/action-bar'
+import Dialog from '@miui/dialog/base'
+
+export default {
+  components: { Button, Dialog, ActionBar, Toggle, EditText, Checkbox, SearchEditText },
+  methods: {
+    log(msg) {
+      console.log(msg)
+    },
+    toggleChange(v) {
+      this.isChecked = v
+    },
+    syncText() {
+      this.content = '这是sync完的'
+    },
+    pwdFocus() {
+      console.log('focus')
+    },
+    pwdBlur() {
+      console.log('blur')
+    }
+  },
+  data() {
+    return { isChecked: true, usn: '123', pwd: 123, content: '你好呀' }
+  }
+}
+</script>
+
+<style lang="scss">
+#nav {
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+}
+</style>
