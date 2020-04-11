@@ -5,6 +5,7 @@ $dialogMargin: 1rem;
 $dialogWrapperBackgroungColor: var(--black40);
 
 .miui-dialog-translucent-background {
+
     &-enter {
         opacity: 0;
         &-active {
@@ -69,6 +70,16 @@ $dialogWrapperBackgroungColor: var(--black40);
     }
 
     & > .dialog {
+
+        @mixin divider($height: 0) {
+            &::after {
+                flex: $height 0;
+                height: $height;
+                content: '';
+                display: block;
+            }
+        }
+
         position: absolute;
         bottom: $dialogMargin;
         left: $dialogMargin;
@@ -89,6 +100,26 @@ $dialogWrapperBackgroungColor: var(--black40);
         .message, .title {
             margin-bottom: $dialogPadding;
             text-align: center;
+        }
+
+        .checkbox-option-wrapper {
+            display: block
+        }
+
+        .with-divider-10 {
+            @include divider(1rem);
+        }
+
+        .with-divider-20 {
+            @include divider(2rem);
+        }
+
+        .with-divider-15 {
+            @include divider(1.5rem);
+        }
+
+        .with-divider-25 {
+            @include divider(2.5rem);
         }
 
         & > .button-wrapper {
