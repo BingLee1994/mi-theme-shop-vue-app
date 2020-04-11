@@ -1,0 +1,107 @@
+$dialogBorderRadius: 2rem;
+$dialogPadding: 2.5rem;
+$dialogPaddingH: 3rem;
+$dialogMargin: 1rem;
+$dialogWrapperBackgroungColor: var(--black40);
+
+.miui-dialog-translucent-background {
+    &-enter {
+        opacity: 0;
+        &-active {
+            transition: all #{$animationDuration} ease;
+        }
+        &-to {
+            opacity: 1;
+        }
+    }
+    &-leave {
+        opacity: 1;
+        &-active {
+            transition: all #{$animationDuration} ease;
+        }
+        &-to {
+            opacity: 0;
+        }
+    }
+}
+
+.miui-dialog {
+    &-enter {
+        transform: translateY(calc(100% + #{$dialogPadding}));
+        &-active {
+            transition: all #{$animationDuration} ease;
+        }
+        &-to {
+            transform: translate(0);
+        }
+    }
+    &-leave {
+        transform: translateY(0);
+        &-active {
+            transition: all #{$animationDurationShort} ease;
+        }
+        &-to {
+            transform: translateY(calc(100% + #{$dialogPadding}));
+        }
+    }
+}
+
+.miui-dialog-wrapper {
+    z-index: 999999;
+    transform: translate3d(0,0,0);
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: fixed;
+
+    &_hidden {
+        pointer-events: none;
+    }
+
+    & > .background {
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-color: $dialogWrapperBackgroungColor;
+        position: absolute;
+    }
+
+    & > .dialog {
+        position: absolute;
+        bottom: $dialogMargin;
+        left: $dialogMargin;
+        right: $dialogMargin;
+        background: var(--white);
+        padding: $dialogPadding $dialogPaddingH;
+        border-radius: $dialogBorderRadius;
+
+        .title {
+            font-size: var(--fontSize18);
+        }
+
+        .message {
+            font-size: var(fontSize15);
+            padding: 0 1rem;
+        }
+
+        .message, .title {
+            margin-bottom: $dialogPadding;
+            text-align: center;
+        }
+
+        & > .button-wrapper {
+            display: flex;
+
+            .divider {
+                width: 1rem;
+                display: inline-block;
+
+                &:first-child {
+                    display: none;
+                }
+            }
+        }
+    }
+}
