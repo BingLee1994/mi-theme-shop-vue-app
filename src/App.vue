@@ -1,14 +1,14 @@
 <template>
   <div id='app' class='miui'>
-    <div style='display: block'>
-      <ActionBar title='设置' showBackButton showSearchBox searchBoxPlaceholder='搜索设定' />
+    <div style='display: block;padding:10px'>
+      <ActionBar title='设置' showBackButton showSearchBox searchBoxPlaceholder='搜索设定' /> <br/>
       <Button @click="log('click')" @tap="log('tap')">123</Button>
       <Button primary>123</Button>
-      <Button disabled>789</Button>
-    <Button @click='testDialog'>测试dialog</Button>
+      <Button disabled>789</Button> <br/><br/>
+    <Button @click='testDialog'>测试dialog</Button> <br/>
       <Button widen>
         <font>101</font>
-      </Button>
+      </Button> <br/>
       <Toggle :value='true' />
       <Toggle disabled />
       <Toggle
@@ -17,7 +17,7 @@
         :label="isChecked?'开关开启':'开关关闭'"
         labelClass='bold'
       />
-      <br />
+      <br /><br/>
       <EditText :width='120' />
       <EditText name='hehe' widen placeholder='123' v-model='usn'>
         <template slot='prepend-text'>
