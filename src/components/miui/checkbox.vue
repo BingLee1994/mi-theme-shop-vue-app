@@ -5,9 +5,9 @@
 <template>
     <label
         class="miui-checkbox-wrapper"
+        @click="toggleCheckbox"
     >
         <span
-            @click="toggleCheckbox"
             :class="{
                 'miui-checkbox': true,
                 'miui-checkbox_disabled': disabled,
