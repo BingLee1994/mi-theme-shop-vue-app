@@ -128,10 +128,20 @@ export default {
       this.$dialog.alert('标题', '文件').then(() => {
           console.log('app ok')
       }) */
-      this.$dialog.confirmWithCheckbox({
+      /* this.$dialog.confirmWithCheckbox({
         title: 123,
         message: 456,
         checkboxOptions: [{ label: 123, required: true, checked: false }]
+      }) */
+      this.$dialog.prompt({
+        title: '输入密码',
+        inputOptions: [{ placeholder: '请输入用户名' }, { placeholder: '请输入密码', type: 'password' }],
+        validator(optiops) {
+          console.log(optiops)
+          return true
+        }
+      }).then(optiops => {
+        console.log(optiops)
       })
     }
   },
