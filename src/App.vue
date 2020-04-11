@@ -6,6 +6,7 @@
       <Button primary>123</Button>
       <Button disabled>789</Button> <br/><br/>
     <Button @click='testDialog'>测试dialog</Button> <br/>
+    <Button @click='testToast'>测试Toast</Button> <br/>
       <Button widen>
         <font>101</font>
       </Button> <br/>
@@ -143,6 +144,9 @@ export default {
       }).then(optiops => {
         console.log(optiops)
       })
+    },
+    testToast() {
+      this.$toast.show(123)
     }
   },
   data() {
