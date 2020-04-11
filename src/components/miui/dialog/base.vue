@@ -28,17 +28,19 @@
                     <Button
                         widen
                         :style="customizedButtonStyle"
-                        v-if="this.secondaryButtonOption"
+                        v-if="secondaryButtonOption"
                         @click="onClickButton(false)"
+                        :disabled="disableSecondaryButton"
                     >
                         {{secondaryButtonOption.text}}
                     </Button>
                     <span class="divider"></span>
                     <Button widen
                         :style="customizedButtonStyle"
-                        v-if="this.primaryButtonOption"
+                        v-if="primaryButtonOption"
                         primary
                         @click="onClickButton()"
+                        :disabled="disablePrimaryButton"
                     >
                         {{primaryButtonOption.text}}
                     </Button>
@@ -58,26 +60,21 @@ export default {
     name: 'MIUI-Dialog',
     components: { Button },
     props: {
-        title: String,
-        message: String,
-        primaryButton: {
-            validator() {
-                return true
-            }
-        },
-        secondaryButton: {
-            validator() {
-                return true
-            }
-        }
+        title: [String, Number],
+        message: [String, Number],
+        primaryButton: [String, Object],
+        secondaryButton: [String, Object]
     },
     data() {
+        let { primaryButton, secondaryButton } = this.$props
         return {
             customizedButtonStyle: {
                 flex: 1,
                 margin: 0
             },
-            isShow: false
+            isShow: false,
+            disablePrimaryButton: !isNone(primaryButton) && primaryButton.disabled,
+            disableSecondaryButton: !isNone(secondaryButton) && secondaryButton.disabled
         }
     },
     computed: {
@@ -92,7 +89,8 @@ export default {
         _makeButtonOption(option, isPrimaty = true) {
             if (isNone(option)) return isPrimaty ? DEFAULT_BUTTON : null
             let buttonOption = {
-                primary: isPrimaty
+                primary: isPrimaty,
+                disabled: false
             }
 
             if (typeof option === 'string' || typeof option === 'number') {
