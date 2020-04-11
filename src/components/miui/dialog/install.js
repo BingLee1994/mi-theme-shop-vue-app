@@ -1,7 +1,8 @@
 import Vue from 'vue'
-import BaseDialog from './base'
-import { callFunc, isPlainObject } from '../utils'
+import BaseDialog from './base.vue'
+import { callFunc, isPlainObject, isFunc } from '../utils'
 import Checkbox from '../checkbox'
+import EditText from '../edit-text/edit-text'
 
 // https://cn.vuejs.org/v2/api/
 
@@ -10,6 +11,7 @@ const BaseDialogConstructor = Vue.extend(BaseDialog)
 
 const NOTASSIGNED = Symbol('not-assigned')
 const VUECreateElement = new Vue().$createElement
+const DIALOG_CANCELED = Symbol('cancel')
 
 // 对话框在同一时刻只能有一个实例
 let curDialogInstance = null
@@ -24,7 +26,7 @@ const TEXT_CANCEL = '取消'
     return vm instanceof BaseDialogConstructor
 } */
 
-function getCommonDialogActions(resolve, reject) {
+function getCommonDialogActions(confirmCb, cancelCb) {
     let resolvedVal = NOTASSIGNED
     let rejectedReason = NOTASSIGNED
     return {
@@ -36,10 +38,10 @@ function getCommonDialogActions(resolve, reject) {
         },
         closed() {
             if (resolvedVal !== NOTASSIGNED) {
-                callFunc(resolve, resolvedVal)
+                callFunc(confirmCb, resolvedVal)
             }
             if (rejectedReason !== NOTASSIGNED) {
-                callFunc(reject, resolvedVal)
+                callFunc(cancelCb, DIALOG_CANCELED)
             }
             dialogIsShowing = false
             showNextDialogIfNeed()
@@ -56,7 +58,6 @@ function createDialog(options) {
             this.$slots.default = slot || []
         }
     })
-    console.log(dialogInstance)
     return Object.assign(dialogInstance, actions)
 }
 
@@ -71,7 +72,7 @@ function mountDialog(options, mounted) {
     }
 }
 
-function unmountDialog() {
+function unmountCurrentDialog() {
     if (!dialogIsShowing && curDialogInstance) {
         curDialogInstance.$el.parentElement.removeChild(curDialogInstance.$el)
         curDialogInstance = null
@@ -79,14 +80,14 @@ function unmountDialog() {
 }
 
 function showNextDialogIfNeed() {
-    unmountDialog()
+    unmountCurrentDialog()
     if (dialogQueue.length > 0) {
         let [nextDialogOption, mounted] = dialogQueue.shift()
         mountDialog(nextDialogOption, mounted)
     }
 }
 
-function createCheckbox(chexkboxOptions = [], onChange, h = VUECreateElement) {
+function createCheckboxItems(chexkboxOptions = [], onChange, h = VUECreateElement) {
     let checkboxElements = []
     let length = chexkboxOptions.length
 
@@ -104,6 +105,37 @@ function createCheckbox(chexkboxOptions = [], onChange, h = VUECreateElement) {
         )
     }
     return checkboxElements
+}
+
+function createinputOptions(inputOptions, h = VUECreateElement) {
+    let inputElements = []
+    let length = inputOptions.length
+
+    for (let idx = 0; idx < length; idx++) {
+        let option = inputOptions[idx]
+        if (!Object.prototype.hasOwnProperty.call(option, 'value')) {
+            option.value = ''
+        }
+        let onChangeCb = (value) => {
+            option.value = value
+        }
+        inputElements.push(
+            <div class={`checkbox-option-wrapper with-divider-${idx === (length - 1) ? '25' : '20'}`}>
+                <EditText
+                    placeholder={option.placeholder}
+                    disabled={option.disabled}
+                    widen
+                    showPasswordButton={option.showPasswordButton}
+                    showClearButton={option.showClearButton}
+                    value={option.value}
+                    name={option.name}
+                    onChange={onChangeCb}
+                    style={{ margin: 0, width: '100%' }}
+                />
+            </div>
+        )
+    }
+    return inputElements
 }
 
 const dialogUtils = {
@@ -164,7 +196,7 @@ const dialogUtils = {
             primaryButton.disabled = !isAllChecked()
         }
 
-        let checkboxSlots = createCheckbox(checkboxOptions, () => {
+        let checkboxSlots = createCheckboxItems(checkboxOptions, () => {
             if (vm) {
                 vm.disablePrimaryButton = !isAllChecked()
             }
@@ -185,8 +217,58 @@ const dialogUtils = {
         })
     },
 
-    prompt() {
+    prompt(options) {
+        let { title, message, primaryButton, secondaryButton, inputOptions = [], validator } = options
 
+        if (!isPlainObject(primaryButton)) {
+            primaryButton = {
+                text: primaryButton || TEXT_OK,
+                disabled: false
+            }
+        }
+
+        return new Promise((resolve, reject) => {
+            let actions = getCommonDialogActions(
+                () => resolve(inputOptions),
+                cancelVal => reject(cancelVal)
+            )
+
+            if (isFunc(validator)) {
+                actions.beforeConfirm = () => {
+                    return validator(inputOptions)
+                }
+            }
+
+            let promptDialogOption = {
+                props: {
+                    title,
+                    message,
+                    primaryButton,
+                    secondaryButton: secondaryButton || TEXT_CANCEL
+                },
+                actions,
+                children: createinputOptions(inputOptions)
+            }
+            mountDialog(promptDialogOption)
+        })
+    },
+
+    popup(options) {
+        let { title, message, primaryButton, secondaryButton, children } = options
+
+        return new Promise((resolve, reject) => {
+            let promptDialogOption = {
+                props: {
+                    title,
+                    message,
+                    primaryButton: primaryButton || TEXT_OK,
+                    secondaryButton: secondaryButton || TEXT_CANCEL
+                },
+                actions: getCommonDialogActions(resolve, reject),
+                children
+            }
+            mountDialog(promptDialogOption)
+        })
     },
 
     whichDialog() {
@@ -201,6 +283,8 @@ const dialogUtils = {
         return dialogQueue.length
     }
 }
+
+export const DialogCanceled = DIALOG_CANCELED
 
 export default {
     install(Vue, root) {
