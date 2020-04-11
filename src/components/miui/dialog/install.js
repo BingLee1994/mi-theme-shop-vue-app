@@ -74,6 +74,7 @@ function mountDialog(options, mounted) {
 
 function unmountCurrentDialog() {
     if (!dialogIsShowing && curDialogInstance) {
+        curDialogInstance.$destroy()
         curDialogInstance.$el.parentElement.removeChild(curDialogInstance.$el)
         curDialogInstance = null
     }
