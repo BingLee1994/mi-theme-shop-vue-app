@@ -9,7 +9,7 @@ import Checkbox from '../checkbox'
 const BaseDialogConstructor = Vue.extend(BaseDialog)
 
 const NOTASSIGNED = Symbol('not-assigned')
-const createElement = new Vue().$createElement
+const VUECreateElement = new Vue().$createElement
 
 // 对话框在同一时刻只能有一个实例
 let curDialogInstance = null
@@ -85,7 +85,7 @@ function showNextDialogIfNeed() {
     }
 }
 
-function createCheckboxElement(items, onChange, h = createElement) {
+function createCheckboxElement(items, onChange, h = VUECreateElement) {
     const customizedOnChange = (flag) => {
         console.log(flag)
         callFunc(onChange)
