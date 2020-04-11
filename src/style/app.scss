@@ -1,0 +1,20 @@
+@media screen and (min-width:550px) {
+    body::after {
+        content: '此应用为移动应用，不支持桌面版，请按下F12，打开控制台并模拟移动设备，或缩小窗口宽度';
+        display: block;
+        color: white;
+        font-size: 30px;
+        font-weight: 300;
+        padding: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        backdrop-filter: blur(30px);
+        background-color: rgba(0,0,0,.7);
+    }
+}
