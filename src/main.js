@@ -4,11 +4,15 @@ import router from './router'
 import store from './store'
 import '@assets/js/font-size'
 import './style/reset.scss'
+import Dialog from '@miui/dialog/install'
 
+const elApp = document.getElementById('app')
+
+Vue.use(Dialog)
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount(elApp)

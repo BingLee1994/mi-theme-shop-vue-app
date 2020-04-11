@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="miui">
+    <div style="display: none">
     <ActionBar title="设置"/>
     <ActionBar title="设置" showBackButton />
     <ActionBar title="设置" showBackButton showSearchBox searchBoxPlaceholder="搜索设定"/>
@@ -64,10 +65,10 @@
       <router-link to="/article">Article</router-link> |
       <router-link to="/user/billy">User</router-link>
     </div>
+    </div>
 
-    <Dialog title="删除？" primaryButton="ok" secondaryButton="cancel"/>
-    <!-- 路由渲染出口 -->
-    <router-view />
+    分割线<br/>
+
   </div>
 </template>
 
@@ -78,10 +79,9 @@ import Checkbox from '@miui/checkbox'
 import EditText from '@miui/edit-text/edit-text'
 import SearchEditText from '@miui/action-bar/search-edit-text'
 import ActionBar from '@miui/action-bar/action-bar'
-import Dialog from '@miui/dialog/base'
 
 export default {
-  components: { Button, Dialog, ActionBar, Toggle, EditText, Checkbox, SearchEditText },
+  components: { Button, ActionBar, Toggle, EditText, Checkbox, SearchEditText },
   methods: {
     log(msg) {
       console.log(msg)
@@ -97,6 +97,15 @@ export default {
     },
     pwdBlur() {
       console.log('blur')
+    },
+    confirm() {
+      console.log('确定')
+    },
+    cancel() {
+      console.log('取消')
+    },
+    closed() {
+      console.log('closed')
     }
   },
   data() {
