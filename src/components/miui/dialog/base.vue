@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { isNone, callFunc } from '../utils'
+import { isNone, callFunc, isFunc } from '../utils'
 import Button from '../buttons/button'
 
 const DEFAULT_BUTTON = { text: '完成' }
@@ -102,6 +102,11 @@ export default {
             return buttonOption
         },
         onClickButton(isPrimary = true) {
+            if (isFunc(this.beforeConfirm) && isPrimary) {
+                let proceed = this.beforeConfirm(this.$props.primaryButton)
+                if (proceed === false) return
+            }
+
             this.isShow = false
             if (isPrimary) {
                 return callFunc(this.confirm, this.$props.primaryButton)
