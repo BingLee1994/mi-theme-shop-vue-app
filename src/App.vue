@@ -1,74 +1,88 @@
 <template>
-  <div id="app" class="miui">
-    <div style="display: none">
-    <ActionBar title="设置"/>
-    <ActionBar title="设置" showBackButton />
-    <ActionBar title="设置" showBackButton showSearchBox searchBoxPlaceholder="搜索设定"/>
-    <Button
-      @click="log('click')"
-      @tap="log('tap')"
-    >123</Button>
-    <Button primary>123</Button>
-    <Button disabled>789</Button>
-    <Button widen><font>101</font></Button>
-    <Button title='点击我'>1112</Button>
-    <Button title='点击我'>aaa</Button>
-    <Toggle :value="true" />
-    <Toggle disabled />
-    <Toggle
-      v-model="isChecked"
-      @click="toggleChange"
-      :label="isChecked?'开关开启':'开关关闭'"
-      labelClass="bold"
-    /><br>
-    <EditText :width="120" />
-    <EditText name="hehe" widen placeholder="123" v-model="usn">
-      <template slot="prepend-text">
-        <font>用户名：</font><span>用户名：</span><span>用户名：</span>
-      </template>
-    </EditText>
-    <EditText widen
-      type="password"
-      showPasswordButton placeholder="请输入密码"
-      v-model="pwd"
-      @focus="pwdFocus"
-      @blur="pwdBlur"
-    >
-      <template slot="prepend-text">
-        <font class="highlight">用户名：</font><span>用户名：</span><span>用户名：</span>
-      </template>
-    </EditText>
-    <EditText widen type="password" disabled showPasswordButton placeholder="请输入密码" value="qqq">
-      <template slot="prepend-text">
-        <font class="highlight">用户名：</font><span>用户名：</span><span>用户名：</span>
-      </template>
-    </EditText>
-    <EditText widen type="text" showClearButton showPasswordButton placeholder="带清除按钮" v-model="content">
-      <template slot="prepend-text">
-        <font class="highlight">用户名：</font><span>用户名：</span><span>用户名：</span>
-      </template>
-    </EditText>
-    用户名:{{usn}} <br>
-    密码：{{pwd}} <br>
-    内容: {{content}} <br>
+  <div id='app' class='miui'>
+    <div style='display: block'>
+      <ActionBar title='设置' showBackButton showSearchBox searchBoxPlaceholder='搜索设定' />
+      <Button @click="log('click')" @tap="log('tap')">123</Button>
+      <Button primary>123</Button>
+      <Button disabled>789</Button>
+    <Button @click='testDialog'>测试dialog</Button>
+      <Button widen>
+        <font>101</font>
+      </Button>
+      <Toggle :value='true' />
+      <Toggle disabled />
+      <Toggle
+        v-model='isChecked'
+        @click='toggleChange'
+        :label="isChecked?'开关开启':'开关关闭'"
+        labelClass='bold'
+      />
+      <br />
+      <EditText :width='120' />
+      <EditText name='hehe' widen placeholder='123' v-model='usn'>
+        <template slot='prepend-text'>
+          <font>用户名：</font>
+          <span>用户名：</span>
+          <span>用户名：</span>
+        </template>
+      </EditText>
+      <EditText
+        widen
+        type='password'
+        showPasswordButton
+        placeholder='请输入密码'
+        v-model='pwd'
+        @focus='pwdFocus'
+        @blur='pwdBlur'
+      >
+        <template slot='prepend-text'>
+          <font class='highlight'>用户名：</font>
+          <span>用户名：</span>
+          <span>用户名：</span>
+        </template>
+      </EditText>
+      <EditText widen type='password' disabled showPasswordButton placeholder='请输入密码' value='qqq'>
+        <template slot='prepend-text'>
+          <font class='highlight'>用户名：</font>
+          <span>用户名：</span>
+          <span>用户名：</span>
+        </template>
+      </EditText>
+      <EditText
+        widen
+        type='text'
+        showClearButton
+        showPasswordButton
+        placeholder='带清除按钮'
+        v-model='content'
+      >
+        <template slot='prepend-text'>
+          <font class='highlight'>用户名：</font>
+          <span>用户名：</span>
+          <span>用户名：</span>
+        </template>
+      </EditText>
+      用户名:{{usn}}
+      <br />
+      密码：{{pwd}}
+      <br />
+      内容: {{content}}
+      <br />
 
-    <button @click="syncText">测试sync</button>
-    <Checkbox label="123"/>
-    <Checkbox checked label="123"/>
-    <Checkbox checked label="123" disabled/>
+      <button @click='syncText'>测试sync</button>
+      <Checkbox label='123' />
+      <Checkbox checked label='123' />
+      <Checkbox checked label='123' disabled />
 
-    <SearchEditText placeholder="123" id="tst"/>
+      <SearchEditText placeholder='123' id='tst' />
 
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/article">Article</router-link> |
-      <router-link to="/user/billy">User</router-link>
+      <div id='nav'>
+        <router-link to='/'>Home</router-link>|
+        <router-link to='/about'>About</router-link>|
+        <router-link to='/article'>Article</router-link>|
+        <router-link to='/user/billy'>User</router-link>
+      </div>
     </div>
-    </div>
-
-    分割线<br/>
-
   </div>
 </template>
 
@@ -106,6 +120,19 @@ export default {
     },
     closed() {
       console.log('closed')
+    },
+    testDialog() {
+      /* this.$dialog.alert('标题', '文件').then(() => {
+        console.log('app ok')
+      })
+      this.$dialog.alert('标题', '文件').then(() => {
+          console.log('app ok')
+      }) */
+      this.$dialog.confirmWithCheckbox({
+        title: 123,
+        message: 456,
+        checkboxOptions: [{ label: 123, required: true, checked: false }]
+      })
     }
   },
   data() {
@@ -113,16 +140,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-#nav {
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
