@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import BaseDialog from './base'
-import { callFunc } from '../utils'
+import { callFunc, isPlainObject } from '../utils'
 import Checkbox from '../checkbox'
 
 // https://cn.vuejs.org/v2/api/
@@ -60,13 +60,14 @@ function createDialog(options) {
     return Object.assign(dialogInstance, actions)
 }
 
-function mountDialog(options) {
+function mountDialog(options, mounted) {
     if (!dialogIsShowing) {
         curDialogInstance = createDialog(options)
         dialogContainer.appendChild(curDialogInstance.$el)
         dialogIsShowing = true
+        callFunc(mounted, curDialogInstance, curDialogInstance.$el)
     } else {
-        dialogQueue.push(options)
+        dialogQueue.push([options, mounted])
     }
 }
 
@@ -80,24 +81,29 @@ function unmountDialog() {
 function showNextDialogIfNeed() {
     unmountDialog()
     if (dialogQueue.length > 0) {
-        let nextDialogOption = dialogQueue.shift()
-        mountDialog(nextDialogOption)
+        let [nextDialogOption, mounted] = dialogQueue.shift()
+        mountDialog(nextDialogOption, mounted)
     }
 }
 
-function createCheckboxElement(items, onChange, h = VUECreateElement) {
-    const customizedOnChange = (flag) => {
-        console.log(flag)
-        callFunc(onChange)
+function createCheckbox(chexkboxOptions = [], onChange, h = VUECreateElement) {
+    let checkboxElements = []
+    let length = chexkboxOptions.length
+
+    for (let idx = 0; idx < length; idx++) {
+        let option = chexkboxOptions[idx]
+        let composedCb = (checked) => {
+            option.checked = checked
+            callFunc(onChange, checked, idx, chexkboxOptions)
+        }
+
+        checkboxElements.push(
+            <div class={`checkbox-option-wrapper with-divider-${idx === (length - 1) ? '20' : '10'}`}>
+                <Checkbox onChange={composedCb} label={option.label} checked={option.checked} />
+            </div>
+        )
     }
-    return [
-        <div class="checkbox-option-wrapper with-divider-10">
-            <Checkbox onChange={customizedOnChange} label="456"/>
-        </div>,
-        <div class="checkbox-option-wrapper with-divider-20">
-            <Checkbox onChange={customizedOnChange} label="789"/>
-        </div>
-    ]
+    return checkboxElements
 }
 
 const dialogUtils = {
@@ -114,6 +120,7 @@ const dialogUtils = {
             mountDialog(alertDialogOption)
         })
     },
+
     confirm(options) {
         let { title, message, primaryButton, secondaryButton } = options
         return new Promise((resolve, reject) => {
@@ -129,34 +136,67 @@ const dialogUtils = {
             mountDialog(confirmDialogOption)
         })
     },
+
     confirmWithCheckbox(options) {
-        let { title, message, primaryButton, secondaryButton, checkboxOptions } = options
-        let checkboxSlots = createCheckboxElement(checkboxOptions, () => {
-            console.log(123)
+        let { title, message, primaryButton, secondaryButton, checkboxOptions = [] } = options
+        let vm = null
+        let requiredChechbox = []
+
+        checkboxOptions.forEach(box => {
+            if (typeof box.checked !== 'boolean') {
+                box.checked = false
+            }
+            if (box.required) {
+                requiredChechbox.push(box)
+            }
         })
+
+        let isAllChecked = () => !requiredChechbox.some(box => box.checked === false)
+
+        if (!isPlainObject(primaryButton)) {
+            primaryButton = {
+                text: primaryButton || TEXT_OK,
+                disabled: false
+            }
+        }
+
+        if (requiredChechbox.length > 0) {
+            primaryButton.disabled = !isAllChecked()
+        }
+
+        let checkboxSlots = createCheckbox(checkboxOptions, () => {
+            if (vm) {
+                vm.disablePrimaryButton = !isAllChecked()
+            }
+        })
+
         return new Promise((resolve, reject) => {
             let confirmDialogOption = {
                 props: {
                     title,
                     message,
-                    primaryButton: primaryButton || TEXT_OK,
+                    primaryButton,
                     secondaryButton: secondaryButton || TEXT_CANCEL
                 },
                 actions: getCommonDialogActions(resolve, reject),
                 children: checkboxSlots
             }
-            mountDialog(confirmDialogOption)
+            mountDialog(confirmDialogOption, instance => { vm = instance })
         })
     },
+
     prompt() {
 
     },
+
     whichDialog() {
         return curDialogInstance
     },
+
     dialogIsShowing() {
         return dialogIsShowing
     },
+
     queueLength() {
         return dialogQueue.length
     }
