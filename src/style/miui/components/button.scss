@@ -1,6 +1,8 @@
 $buttonHeightNormal: 5rem;
 $buttonHeightMedium: 4.5rem;
-$buttonMargin:15px;
+$buttonMargin: 15px;
+$buttonDisabledOpacity: .5;
+
 .miui-button {
     --main-background: var(--black05);
     --main-background-active: var(--black10);
@@ -24,6 +26,7 @@ $buttonMargin:15px;
     &_disabled {
         pointer-events: none;
         cursor: not-allowed;
+        opacity: $buttonDisabledOpacity;
     }
     &:active {
         background: var(--main-background-active);
