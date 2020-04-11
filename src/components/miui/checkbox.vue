@@ -38,7 +38,7 @@ export default {
     props: {
         disabled: Boolean,
         checked: Boolean,
-        label: String,
+        label: [String, Number],
         labelClass: String
     },
     data() {
