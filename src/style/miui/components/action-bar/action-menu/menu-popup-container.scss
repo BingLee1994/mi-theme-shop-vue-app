@@ -1,0 +1,24 @@
+.miui-action-menu-container {
+    $aniDuration: .25s;
+    $menuSelector: '.miui-action-menu-wrapper';
+    transition: opacity $aniDuration ease;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--black30);
+    opacity: 1;
+
+    &_hide {
+        opacity: 0;
+        #{$menuSelector} {
+            transform: scale(.8);
+        }
+    }
+
+    #{$menuSelector} {
+        transform-origin: center;
+        transition: transform $aniDuration ease;
+    }
+}
