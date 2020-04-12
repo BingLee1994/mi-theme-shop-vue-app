@@ -1,3 +1,9 @@
+import { nanoid } from 'nanoid'
+
+export function genID(len) {
+    return nanoid(len)
+}
+
 const EMPTY_FUNC = _ => {}
 export function isObject(val) {
     return val && typeof val === 'object'
