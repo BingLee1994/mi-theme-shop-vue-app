@@ -1,6 +1,8 @@
 $toastPadding: 1.5rem;
+$toastPaddingH: 2rem;
 $toastAnimationDuration: .3s;
 $toastBottomPosition: 4rem;
+$toastBorderRadius: 2.5rem;
 
 .miui-toast-ani {
     &-enter {
@@ -32,10 +34,11 @@ $toastBottomPosition: 4rem;
     bottom: $toastBottomPosition;
     left: 50%;
     max-width: 70%;
-    padding: $toastPadding;
-    border-radius: $toastPadding;
+    padding: $toastPadding $toastPaddingH;
+    border-radius: $toastBorderRadius;
     @include shadowBorder(var(--black10), 1px);
     background: var(--white);
     filter: drop-shadow(0 10px 20px var(--black10));
     font-size: 1.4rem;
+    color: var(--black90);
 }
