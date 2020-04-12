@@ -1,18 +1,24 @@
 $miuiActionBarMenuItemPadding: 1.6rem 3rem;
 $miuiActionBarMenuIconWidth: 1.6rem;
 $miuiActionBarMenuItemDisabledOpacity: .5;
+$miuiActionBarMenuIconWidth: 2rem;
 
 .menu-item {
     &-wrapper {
         padding: $miuiActionBarMenuItemPadding;
-        display: flex;
-        align-items: center;
         font-size: var(--secondaryFontSize);
+
         & .icon {
             width: $miuiActionBarMenuIconWidth;
             height: $miuiActionBarMenuIconWidth;
         }
+
+        &:active {
+            background: var(--black05);
+        }
     }
+
+    user-select: none;
 
     &_disabled {
         pointer-events: none;
@@ -22,5 +28,15 @@ $miuiActionBarMenuItemDisabledOpacity: .5;
     &-divider {
         height: 1;
         background: var(--black10);
+    }
+
+    
+    display: flex;
+    align-items: center;
+    .icon {
+        width: $miuiActionBarMenuIconWidth;
+        height: $miuiActionBarMenuIconWidth;
+        display: inline-block;
+        margin-right: 1.5rem;
     }
 }
