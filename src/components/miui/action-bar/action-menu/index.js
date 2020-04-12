@@ -1,13 +1,14 @@
 import ActionMenu from './menu'
 import Vue from 'vue'
-import { callFunc } from '../../utils'
+import { callFunc, isNone } from '../../utils'
 import '../../../../style/miui/components/action-bar/action-menu/menu-popup-container.scss'
 
-// const MenuConstructor = Vue.extend(ActionMenu)
-// const h = new Vue().$createElement
+let currentMenu = null
+const DISMISS_ERROR = new Error('DISMISSED')
 
-function getOption(menuItems, position = {}, mounted) {
-    let ActionMenuPopup = {
+function getMenuOption(options) {
+    let { menuItems, position = {}, mounted, onSelectMenuItem, closed } = options
+    const ActionMenuPopup = {
         data: {
             isShow: false,
             positionX: position.x || 0,
@@ -15,10 +16,12 @@ function getOption(menuItems, position = {}, mounted) {
         },
         render() {
             let className = ['miui-action-menu-container']
-            if (!this.isShow) className.push('miui-action-menu-container_hide')
+            if (!this.isShow) className.push('miui-action-menu-container_hidden')
             return (
                 <div
                     class={className}
+                    onTransitionend={this.onTransitionEnd}
+                    onClick={this.closeMenu}
                 >
                     <ActionMenu
                         ref='menu'
@@ -26,10 +29,10 @@ function getOption(menuItems, position = {}, mounted) {
                             position: 'fixed',
                             left: this.positionX + 'px',
                             top: this.positionY + 'px',
-                            visibility: !this.isShow ? 'hidden' : '',
                             transformOrigin: `${this.animationOrigin.join(' ')}`
                         }}
                         menuItems={menuItems}
+                        onClickMenuItem={this.onClickMenuItem}
                     />
                 </div>
             )
@@ -38,14 +41,11 @@ function getOption(menuItems, position = {}, mounted) {
             _updatePosition() {
                 let { positionX: x, positionY: y, elMenu } = this
                 let screenWidth = window.innerWidth
-                let screenHeight = window.innerHeight
 
-                let { offsetWidth: elMenuWidth, offsetHeight: elMenuHeight } = elMenu
+                let { offsetWidth: elMenuWidth } = elMenu
 
                 let boundaryLeft = 0
                 let boundaryRight = screenWidth - elMenuWidth
-
-                console.log(elMenuHeight, screenHeight)
 
                 if (x < boundaryLeft) {
                     x = boundaryLeft
@@ -58,6 +58,18 @@ function getOption(menuItems, position = {}, mounted) {
 
                 this.positionX = x
                 this.positionY = y
+            },
+            closeMenu() {
+                this.isShow = false
+            },
+            onClickMenuItem(item, e) {
+                callFunc(onSelectMenuItem, item, e)
+                this.isShow = false
+            },
+            onTransitionEnd() {
+                if (!this.isShow) {
+                    callFunc(closed)
+                }
             }
         },
         created() {
@@ -75,23 +87,44 @@ function getOption(menuItems, position = {}, mounted) {
     return ActionMenuPopup
 }
 
-let currentMenu = null
+function unmountMenu(cb) {
+    if (currentMenu) {
+        currentMenu.$destroy()
+        document.body.removeChild(currentMenu.$el)
+        currentMenu = null
+        callFunc(cb)
+    }
+}
 
-export default {
-    showMenu(options) {
-        let { menuItems, position, onClickMenuItem } = options
-        console.log(menuItems, onClickMenuItem)
+export { DISMISS_ERROR }
 
-        let menuInstance = new Vue(getOption(menuItems, position))
+export default function showMenu(options) {
+    if (!isNone(currentMenu)) return Promise.reject(DISMISS_ERROR)
+
+    return new Promise((resolve, reject) => {
+        let itemClicked = false
+        let resolveData = null
+        let onClickMenuItem = item => {
+            itemClicked = true
+            resolveData = item
+        }
+        let destroyed = () => {
+            if (itemClicked) {
+                resolve(resolveData)
+            } else {
+                reject(DISMISS_ERROR)
+            }
+        }
+        let { menuItems, position } = options
+        let onMenuClosed = () => unmountMenu(destroyed)
+
+        let menuOption = getMenuOption({ menuItems, position, onClickMenuItem, closed: onMenuClosed })
+        let menuInstance = new Vue(menuOption)
         let elMenuContainer = document.createElement('div')
 
         document.body.appendChild(elMenuContainer)
 
         currentMenu = menuInstance
-        console.log(currentMenu)
         menuInstance.$mount(elMenuContainer)
-    },
-
-    hideMenu(options) {
-    }
+    })
 }
