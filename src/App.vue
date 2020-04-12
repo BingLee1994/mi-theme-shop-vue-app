@@ -76,6 +76,7 @@
       <Checkbox checked label='123' disabled />
 
       <SearchEditText placeholder='123' id='tst' />
+      <ActionMenu :menuItems="testMenuItems"/>
 
       <div id='nav'>
         <router-link to='/'>Home</router-link>|
@@ -94,9 +95,10 @@ import Checkbox from '@miui/checkbox'
 import EditText from '@miui/edit-text/edit-text'
 import SearchEditText from '@miui/action-bar/search-edit-text'
 import ActionBar from '@miui/action-bar/action-bar'
+import ActionMenu from '@miui/action-bar/action-menu/menu'
 
 export default {
-  components: { Button, ActionBar, Toggle, EditText, Checkbox, SearchEditText },
+  components: { Button, ActionMenu, ActionBar, Toggle, EditText, Checkbox, SearchEditText },
   methods: {
     log(msg) {
       console.log(msg)
@@ -146,11 +148,20 @@ export default {
       })
     },
     testToast() {
-      this.$toast.show(123)
+      this.$toast.show('this.$dialog')
     }
   },
   data() {
-    return { isChecked: true, usn: '123', pwd: 123, content: '你好呀' }
+    return {
+      isChecked: true,
+      usn: '123',
+      pwd: 123,
+      content: '你好呀',
+      testMenuItems: [
+        { text: 123 },
+        { text: 456 }
+      ]
+    }
   }
 }
 </script>
