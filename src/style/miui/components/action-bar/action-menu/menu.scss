@@ -1,0 +1,11 @@
+$miuiActionBarMenuBorderRadius: 1.5rem;
+
+.miui-action-menu {
+    &-wrapper {
+        border-radius: $miuiActionBarMenuBorderRadius;
+        overflow: hidden;
+        border: 1px solid black;
+        background: white;
+        max-width: 50vw;
+    }
+}
