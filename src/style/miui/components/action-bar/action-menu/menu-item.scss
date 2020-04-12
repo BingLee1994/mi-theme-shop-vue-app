@@ -1,0 +1,26 @@
+$miuiActionBarMenuItemPadding: 1.6rem 3rem;
+$miuiActionBarMenuIconWidth: 1.6rem;
+$miuiActionBarMenuItemDisabledOpacity: .5;
+
+.menu-item {
+    &-wrapper {
+        padding: $miuiActionBarMenuItemPadding;
+        display: flex;
+        align-items: center;
+        font-size: var(--secondaryFontSize);
+        & .icon {
+            width: $miuiActionBarMenuIconWidth;
+            height: $miuiActionBarMenuIconWidth;
+        }
+    }
+
+    &_disabled {
+        pointer-events: none;
+        opacity: $miuiActionBarMenuItemDisabledOpacity;
+    }
+
+    &-divider {
+        height: 1;
+        background: var(--black10);
+    }
+}
