@@ -1,7 +1,15 @@
 <template>
   <div id='app' class='miui'>
     <div style='display: block;padding:10px'>
-      <ActionBar title='设置' showBackButton showSearchBox searchBoxPlaceholder='搜索设定' /> <br/>
+      <ActionBar
+        title='设置'
+        showBackButton
+        showSearchBox
+        searchBoxPlaceholder='搜索设定'
+        :showActionMenu="true"
+        :showLeftButton="true"
+        :showRightButton="true"
+      /> <br/>
       <Button @click="log('click')" @tap="log('tap')">123</Button>
       <Button primary>123</Button>
       <Button disabled>789</Button> <br/><br/>
@@ -76,7 +84,6 @@
       <Checkbox checked label='123' disabled />
 
       <SearchEditText placeholder='123' id='tst' />
-      <ActionMenu :menuItems="testMenuItems"/>
 
       <div id='nav'>
         <router-link to='/'>Home</router-link>|
@@ -95,10 +102,9 @@ import Checkbox from '@miui/checkbox'
 import EditText from '@miui/edit-text/edit-text'
 import SearchEditText from '@miui/action-bar/search-edit-text'
 import ActionBar from '@miui/action-bar/action-bar'
-import ActionMenu from '@miui/action-bar/action-menu/menu'
 
 export default {
-  components: { Button, ActionMenu, ActionBar, Toggle, EditText, Checkbox, SearchEditText },
+  components: { Button, ActionBar, Toggle, EditText, Checkbox, SearchEditText },
   methods: {
     log(msg) {
       console.log(msg)
