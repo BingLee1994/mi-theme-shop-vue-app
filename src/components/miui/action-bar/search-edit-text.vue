@@ -2,10 +2,11 @@
 import EditTextAppearance from '../edit-text/edit-text-apperance'
 import EditText from '../edit-text/edit-text'
 
-const searchEditTextAppearance = new EditTextAppearance('var(--black10)')
-searchEditTextAppearance.borderWidth = '0px'
-searchEditTextAppearance.caretColor = 'var(--black80)'
-searchEditTextAppearance.borderRadius = '22px'
+const searchBoxAppearance = new EditTextAppearance('var(--black10)')
+searchBoxAppearance.borderWidth = 0
+searchBoxAppearance.caretColor = 'var(--black80)'
+searchBoxAppearance.borderRadius = '2.2rem'
+searchBoxAppearance.height = '4.5rem'
 
 export default {
     inheritAttrs: false,
@@ -14,7 +15,7 @@ export default {
             <EditText
                 placeholder={this.$attrs.placeholder}
                 {...this.$listeners}
-                appearance={searchEditTextAppearance}
+                appearance={searchBoxAppearance}
                 showClearButton={true}
                 prefixIconClass="search"
                 widen
