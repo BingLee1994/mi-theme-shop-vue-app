@@ -7,18 +7,19 @@
     top: 0;
     right: 0;
     bottom: 0;
-    background: var(--black30);
+    background: var(--black40);
     opacity: 1;
-
-    &_hide {
-        opacity: 0;
-        #{$menuSelector} {
-            transform: scale(.8);
-        }
-    }
 
     #{$menuSelector} {
         transform-origin: center;
         transition: transform $aniDuration ease;
+        transform: scale(1);
+    }
+
+    &_hidden {
+        opacity: 0;
+        #{$menuSelector} {
+            transform: scale(.8);
+        }
     }
 }
