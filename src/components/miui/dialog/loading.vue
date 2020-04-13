@@ -12,8 +12,10 @@
             <div class="background" v-show="isShow"></div>
         </transition>
         <transition name="miui-dialog">
-            <div class="dialog" v-show="isShow">
-                <span class="loader"></span>
+            <div class="dialog loading-dialog" v-show="isShow">
+                <span class="loader circle-loader">
+                    <CircleLoader :speed="0"/>
+                </span>
                 <span class="message">{{message}}</span>
             </div>
         </transition>
@@ -21,8 +23,12 @@
 </template>
 
 <script>
+import { callFunc } from '../utils'
+import CircleLoader from '../loader/circle'
+
 export default {
     name: 'MIUI-LoadingDialog',
+    components: { CircleLoader },
     props: {
         message: [String, Number]
     },
