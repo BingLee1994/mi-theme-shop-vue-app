@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import '@miui/component-style/base-dialog'
+import '~@miui/component-style/base-dialog.scss'
 import BaseDialog from './base'
 import LoadingDialog from './loading'
 import { callFunc, isPlainObject, isFunc, isNone } from '../utils'
@@ -65,7 +65,7 @@ function createDialog(options) {
 }
 
 function mountDialog(options, mounted) {
-    if (!dialogIsShowing) {
+    if (!dialogIsShowing && !loadingIsShowing) {
         curDialogInstance = createDialog(options)
         dialogContainer.appendChild(curDialogInstance.$el)
         dialogIsShowing = true
@@ -286,8 +286,11 @@ const dialogUtils = {
         })
 
         loadingInstance.closed = function() {
-            loadingIsShowing = false
             callFunc(onClosed)
+            loadingInstance.$destroy()
+            document.body.removeChild(loadingInstance.$el)
+            loadingInstance = null
+            loadingIsShowing = false
         }
 
         let el = document.createElement('div')
