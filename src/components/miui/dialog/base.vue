@@ -1,7 +1,3 @@
-<style lang="scss">
-    @import "~@miui/component-style/base-dialog";
-</style>
-
 <template>
     <div
         :class="{

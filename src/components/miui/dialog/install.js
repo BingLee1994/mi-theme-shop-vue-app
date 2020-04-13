@@ -1,6 +1,8 @@
 import Vue from 'vue'
-import BaseDialog from './base.vue'
-import { callFunc, isPlainObject, isFunc } from '../utils'
+import '@miui/component-style/base-dialog'
+import BaseDialog from './base'
+import LoadingDialog from './loading'
+import { callFunc, isPlainObject, isFunc, isNone } from '../utils'
 import Checkbox from '../checkbox'
 import EditText from '../edit-text/edit-text'
 
@@ -17,6 +19,7 @@ const DIALOG_CANCELED = Symbol('cancel')
 let curDialogInstance = null
 let dialogContainer = document.body
 let dialogIsShowing = false
+let loadingIsShowing = false
 let dialogQueue = []
 
 const TEXT_OK = '确定'
@@ -272,6 +275,36 @@ const dialogUtils = {
         })
     },
 
+    showLoading(message, onClosed) {
+        if (dialogIsShowing) {
+            throw new Error('Can not show loading when dialog not closed')
+        }
+
+        let LoadingConstructor = Vue.extend(LoadingDialog)
+        let loadingInstance = new LoadingConstructor({
+            propsData: { message }
+        })
+
+        loadingInstance.closed = function() {
+            loadingIsShowing = false
+            callFunc(onClosed)
+        }
+
+        let el = document.createElement('div')
+        document.body.appendChild(el)
+        loadingIsShowing = true
+
+        loadingInstance.$mount(el)
+
+        let hideLoading = () => {
+            if (!isNone(loadingInstance)) {
+                loadingInstance.isShow = false
+            }
+        }
+
+        return hideLoading
+    },
+
     whichDialog() {
         return curDialogInstance
     },
@@ -282,6 +315,10 @@ const dialogUtils = {
 
     queueLength() {
         return dialogQueue.length
+    },
+
+    isLoading() {
+        return loadingIsShowing
     }
 }
 
