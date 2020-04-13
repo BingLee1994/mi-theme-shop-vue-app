@@ -1,5 +1,3 @@
-@import "./mixin.scss";
-
 $black: rgba(0,0,0,1);
 $black90: rgba(0,0,0,.9);
 $black80: rgba(0,0,0,.8);
@@ -37,7 +35,7 @@ $secondaryFontSize: 1.4rem;
 $fontSize15: 1.5rem;
 $fontSize13:1.3rem;
 
-.miui {
+:root {
     --black: #{$black};
     --black90: #{$black90};
     --black80: #{$black80};
@@ -66,12 +64,23 @@ $fontSize13:1.3rem;
     --tooltipsTextColor: var(--black40);
     --accentColor: #{$accentColor};
     --favoriteButtonColor: #{$favoriteButtonColor};
+}
+
+html {
+    height: 100%;
+    background: var(--white);
+}
+
+button, input {
+    color: var(--black);
+}
+
+.miui {
     --primaryFontSize: #{$primaryFontSize};
     --secondaryFontSize: #{$secondaryFontSize};
     --fontSize18: #{$fontSize18};
     --fontSize15: #{$fontSize15};
     --fontSize13: #{$fontSize13};
-    
 
     font-size: var(--primaryFontSize);
     color: var(--primaryTextColor);
