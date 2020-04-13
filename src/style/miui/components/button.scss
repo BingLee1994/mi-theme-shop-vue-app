@@ -2,6 +2,7 @@ $buttonHeightNormal: 5rem;
 $buttonHeightMedium: 4.5rem;
 $buttonMargin: 15px;
 $buttonDisabledOpacity: .5;
+$primaryFontSize: 1.6rem;
 
 .miui-button {
     --main-background: var(--black05);
@@ -37,5 +38,17 @@ $buttonDisabledOpacity: .5;
             background: var(--accentColor);
             color: var(--white90);
         }
+    }
+    $buttonSelector: &;
+    &-group {
+        display: flex;
+        justify-content: center;
+        padding-right: $buttonMargin;
+        #{$buttonSelector} {
+            flex: 1;
+        }
+    }
+    &-dark {
+        --main-background: var(--black20);
     }
 }

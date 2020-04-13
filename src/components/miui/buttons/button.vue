@@ -4,16 +4,23 @@
 
 <script>
 import { warn } from '../utils'
+import darkMode from '@/mixins/dark-mode'
 
 let expectedChildTag = ['span', 'font']
 
 export default {
     name: 'MIUI-Button',
+    mixins: [darkMode],
     props: {
         title: String,
         widen: Boolean,
         primary: Boolean,
         disabled: Boolean
+    },
+    data() {
+        return {
+            darkModeClass: 'miui-button-dark'
+        }
     },
     methods: {
         onClick(e) {
@@ -22,13 +29,6 @@ export default {
         },
         onTouchStart(e) {
             this.touchedTime = Date.now()
-        },
-        onTouchEnd(e) {
-            /* if (Date.now() - this.touchedTime <= 200) {
-                this.$emit('tap', e)
-            } else if (Date.now() - this.touchedTime <= 300) {
-                this.$emit('click', e)
-            } */
         },
         filterChildren() {
             let slots = this.$slots.default
@@ -62,7 +62,6 @@ export default {
                 class={classNames.join(' ')}
                 onClick={this.onClick}
                 onTouchDtart={this.onTouchStart}
-                onTouchEnd={this.onTouchEnd}
             >
                 <span>
                     {this.filterChildren()}
