@@ -11,9 +11,9 @@ import EditText from '../edit-text/edit-text'
 // 创建基于组件的构造方法
 const BaseDialogConstructor = Vue.extend(BaseDialog)
 
-const NOTASSIGNED = Symbol('not-assigned')
+const NOTASSIGNED = Symbol('NOT-ASSIGNED')
 const VUECreateElement = new Vue().$createElement
-const DIALOG_CANCELED = Symbol('cancel')
+const DIALOG_CANCELED = Symbol('CANCEL')
 
 // 对话框在同一时刻只能有一个实例
 let curDialogInstance = null
@@ -24,10 +24,6 @@ let dialogQueue = []
 
 const TEXT_OK = '确定'
 const TEXT_CANCEL = '取消'
-
-/* function isDialog(vm) {
-    return vm instanceof BaseDialogConstructor
-} */
 
 function getCommonDialogActions(confirmCb, cancelCb) {
     let resolvedVal = NOTASSIGNED
@@ -286,11 +282,12 @@ const dialogUtils = {
         })
 
         loadingInstance.closed = function() {
-            callFunc(onClosed)
             loadingInstance.$destroy()
             document.body.removeChild(loadingInstance.$el)
             loadingInstance = null
             loadingIsShowing = false
+            callFunc(onClosed)
+            showNextDialogIfNeed()
         }
 
         let el = document.createElement('div')
