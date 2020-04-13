@@ -74,10 +74,10 @@ export default {
             this.$emit('clickBackButton')
         },
         onClickLeftButton(e) {
-            this.onClickCustomizedButton(e)
+            this._onClickCustomizedButton(e)
         },
         onClickRightButton(e) {
-            this.onClickCustomizedButton(e, false)
+            this._onClickCustomizedButton(e, false)
         },
         _onClickCustomizedButton(e, isLeft = true) {
             this.$emit(isLeft ? 'clickLeftButton' : 'clickRightButton')
