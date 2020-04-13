@@ -142,6 +142,21 @@ export default {
         message: 456,
         checkboxOptions: [{ label: 123, required: true, checked: false }]
       }) */
+      // this.$dialog.prompt({
+      //   title: '输入密码',
+      //   inputOptions: [{ placeholder: '请输入用户名' }, { placeholder: '请输入密码', type: 'password' }],
+      //   validator(optiops) {
+      //     console.log(optiops)
+      //     return true
+      //   }
+      // }).then(optiops => {
+      //   console.log(optiops)
+      // })
+
+      let cancel = this.$dialog.showLoading('加载中')
+      setTimeout(() => {
+        cancel()
+      }, 2000)
       this.$dialog.prompt({
         title: '输入密码',
         inputOptions: [{ placeholder: '请输入用户名' }, { placeholder: '请输入密码', type: 'password' }],
