@@ -6,6 +6,8 @@ module.exports = {
         config.resolve.alias
             .set('@', resolve('src'))
             .set('@miui', resolve('src/components/miui'))
+            .set('@views', resolve('src/views'))
+            .set('@style', resolve('src/style'))
             .set('@assets', resolve('src/assets'))
             .set('~@miui/component-style', resolve('src/style/miui/components'))
     },
@@ -21,9 +23,10 @@ module.exports = {
     css: {
         loaderOptions: {
           sass: {
-            prependData: `
-              @import "./src/style/miui/sys-variables.scss";
-            `
+             prependData: `
+               @import "./src/style/miui/mixin.scss";
+               @import "./src/style/miui/sys-variables.scss";
+             `
           }
         }
     }
