@@ -20,7 +20,7 @@ $editTextWrapperDisabledOpacity: .6;
         margin: 0 $editTextWrapperPadding;
     
         &_checked {
-            background-color: var(--accentColor);
+            background-color: var(--accentColor) !important;
         }
 
         &_disabled {
@@ -35,5 +35,10 @@ $editTextWrapperDisabledOpacity: .6;
             color: var(--accentColor);
         }
         margin-right: $editTextWrapperPadding;
+    }
+    &-dark {
+        .miui-checkbox {
+            background-color: var(--black20);
+        }
     }
 }

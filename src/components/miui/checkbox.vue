@@ -29,8 +29,11 @@
 </template>
 
 <script>
+import darkMode from '@/mixins/dark-mode'
+
 export default {
     name: 'MIUI-Checkbox',
+    mixins: [darkMode],
     model: {
         prop: 'checked',
         event: 'change'
@@ -43,7 +46,15 @@ export default {
     },
     data() {
         return {
-            isChecked: this.$props.checked
+            isChecked: this.$props.checked,
+            darkModeClass: 'miui-checkbox-wrapper-dark'
+        }
+    },
+    watch: {
+        checked(newVal) {
+            if (this.isChecked !== newVal) {
+                this.isChecked = newVal
+            }
         }
     },
     methods: {
