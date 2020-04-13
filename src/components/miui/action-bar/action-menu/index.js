@@ -1,7 +1,7 @@
 import ActionMenu from './menu'
 import Vue from 'vue'
 import { callFunc, isNone } from '../../utils'
-import '../../../../style/miui/components/action-bar/action-menu/menu-popup-container.scss'
+import '~@miui/component-style//action-bar/action-menu/menu-popup-container.scss'
 
 let currentMenu = null
 const DISMISS_ERROR = new Error('DISMISSED')
