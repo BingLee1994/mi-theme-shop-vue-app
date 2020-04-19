@@ -1,10 +1,3 @@
-<template>
-    <div ref="root">
-        <slot>
-        </slot>
-    </div>
-</template>
-
 <script>
 let miuiRoot = null
 const BLACK = '0, 0, 0'
@@ -13,6 +6,12 @@ const opacity = ['05', 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 
 export default {
     name: 'MIUI-DarkMode',
+    props: {
+        tagName: {
+            type: String,
+            default: 'div'
+        }
+    },
     computed: {
         isDarkMode() {
             return this.$store.state.preference.darkMode
@@ -24,6 +23,12 @@ export default {
                 this.reverseColor()
             }
         }
+    },
+    render(h) {
+        return h(
+            this.$props.tagName,
+            this.$slots.default
+        )
     },
     mounted() {
         if (!miuiRoot) {
@@ -43,12 +48,10 @@ export default {
             let whiteColor = this.isDarkMode ? BLACK : WHITE
 
             let style = document.querySelector(':root').style
-            console.log(this.isDarkMode)
 
             opacity.forEach(t => {
                 let alpha = t / 100
                 let alphaName = t === 100 ? '' : t
-                console.log(`--black${alphaName}`, `rgba(${[blackColor, alpha].join(',')})`)
                 style.setProperty(
                     `--black${alphaName}`,
                     `rgba(${[blackColor, alpha].join(',')})`
