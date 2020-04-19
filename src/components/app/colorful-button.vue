@@ -49,8 +49,7 @@ export default {
         text-align: center;
         padding: 0 1rem;
         border-radius: 0.5rem;
-        border: 1px solid black;
-        border-color: var(--color);
+        box-shadow: 0 0 0 1px inset var(--color);
         box-sizing: border-box;
         color: rgba(0,0,0,.7);
         font-size: 1.4rem;
