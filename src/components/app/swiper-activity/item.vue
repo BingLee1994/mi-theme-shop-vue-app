@@ -7,9 +7,15 @@
 <script>
 
 export default {
-    name: 'SwiperActivity',
+    name: 'SwiperActivityItem',
     props: {
-        position: Number
+        position: Number,
+        visible: Boolean
+    },
+    data() {
+        return {
+            isVisible: this.$props.visible
+        }
     },
     created() {
         if (
@@ -19,15 +25,24 @@ export default {
         ) {
             throw new Error('SwiperActivityItem can only be the child node of SwiperActivity.')
         }
-        // let containerWidth = this.$parent.getWidth()
+        this.child = this.$slots.default
+        this.$slots.default = []
+        this.childMounted = false
     },
     mounted() {
-    },
-    updated() {
+        let width = this.$refs.itemWrapper.offsetWidth
+        this.$refs.itemWrapper.style.width = width + 'px'
+        this.$refs.itemWrapper.style.left = width * this.position + 'px'
+
+        if (this.isVisible) {
+            this._mountChild()
+        }
     },
     methods: {
-        _setPosition(idx = 0) {
-            this.$refs.itemWrapper.style.left = 1
+        _mountChild() {
+            this.$slots.default = this.child
+            this.childMounted = true
+            this.$forceUpdate()
         }
     }
 }
