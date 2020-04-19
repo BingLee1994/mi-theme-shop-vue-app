@@ -1,7 +1,9 @@
 import Welcome from '@views/welcome'
-import Home from '@views/home'
+import Home from '@views/home/index'
 import IntroHome from '@views/intro/index'
+import NFD from '@views/404'
 import introRoutes from './intro'
+import homeRoutes from './home'
 
 export default [
     {
@@ -21,7 +23,14 @@ export default [
     {
         path: '/home',
         name: 'home',
-        component: Home
+        component: Home,
+        children: homeRoutes
+    },
+
+    {
+        path: '*',
+        name: '404',
+        component: NFD
     }
 
     // {
