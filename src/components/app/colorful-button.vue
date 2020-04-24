@@ -52,7 +52,7 @@ export default {
         box-shadow: 0 0 0 1px inset var(--color);
         box-sizing: border-box;
         color: rgba(0,0,0,.7);
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         position: relative;
         overflow: hidden;
         margin: 3px;
@@ -66,11 +66,11 @@ export default {
             right: 0;
             background: var(--color);
             z-index: -1;
-            filter: brightness(1.3) saturate(40%);
+            filter: brightness(1.3) saturate(70%);
         }
         &:active {
             &::before {
-                filter: brightness(1.2) saturate(40%);
+                filter: saturate(60%) brightness(1); // brightness(1.2) saturate(40%);
             }
         }
     }
