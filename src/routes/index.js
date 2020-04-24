@@ -1,5 +1,6 @@
 import Welcome from '@views/welcome'
 import Home from '@views/home/index'
+import SearchView from '@views/search/search'
 import IntroHome from '@views/intro/index'
 import NFD from '@views/404'
 import introRoutes from './intro'
@@ -24,7 +25,16 @@ export default [
         path: '/home',
         name: 'home',
         component: Home,
-        children: homeRoutes
+        children: homeRoutes,
+        meta: {
+            keepAlive: true
+        }
+    },
+
+    {
+        path: '/search',
+        name: 'search',
+        component: SearchView
     },
 
     {
@@ -32,47 +42,4 @@ export default [
         name: '404',
         component: NFD
     }
-
-    // {
-    //     path: '/about',
-    //     name: 'About',
-    //     component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    // },
-    // {
-    //     path: '/article',
-    //     name: 'article',
-    //     component: () => import(/* webpackChunkName: "article" */ './views/Article.vue')
-    // },
-    // {
-    //     path: '/article/:id',
-    //     name: 'article-view',
-    //     component: () => import(/* webpackChunkName: "article" */ './views/Article.vue')
-    // },
-    // {
-    //     path: '/article/:id/comment/:comment_id',
-    //     name: 'article-view-comment',
-    //     component: () => import(/* webpackChunkName: "article" */ './views/Article.vue')
-    // },
-    // {
-    //     path: '/user/:name',
-    //     name: 'User',
-    //     component: () => import(/* webpackChunkName: "user" */ './views/user/User.vue'),
-    //     children: [
-    //         {
-    //             name: 'fav-list',
-    //             path: 'fav/:id',
-    //             component: Fav
-    //         },
-    //         {
-    //             name: 'productin-list',
-    //             path: 'prd/:id',
-    //             component: Prd
-    //         }
-    //     ]
-    // },
-    // {
-    //     path: '*',
-    //     name: '404',
-    //     component: () => import(/* webpackChunkName: "about" */ './views/404.vue')
-    // }
 ]
