@@ -15,6 +15,7 @@ export default {
             default: 0
         }
     },
+
     render() {
         return (
             <ul
@@ -26,6 +27,9 @@ export default {
                     let classNames = ['nav-item']
                     if (selected) {
                         classNames.push('nav-item_selected')
+                    }
+                    if (n.hidden) {
+                        classNames.push('nav-item_hidden')
                     }
                     return (
                         <li
@@ -40,8 +44,10 @@ export default {
             }</ul>
         )
     },
+
     methods: {
         onClickItem(e, item, index) {
+            if (item.hidden) return
             this.$emit('clickNavItem', index, item, e)
         }
     }
@@ -58,6 +64,9 @@ export default {
             margin-right: 1.5rem;
             &_selected {
                 border-bottom: 2px solid black;
+            }
+            &_hidden {
+                display: none;
             }
         }
     }
