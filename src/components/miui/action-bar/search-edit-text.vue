@@ -17,7 +17,7 @@ export default {
                 {...this.$listeners}
                 appearance={searchBoxAppearance}
                 showClearButton={true}
-                prefixIconClass="search"
+                suffixIconClass="search"
                 widen
                 style={{ margin: 0 }}
             >
