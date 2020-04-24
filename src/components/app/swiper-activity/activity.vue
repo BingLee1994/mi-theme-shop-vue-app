@@ -14,27 +14,46 @@ const MOVE_THRESHOLD = 0.2
 
 export default {
     name: 'SwiperActivity',
+    props: {
+        selected: Number
+    },
+    watch: {
+        selected(index, oldIndex) {
+            if (index !== oldIndex) {
+                let selected = Math.floor(this.$props.selected)
+                if (selected >= 0 && selected < this.length) {
+                    this.swipeTo(index)
+                }
+            }
+        }
+    },
     created() {
         let slots = this.$slots.default
         let validChild = []
         this.items = []
         if (slots) {
             slots.forEach(s => {
-                // 这里是VNode哦，在created里，此时组件实例还未完成
+                // 这里是VNode，在created里，此时组件实例还未完成
                 if (s.componentOptions && s.componentOptions.Ctor.options.name === 'SwiperActivityItem') {
                     validChild.push(s)
                 }
             })
         }
         validChild.map((c, idx) => {
-            c.componentOptions.propsData = {
-                position: idx,
-                visible: idx === 0
-            }
+            // 这里可以对propsData进行修改， propsData就是父组件传入的props，此时还未创建indtance
+            let originProps = c.componentOptions.propsData
+            c.componentOptions.propsData = Object.assign(
+                originProps,
+                {
+                    position: idx,
+                    visible: false
+                }
+            )
         })
         this.$slots.default = validChild
         this.length = validChild.length
     },
+
     mounted() {
         if (this.$slots.default) {
             // 这里是VNode中的instance已经创建
@@ -48,10 +67,19 @@ export default {
 
         this.$refs.subWrapper.style.width = offsetWidth * this.length + 'px'
         this.$refs.subWrapper.style.height = offsetHeight + 'px'
-
         this.rightBoundary = (-1 * offsetWidth * (Math.max(this.length, 1) - 1))
+
+        let selected = Math.floor(this.$props.selected)
+        if (selected >= 0 && selected < this.length) {
+            this.position = (-1 * offsetWidth * selected)
+            this.index = selected
+            this._translateSubWrapper()
+        }
+
         this._enableSwipeListener()
+        this._showItem(false)
     },
+
     methods: {
         _enableSwipeListener() {
             let { wrapper } = this.$refs
@@ -59,41 +87,52 @@ export default {
             let startY = 0
             let startPosition = this.position
             let delta = 0
+            let isScolling = false
+            let passive = { passive: false }
+            let stop = e => {
+                if (e.cancelable) {
+                    e.preventDefault()
+                }
+            }
 
             wrapper.addEventListener('touchstart', e => {
-                if (this.animationPlaying) return
                 delta = 0
+                isScolling = false
                 startX = e.touches[0].clientX
                 startY = e.touches[0].clientY
                 startPosition = this.position
-            })
+            }, passive)
 
             wrapper.addEventListener('touchmove', e => {
                 if (this.animationPlaying) return
 
                 delta = e.touches[0].clientX - startX
                 let deltaY = Math.abs(e.touches[0].clientY - startY)
+                let isScolling = false
+                if (deltaY >= 20) {
+                    isScolling = true
+                }
                 let newPosition = startPosition + delta
 
                 if (newPosition <= 0 && newPosition >= this.rightBoundary) {
-                    if (Math.abs(delta) > deltaY) {
+                    if (Math.abs(delta) > deltaY && !isScolling) {
                         this.position = newPosition
                         this._translateSubWrapper()
                     }
                 } else {
                     if (Math.abs(delta) > deltaY) {
-                        e.preventDefault()
+                        stop(e)
                     }
                     delta = 0
                 }
                 e.stopPropagation()
                 if (Math.abs(delta) > deltaY) {
-                    e.preventDefault()
+                    stop(e)
                 }
-            })
+            }, passive)
 
             let stopTouch = e => {
-                if (delta === 0 || this.animationPlaying) return
+                if (delta === 0 || this.animationPlaying || isScolling) return
 
                 let { index, width } = this
                 let direction = MOVE_RIGHT
@@ -105,43 +144,43 @@ export default {
                 }
 
                 if (Math.abs(delta) > this.width * MOVE_THRESHOLD) {
-                    let next = direction === MOVE_RIGHT ? -1 : 1
+                    let next = direction === MOVE_RIGHT ? 1 : -1
                     targetIndex = (index + next)
-                    targetPosition = targetIndex * width
+                    targetPosition = -1 * targetIndex * width
                 }
                 this._swipeTo(targetIndex, targetPosition)
             }
 
-            wrapper.addEventListener('touchend', stopTouch)
-            wrapper.addEventListener('touchcancel', stopTouch)
+            wrapper.addEventListener('touchend', stopTouch, passive)
+            wrapper.addEventListener('touchcancel', stopTouch, passive)
         },
 
         _swipeTo(index, position) {
             this.position = position
 
             this.$refs.subWrapper.style.transition = `transform ${ANI_DURATION}s ease`
-            this._translateSubWrapper()
             this.animationPlaying = true
+            this._translateSubWrapper()
 
             setTimeout(() => {
                 this.animationPlaying = false
                 this.$refs.subWrapper.style.transition = ''
                 if (this.index !== index) {
                     this.index = index
-                    this._notifyIndexChange()
+                    this._showItem()
                 }
             }, ANI_DURATION * 1000)
         },
 
-        _notifyIndexChange() {
+        _showItem(emit = true) {
             let { index, items } = this
-            let curItem = items[-index]
+            index = Math.abs(index)
+            let curItem = items[Math.abs(index)]
             // 不可以直接修改prop
-            if (!curItem.isVisible) {
-                curItem._mountChild()
+            if (curItem && !curItem.isVisible) {
                 curItem.isVisible = true
             }
-            this.$emit('indexChange', index, curItem.$attrs.name)
+            emit && this.$emit('indexChange', index, curItem.$props.extra)
         },
 
         _translateSubWrapper() {
@@ -153,7 +192,7 @@ export default {
             if (isNaN(index)) return
             if (index >= 0 && index < this.length && index !== this.index) {
                 let targetPosition = -index * this.width
-                this._swipeTo(-index, targetPosition)
+                this._swipeTo(index, targetPosition)
             }
         }
     }
