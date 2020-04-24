@@ -9,7 +9,8 @@ html,p,h1,h2,h3,h4,h5,h6,body,ul,ol,li,input {
 }
 
 html {
-  font-family: "microsoft yahei", "HanHei SC","PingHei","PingFang SC","STHeitiSC-Light","Helvetica Neue","Helvetica","Arial",sans-serif
+  font-family: "microsoft yahei", "HanHei SC","PingHei","PingFang SC","STHeitiSC-Light","Helvetica Neue","Helvetica","Arial",sans-serif;
+  -webkit-overflow-scrolling: auto;
 }
 
 a {
