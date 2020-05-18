@@ -7,6 +7,7 @@ import './style/reset.scss'
 import './style/app.scss'
 import Dialog from '@miui/dialog/install'
 import Toast from '@miui/toast/install'
+import installMyDirective from '@/directives'
 
 const elApp = document.getElementById('app')
 
@@ -14,8 +15,10 @@ Vue.use(Dialog)
 Vue.use(Toast)
 Vue.config.productionTip = false
 
+installMyDirective(Vue)
+
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render(h) { return h(App) }
 }).$mount(elApp)
