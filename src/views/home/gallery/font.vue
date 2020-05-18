@@ -10,6 +10,7 @@ export default {
     name: 'FontGallery',
     components: {},
     mounted() {
+        console.log('gallery recommend')
     },
     data() {
     },

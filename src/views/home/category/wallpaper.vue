@@ -10,7 +10,7 @@ export default {
     name: 'WallpaperCategory',
     components: {},
     mounted() {
-        console.log('进入壁纸')
+        console.log('category进入壁纸')
     }
 }
 </script>

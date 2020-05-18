@@ -11,7 +11,7 @@ export default {
     name: 'FontCategory',
     components: {},
     mounted() {
-        console.log('进入广场')
+        console.log('category进入font')
     },
     data() {
         let list = []

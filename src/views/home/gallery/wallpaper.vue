@@ -10,7 +10,7 @@ export default {
     name: 'WallpaperGallery',
     components: {},
     mounted() {
-        console.log('进入壁纸')
+        console.log('gallery wallpaper')
     }
 }
 </script>

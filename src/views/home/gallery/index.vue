@@ -1,21 +1,21 @@
 <template>
     <div>
-        广场
-        <SwiperActivity
-          style="height:500px"
-          ref="swiper"
-          @indexChange="onSwiperIndexChange"
-        >
-            <Item name="reconmand">
-              <RecommendView />
-            </Item>
-            <Item name="theme">
-              <ThemeView/>
-            </Item>
-            <Item name="wallpaper">
-              <WallpaperView/>
-            </Item>
-        </SwiperActivity>
+        <keep-alive>
+          <SwiperActivity
+            ref="swiper"
+            @indexChange="onSwiperIndexChange"
+            :selected="currentNavIndex"
+          >
+              <Item
+                v-for="item in swiperItems"
+                :key="item.index"
+                :extra="item.index"
+                class="view-content"
+              >
+                <component :is="item.component" />
+              </Item>
+          </SwiperActivity>
+        </keep-alive>
     </div>
 </template>
 
@@ -25,29 +25,49 @@ import Item from '@/components/app/swiper-activity/item'
 import RecommendView from '@views/home/gallery/recommend'
 import ThemeView from '@views/home/gallery/theme'
 import WallpaperView from '@views/home/gallery/wallpaper'
+import NavigationMixin from '@/mixins/navigation'
+
+const navComponentMap = {
+  theme: 'ThemeView',
+  recommend: 'RecommendView',
+  wallpaper: 'WallpaperView',
+  font: null,
+  ringtone: null
+}
 
 export default {
     name: 'Gallery',
     components: { Item, SwiperActivity, RecommendView, ThemeView, WallpaperView },
-    inject: ['changeNav'],
-    watch: {
-      $route: 'swipeTo'
+    mixins: [NavigationMixin],
+
+    data() {
+      return {
+        swiperItems: []
+      }
     },
-    mounted() {
-      console.log('gallery mounted')
-    },
-    methods: {
-        swipeTo() {
-          let index = this.$route.params.id
-          this.$refs.swiper.swipeTo(index)
-        },
-        onSwiperIndexChange(idx, name) {
-          console.log(this)
-          this.changeNav(name, idx)
+
+    created() {
+      let swiperItems = []
+      this.navItems.forEach((n, index) => {
+        let componentName = navComponentMap[n.name]
+        if (componentName) {
+          swiperItems.push({
+            index,
+            component: componentName
+          })
         }
+      })
+      this.swiperItems = swiperItems
     },
+
+    methods: {
+      onSwiperIndexChange(_, navIndex) {
+        this.selectNavByIndex(navIndex)
+      }
+    },
+
     beforeRouteUpdate(to, from, next) {
-      console.log('路由更新了')
+      console.log('复用了')
       next()
     }
 }
