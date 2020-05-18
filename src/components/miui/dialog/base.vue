@@ -15,7 +15,7 @@
             <div class="dialog" v-show="isShow">
                 <div class="content-wrapper">
                     <p class="title bold">{{title}}</p>
-                    <p class="message">{{message}}</p>
+                    <p class="message" v-if="message">{{message}}</p>
                     <div>
                         <slot></slot>
                     </div>
@@ -49,12 +49,14 @@
 <script>
 import { isNone, callFunc, isFunc } from '../utils'
 import Button from '../buttons/button'
+import darkMode from '@/mixins/dark-mode'
 
 const DEFAULT_BUTTON = { text: '完成' }
 
 export default {
     name: 'MIUI-Dialog',
     components: { Button },
+    mixins: [darkMode],
     props: {
         title: [String, Number],
         message: [String, Number],
@@ -74,6 +76,9 @@ export default {
         }
     },
     computed: {
+        darkModeClass() {
+            return 'dark-mode'
+        },
         primaryButtonOption() {
             return this._makeButtonOption(this.$props.primaryButton)
         },
