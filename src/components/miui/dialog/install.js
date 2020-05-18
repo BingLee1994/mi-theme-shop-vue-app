@@ -261,17 +261,23 @@ const dialogUtils = {
                 props: {
                     title,
                     message,
-                    primaryButton: primaryButton || TEXT_OK,
-                    secondaryButton: secondaryButton || TEXT_CANCEL
+                    primaryButton: primaryButton || TEXT_OK
                 },
                 actions: getCommonDialogActions(resolve, reject),
                 children
+            }
+            if (typeof secondaryButton === 'undefined') {
+                promptDialogOption.props.secondaryButton = TEXT_CANCEL
+            } else if (secondaryButton) {
+                promptDialogOption.props.secondaryButton = secondaryButton
             }
             mountDialog(promptDialogOption)
         })
     },
 
-    showLoading(message, onClosed) {
+    showLoading(message) {
+        let closeResolve = null
+
         if (dialogIsShowing) {
             throw new Error('Can not show loading when dialog not closed')
         }
@@ -286,8 +292,9 @@ const dialogUtils = {
             document.body.removeChild(loadingInstance.$el)
             loadingInstance = null
             loadingIsShowing = false
-            callFunc(onClosed)
+            callFunc(closeResolve)
             showNextDialogIfNeed()
+            closeResolve = null
         }
 
         let el = document.createElement('div')
@@ -297,9 +304,12 @@ const dialogUtils = {
         loadingInstance.$mount(el)
 
         let hideLoading = () => {
-            if (!isNone(loadingInstance)) {
-                loadingInstance.isShow = false
-            }
+            return new Promise(resolve => {
+                if (!isNone(loadingInstance)) {
+                    loadingInstance.isShow = false
+                    closeResolve = resolve
+                }
+            })
         }
 
         return hideLoading
