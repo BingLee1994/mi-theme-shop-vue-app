@@ -11,6 +11,7 @@ const MOVE_LEFT = 0
 const MOVE_RIGHT = 1
 const ANI_DURATION = 0.25
 const MOVE_THRESHOLD = 0.2
+const RESIZE_DEBOUNCE_TIMER = 200
 
 export default {
     name: 'SwiperActivity',
@@ -59,28 +60,48 @@ export default {
             // 这里是VNode中的instance已经创建
             this.$slots.default.forEach(s => this.items.push(s.componentInstance))
         }
-        let { offsetWidth, offsetHeight } = this.$refs.wrapper
-        this.width = offsetWidth
         this.index = 0
         this.position = 0
         this.animationPlaying = false
 
-        this.$refs.subWrapper.style.width = offsetWidth * this.length + 'px'
-        this.$refs.subWrapper.style.height = offsetHeight + 'px'
-        this.rightBoundary = (-1 * offsetWidth * (Math.max(this.length, 1) - 1))
+        this._setSize()
 
         let selected = Math.floor(this.$props.selected)
         if (selected >= 0 && selected < this.length) {
-            this.position = (-1 * offsetWidth * selected)
+            this.position = (-1 * this.width * selected)
             this.index = selected
             this._translateSubWrapper()
         }
 
         this._enableSwipeListener()
         this._showItem(false)
+        window.addEventListener('resize', this._adjustSwiperUIonResize)
     },
 
     methods: {
+        _setSize() {
+            let { offsetWidth, offsetHeight } = this.$refs.wrapper
+            this.width = offsetWidth
+            this.$refs.subWrapper.style.width = offsetWidth * this.length + 'px'
+            this.$refs.subWrapper.style.height = offsetHeight + 'px'
+            this.rightBoundary = (-1 * offsetWidth * (Math.max(this.length, 1) - 1))
+        },
+
+        _adjustSwiperUIonResize() {
+            clearTimeout(this.resizeDebounceTimer)
+            this.resizeDebounceTimer = setTimeout(() => {
+                this._setSize()
+                this.items.forEach(item => {
+                    item.setWidth(this.width)
+                })
+                if (this.animationPlaying) {
+                    this.$refs.subWrapper.transition = ''
+                }
+                this.position = -1 * this.index * this.width
+                this._translateSubWrapper()
+            }, RESIZE_DEBOUNCE_TIMER)
+        },
+
         _enableSwipeListener() {
             let { wrapper } = this.$refs
             let startX = 0
@@ -88,6 +109,7 @@ export default {
             let startPosition = this.position
             let delta = 0
             let isScolling = false
+            let lock = false // scroll锁，防止水平移动误触scroll
             let passive = { passive: false }
             let stop = e => {
                 if (e.cancelable) {
@@ -98,6 +120,7 @@ export default {
             wrapper.addEventListener('touchstart', e => {
                 delta = 0
                 isScolling = false
+                lock = false
                 startX = e.touches[0].clientX
                 startY = e.touches[0].clientY
                 startPosition = this.position
@@ -105,35 +128,56 @@ export default {
 
             wrapper.addEventListener('touchmove', e => {
                 if (this.animationPlaying) return
+                e.stopPropagation()
+                let { index } = this
 
                 delta = e.touches[0].clientX - startX
                 let deltaY = Math.abs(e.touches[0].clientY - startY)
-                let isScolling = false
-                if (deltaY >= 20) {
-                    isScolling = true
-                }
-                let newPosition = startPosition + delta
 
-                if (newPosition <= 0 && newPosition >= this.rightBoundary) {
-                    if (Math.abs(delta) > deltaY && !isScolling) {
-                        this.position = newPosition
-                        this._translateSubWrapper()
+                // 此时还未判定是否是scroll
+                if (!lock) {
+                    let whichActivityEl = this.$refs.subWrapper.children[index]
+                    if (whichActivityEl) {
+                        let { scrollHeight, offsetHeight } = whichActivityEl
+                        if (scrollHeight <= offsetHeight) {
+                            // 元素根本就没有滚动条，从而不存在滚动行为
+                            isScolling = false
+                            lock = true
+                            return
+                        }
                     }
-                } else {
-                    if (Math.abs(delta) > deltaY) {
-                        stop(e)
-                    }
-                    delta = 0
+                    requestAnimationFrame(() => {
+                        // 判断垂直滑动距离是否大于水平滑动距离
+                        if (deltaY >= delta && deltaY >= 5) {
+                            if (!lock) {
+                                // 如果是的话，认定为scroll，且在此事件中禁止修改
+                                isScolling = true
+                            }
+                        }
+                        lock = true
+                    })
+                    return
                 }
-                e.stopPropagation()
-                if (Math.abs(delta) > deltaY) {
-                    stop(e)
+
+                if ((lock && isScolling)) {
+                    // 已经锁定了scroll，直接return，即不处理水平移动
+                    delta = 0
+                    return
+                }
+
+                stop(e)
+                let newPosition = startPosition + delta
+                if (newPosition <= 0 && newPosition >= this.rightBoundary) {
+                    this.position = newPosition
+                    this._translateSubWrapper()
+                } else {
+                    delta = 0
                 }
             }, passive)
 
             let stopTouch = e => {
-                if (delta === 0 || this.animationPlaying || isScolling) return
-
+                if (delta === 0 || this.animationPlaying) return
+                lock = false
                 let { index, width } = this
                 let direction = MOVE_RIGHT
                 let targetPosition = startPosition
@@ -195,6 +239,10 @@ export default {
                 this._swipeTo(index, targetPosition)
             }
         }
+    },
+
+    destroyed() {
+        window.removeEventListener('resize', this._adjustSwiperUIonResize)
     }
 }
 </script>

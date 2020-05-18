@@ -1,16 +1,11 @@
-<template>
-    <div class="swiper-activity-item-wrapper" ref="itemWrapper">
-        <slot></slot>
-    </div>
-</template>
-
 <script>
 
 export default {
     name: 'SwiperActivityItem',
     props: {
         position: Number,
-        visible: Boolean
+        visible: Boolean,
+        extra: null
     },
     data() {
         return {
@@ -25,24 +20,27 @@ export default {
         ) {
             throw new Error('SwiperActivityItem can only be the child node of SwiperActivity.')
         }
-        this.child = this.$slots.default
-        this.$slots.default = []
-        this.childMounted = false
+        this.index = this.position
     },
     mounted() {
         let width = this.$refs.itemWrapper.offsetWidth
         this.$refs.itemWrapper.style.width = width + 'px'
-        this.$refs.itemWrapper.style.left = width * this.position + 'px'
-
-        if (this.isVisible) {
-            this._mountChild()
-        }
+        this.$refs.itemWrapper.style.left = width * this.index + 'px'
+    },
+    render() {
+        let child = this.$slots.default || []
+        return (
+            <div class="swiper-activity-item-wrapper" ref="itemWrapper">
+                { /* if */ this.isVisible &&
+                    child[0]
+                }
+            </div>
+        )
     },
     methods: {
-        _mountChild() {
-            this.$slots.default = this.child
-            this.childMounted = true
-            this.$forceUpdate()
+        setWidth(width) {
+            this.$refs.itemWrapper.style.width = `${width}px`
+            this.$refs.itemWrapper.style.left = (width * this.index) + 'px'
         }
     }
 }
