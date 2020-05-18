@@ -6,29 +6,18 @@ import Me from '@views/home/me/me'
 export default [
   {
     path: 'gallery',
-    name: 'galleryHome',
-    redirect: {
-        name: 'gallery',
-        params: { navId: 0 }
-    }
+    name: 'gallery',
+    component: Gallery
   },
   {
     path: 'category',
-    name: 'categoryHome',
-    redirect: {
-        name: 'category',
-        params: { navId: 0 }
-    }
-  },
-  {
-    path: 'gallery/:navId',
-    component: Gallery,
-    name: 'gallery'
-  },
-  {
-    path: 'category/:navId',
     component: Category,
     name: 'category'
+  },
+  {
+    path: 'gallery/:type',
+    component: Gallery,
+    name: 'galleryByType'
   },
   {
     path: 'me',

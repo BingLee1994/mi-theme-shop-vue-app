@@ -1,5 +1,5 @@
 import stu from '../utils/storage'
-import api from '../api'
+import api, { isGeneralException } from '@/api'
 
 const EXPIRE_IN = 60 * 2 * 1000
 const CATEGOTY = ['theme', 'font', 'ringtone', 'wallpaper']
@@ -9,13 +9,6 @@ function isExpire(date) {
 }
 
 let history = stu.get('searchHistory', [])
-
-function validateResponse(data) {
-    if (!data) {
-        throw new Error('invalid')
-    }
-    return true
-}
 
 const state = {}
 
@@ -40,7 +33,6 @@ export default {
         },
         adviertisements(state) {
             let { category } = state
-            console.log(state[category].adviertisements)
             return state[category].adviertisements || []
         },
         styles(state) {
@@ -57,10 +49,14 @@ export default {
             let { category } = state
             let categoryData = state[category]
             if (isExpire(categoryData.lastUpdate)) {
-                let response = await api.fetchSearchScreenData(category)
-                let data = response.data
-                validateResponse(data)
-                commit('update', data)
+                try {
+                    let response = await api.fetchSearchScreenData(category)
+                    commit('update', response)
+                } catch (err) {
+                    if (isGeneralException(err)) {
+                        this._vm.$toast.show(err.errorMessage, 1)
+                    }
+                }
             }
         },
         updateAdv(context, type) {
@@ -77,7 +73,7 @@ export default {
     mutations: {
         update(state, data) {
             let { category } = state
-            state[category] = data
+            state[category] = data || []
             state[category].lastUpdate = Date.now()
         },
         setCategory(state, c) {
@@ -94,9 +90,9 @@ export default {
                 stu.set('searchHistory', history)
             }
         },
-        removeHistory(state, type) {
+        removeHistory(state, name) {
             let { history } = state
-            let index = history.indexOf(type)
+            let index = history.indexOf(name)
             if (index !== -1) {
                 history.splice(index, 1)
                 state.history = history
