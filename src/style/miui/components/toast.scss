@@ -29,6 +29,7 @@ $toastBorderRadius: 2.5rem;
 }
 
 .miui-toast {
+    text-align: center;
     transform: translate(-50%, 0);
     position: fixed;
     bottom: $toastBottomPosition;
@@ -41,4 +42,5 @@ $toastBorderRadius: 2.5rem;
     filter: drop-shadow(0 10px 20px var(--black10));
     font-size: 1.4rem;
     color: var(--black90);
+    z-index: 999999;
 }

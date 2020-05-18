@@ -18,3 +18,116 @@
         background-color: rgba(0,0,0,.7);
     }
 }
+
+.hint {
+    padding: 10px;
+    background-color: var(--black05);
+    border-radius: 3px;
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--black70);
+    margin: 10px;
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    svg {
+        height: 14px;
+        margin-right: 5px;
+        fill: var(--balck80);
+    }
+}
+
+.big-title {
+    text-align: left;
+    font-size: 2.3rem;
+    font-weight: 300;
+    margin: 10px 0;
+}
+
+.screen {
+    .action-header {
+        padding: 10px 15px;
+    }
+}
+
+@mixin fillscreen {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--white);
+    border-left: 1px solid var(--black10);
+    border-right: 1px solid var(--black10);
+}
+
+@mixin screen-transition($direction) {
+    &-enter {
+        @if $direction == top {
+            transform: translate3d(0, 100%, 0);
+        } @else if $direction == left {
+            transform: translate3d(100%, 0, 0);
+        } @else if $direction == right {
+            transform: translate3d(-20%, 0, 0);
+        }
+        &-active {
+            transition: transform .4s ease;
+            z-index: 100;
+            will-change: transform;
+            @include fillscreen;
+        }
+        &-to {
+            @if $direction == top {
+                transform: translate3d(0, 0, 0);
+            } @else if $direction == left {
+                transform: translate3d(0, 0, 0);
+            } @else if $direction == right {
+                transform: translate3d(0, 0, 0);
+            }
+        }
+    }
+    &-leave {
+        @if $direction == top {
+            transform: translate3d(0, 0, 0);
+        } @else if $direction == left {
+            transform: translate3d(0, 0, 0);
+        } @else if $direction == right {
+            transform: translate3d(0, 0, 0);
+        }
+        &-active {
+            transition: transform .4s ease;
+            @if $direction == left {
+                z-index: 99;
+            } @else {
+                z-index: 101;
+            }
+            will-change: transform;
+            @include fillscreen;
+        }
+        &-to {
+            @if $direction == top {
+                transform: translate3d(0， -100%， 0);
+            } @else if $direction == left {
+                transform: translate3d(-20%, 0, 0);
+            } @else if $direction == right {
+                transform: translate3d(100%, 0, 0);
+            }
+        }
+    }
+}
+
+.screen-enter-top {
+    @include screen-transition(top)
+}
+
+.screen-enter-left {
+    @include screen-transition(left)
+}
+
+.screen-enter-right {
+    @include screen-transition(right)
+}

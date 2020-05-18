@@ -1,8 +1,7 @@
 $dialogBorderRadius: 2rem;
 $dialogPadding: 2.5rem;
-$dialogPaddingH: 3.5rem;
+$dialogPaddingH: 3rem;
 $dialogMargin: 1rem;
-$dialogWrapperBackgroungColor: var(--black40);
 
 .miui-dialog-translucent-background {
     &-enter {
@@ -48,6 +47,12 @@ $dialogWrapperBackgroungColor: var(--black40);
 
 .miui-dialog-wrapper {
     --dialog-background: rgb(243, 243, 243);
+    &.dark-mode {
+        --dialog-background: rgb(42, 42, 42);
+        & > .background {
+            background-color: var(--white70);
+        }
+    }
     z-index: 999999;
     transform: translate3d(0,0,0);
     left: 0;
@@ -65,7 +70,7 @@ $dialogWrapperBackgroungColor: var(--black40);
         right: 0;
         top: 0;
         bottom: 0;
-        background-color: $dialogWrapperBackgroungColor;
+        background-color: var(--black50);
         position: absolute;
     }
 
