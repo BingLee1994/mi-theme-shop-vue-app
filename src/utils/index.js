@@ -22,3 +22,22 @@ function pickRandomItem(arr, len, cb) {
 }
 
 export { random, pickRandomItem }
+
+export function debounce(cb, timeout) {
+    let timerid = null
+    return function() {
+        clearTimeout(timerid)
+        let args = arguments
+
+        timerid = setTimeout(function() {
+            if (typeof cb === 'function') {
+                cb.apply(null, args)
+            }
+        }, timeout)
+    }
+}
+
+export function dateMD(val, divider = '') {
+    let date = new Date(Number(val))
+    return `${date.getMonth()}月${divider}${date.getDate()}日`
+}
