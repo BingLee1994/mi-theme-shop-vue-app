@@ -1,4 +1,5 @@
 import { callFunc } from '../components/miui/utils'
+import store from '@/store'
 
 function handleDarkModeChange(_this) {
     let { darkModeClass } = _this
@@ -18,7 +19,11 @@ function handleDarkModeChange(_this) {
 export default {
     computed: {
         darkMode() {
-            return this.$store.state.preference.darkMode
+            let $store = this.$store
+            if (!$store) {
+                $store = store
+            }
+            return $store.state.preference.darkMode
         }
     },
     mounted() {
