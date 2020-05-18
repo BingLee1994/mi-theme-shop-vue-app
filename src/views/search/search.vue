@@ -1,64 +1,91 @@
 <template>
     <div class="search-view">
-        <div
-            class="search-bar header"
+        <section class="search-bar action-bar header"
         >
-            <button @click="goBack">返回</button>
+            <button class="icon" @click="goBack">返回</button>
             <input
-                :value="keyWords"
+                :value="keyWord"
                 placeholder="请输入"
-                @input="handleKeyWords"
+                @input="handlekeyWord"
                 @focus="onFocus"
+                :class="{
+                    'search-box': true,
+                    'dark-mode': darkMode
+                }"
             />
-            <button>筛选</button>
-        </div>
+            <button class="icon">筛选</button>
+        </section>
 
         <div v-if="!isShowResult" class="container">
 
-            <div>
-                <p>大家都在搜</p>
+            <section class="suggestion-wrapper" v-if="recommendations.length > 0">
+                <p class="header">大家都在搜</p>
                 <ColorfulButon v-for="item in recommendations" :key="item.id"
                     @click="onClickRecommend(item)"
                 >
                     {{item}}
                 </ColorfulButon>
-            </div>
+            </section>
 
-            <ul class="history-list" v-if="isShowHistory && !keyWords">
-                <li v-for="item in history" :key="item"
-                    @click="onClickHistory"
+            <ul class="suggestion-list option-list-wrapper" v-if="keyWord">
+                <li v-for="keyword in searchSuggestion"
+                    :key="keyword"
+                    @click="doSearch(keyword, $event)"
+                    class="list-item"
                 >
-                    {{item}} <span @click="removeHistory(item)">删除</span>
+                    <span>{{keyword}}</span>
+                </li>
+                <li class="search-button list-item" @click="doSearch(null)">搜索{{keyWord}}</li>
+            </ul>
+
+            <ul class="history-list option-list-wrapper"
+                v-if="isShowHistory && !keyWord && history.length > 0"
+            >
+                <li v-for="keyword in history"
+                    :key="keyword"
+                    @click="doSearch(keyword, $event)"
+                    class="list-item"
+                >
+                    <span class="text">{{keyword}}</span>
+                    <span @click.stop="removeHistory(keyword)">删除</span>
+                </li>
+                <li
+                    class="list-item clear-all-button bold"
+                    @click="clearHistory"
+                >
+                    清空浏览历史
                 </li>
             </ul>
 
-            <p v-if="keyWords" @click="doSearch">搜索{{keyWords}}</p>
-
-            <div>
+            <section class="adv-wrapper">
                 <div v-for="item in adviertisements" :key="item.id"
                     @click="onClickAdviertisement(item)"
-                    class="adv-wrapper"
+                    class="adv"
                 >
-                    <p>{{item.title}}</p>
-                    <p>{{item.description}}</p>
-                    <div class="img cover" :style="{backgroundImage: `url(${item.imgUrl})`}" />
+                    <p class="title bold">{{item.title}}</p>
+                    <p class="description">{{item.description}}</p>
+                    <div
+                        class="img cover"
+                        v-lazy:background.once="item.imgUrl"
+                    />
                 </div>
-            </div>
+            </section>
 
-            <div class="style-list">
+            <section class="style-list">
                 <a v-for="item in styles" :key="item.id"
                     class="img-button cover"
-                    :style="{backgroundImage: `url(${item.imgUrl})`}"
                     @click="onClickStyle(item)"
+                    v-lazy:background="item.imgUrl"
                 >
                 </a>
-            </div>
+            </section>
 
             <CategoryList @click="onClickCategory" />
 
         </div>
-        <div v-if="!isShowResult" class="container">
-            搜索结果
+        <div v-if="isShowResult" class="container">
+            <p class="hint">此版本为demo版，搜索结果为从后台随机获取的数据</p>
+            <ThemeList :items="searchResult" :column="3" @click="viewDetail"/>
         </div>
     </div>
 </template>
@@ -66,21 +93,28 @@
 <script>
 import ColorfulButon from '@/components/app/colorful-button'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import CategoryList from './category-list'
+import CategoryList from '@/components/app/search/category-list'
+import ThemeList from '@/components/app/theme-list/list'
+import DarkModeMixin from '@/mixins/dark-mode'
+import api from '@/api'
 
 export default {
     name: 'Search',
-    components: { ColorfulButon, CategoryList },
+    components: { ColorfulButon, CategoryList, ThemeList },
+    mixins: [DarkModeMixin],
     created() {
         let searchType = this.$route.query.type || 'theme'
+        this.searchType = searchType
         this.setCategory(searchType)
     },
     data() {
         return {
-            keyWords: '',
+            keyWord: '',
             isFocused: false,
             isShowResult: false,
-            isShowHistory: false
+            isShowHistory: false,
+            searchSuggestion: [],
+            searchResult: []
         }
     },
     computed: {
@@ -88,15 +122,17 @@ export default {
     },
     mounted() {
         this.fetchSearchScreenData()
+        console.log('mounted')
     },
     methods: {
-        ...mapMutations(['addHistory', 'setCategory', 'removeHistory']),
+        ...mapMutations(['addHistory', 'setCategory', 'clearHistory', 'removeHistory']),
         ...mapActions(['fetchSearchScreenData']),
-        handleKeyWords(e) {
-            this.keyWords = e.target.value
+        handlekeyWord(e) {
+            this.isShowResult = false
+            this.keyWord = e.target.value
         },
-        onClickRecommend(keyWords) {
-            this.keyWords = keyWords
+        onClickRecommend(keyWord) {
+            this.keyWord = keyWord
         },
         onClickAdviertisement(item) {
             console.log(item)
@@ -109,21 +145,41 @@ export default {
         onFocus() {
             this.isShowHistory = true
         },
-        doSearch() {
-            console.log('search')
-            this.addHistory(this.keyWords)
+
+        async doSearch(keyWord) {
+            if (!keyWord) {
+                keyWord = this.keyWord
+            }
+            if (this.keyWord !== keyWord) {
+                this.keyWord = keyWord
+            }
+            this.addHistory(this.keyWord)
+
+            this.isShowResult = true
+            this.searchResult = await api.search(keyWord, this.searchType)
         },
-        onClickHistory() {
-            console.log('history')
+
+        async viewDetail(item) {
+            try {
+                await this.$router.push({
+                    name: 'viewItemEntry', params: { id: item.itemId }
+                })
+            } catch (err) {
+
+            }
         },
+
         goBack() {
-            console.log(this.$router.history)
             if (window.history.length === 1) {
                 this.$router.push({ name: 'home' })
             } else {
                 this.$router.go(-1)
             }
         }
+    },
+    beforeRouteEnter: (to, from, next) => {
+        document.body.scrollTop = 0
+        next()
     }
 }
 </script>
@@ -138,19 +194,113 @@ export default {
 
     }
 
-    .container {
-        padding: 15px;
-        box-sizing: border-box;
-        .adv-wrapper {
-            padding: 10px 0;
-            .img {
-                height: 45vw;
-                margin: 10px;
-                border-radius: 10px;
-                box-shadow: 0 0 0 1px var(--black05);
+    .header.search-bar {
+        min-height: 6rem;
+        display: flex;
+        align-items: center;
+        $itemHeight: 4rem;
+
+        .icon {
+            width: $itemHeight;
+            height: $itemHeight;
+            margin: 0 5px;
+        }
+
+        input.search-box {
+            appearance: none;
+            border: none;
+            padding: 0 #{$itemHeight/2};
+            height: $itemHeight;
+            border-radius: $itemHeight/2;
+            background: var(--black05);
+            flex: 1;
+
+            &.dark-mode {
+                background: var(--black20);
+                color: white;
             }
-            border-bottom: 1px solid var(--black10);
+        }
+    }
+
+    .container {
+        padding: 0 10px 10px;
+        box-sizing: border-box;
+        $superLightBorder: 1px solid var(--black05);
+
+        .suggestion-wrapper {
+            margin: 15px 0;
+            .header {
+                font-size: 1.3rem;
+                line-height: 1.5;
+                color: var(--black30);
+                margin-bottom: 10px;
+            }
+        }
+
+        .search-button {
+            padding: 0 10px;
+        }
+
+        .option-list-wrapper {
+            border-top: $superLightBorder;
+            .list-item {
+                border-bottom: $superLightBorder;
+                padding: 15px 10px;
+                color:var(--black);
+                border-radius: 10px;
+                &:active {
+                    background: var(--black05);
+                    opacity: .8;
+                    border-color: transparent;
+                }
+            }
+            & + .adv-wrapper {
+                border-top: none;
+            }
+        }
+
+        .history-list {
+            .list-item {
+                display: flex;
+                justify-content: center;
+            }
+            .text {
+                flex: 1;
+            }
+            .clear-all-button {
+                text-align: center;
+                color: var(--black50);
+                padding: 15px 0;
+            }
+        }
+
+        .adv-wrapper {
+            border-top: $superLightBorder;
             margin: 10px 0;
+
+            .adv {
+                text-align: center;
+                border-bottom: $superLightBorder;
+                margin: 10px 0;
+
+                p {
+                    padding: 0 20px;
+                    line-height: 1.5;
+                    font-size: 1.4rem;
+                }
+
+                .description {
+                    color: var(--secondaryTextColor);
+                }
+
+                .img {
+                    height: 45vw;
+                    margin: 10px;
+                    margin-bottom: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 0 0 1px var(--black05);
+                }
+            }
         }
         .style-list {
             display: flex;
