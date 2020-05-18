@@ -21,7 +21,6 @@ export default {
 
     render() {
         let { text, disabled, divider, iconClass } = this.$props
-        console.log(iconClass)
         return (
             <div class={divider ? 'menu-item-divider' : 'menu-item-wrapper'}>
                 { /* if */ !divider &&
