@@ -19,7 +19,7 @@ export default {
 
         setTimeout(() => {
             this.$router.push(nextScreen)
-        }, 3000)
+        }, 100)
     }
 }
 </script>

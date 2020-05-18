@@ -1,20 +1,25 @@
 <template>
-    <div>
-        <NavBar
-          :navItems="navItems"
-          :selectedNav="currentNavIndex"
-          @clickNavItem="selectNavByIndex"
-        >
-        </NavBar>
-        <button @click="gotoSearch">搜索</button>
+    <div class="home-screen">
+        <div class="header">
+          <NavBar
+            :navItems="navItems"
+            :selectedNav="currentNavIndex"
+            @clickNavItem="selectNavByIndex"
+            class="nav-list-wrapper"
+          >
+          </NavBar>
+          <button class="search-button" @click="gotoSearch">搜索</button>
+        </div>
+
         <keep-alive>
-          <router-view></router-view>
+          <router-view class="body"></router-view>
         </keep-alive>
 
         <TabBar
           :tabs="tabs"
           @clickTab="selectTab"
           :selectedTab="currentTab"
+          class="footer"
         ></TabBar>
     </div>
 </template>
@@ -100,6 +105,31 @@ export default {
 </script>
 
 <style lang="scss">
+  .home-screen {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    .header {
+      display: flex;
+      .nav-list-wrapper {
+        flex: 1
+      }
+    }
+    .body {
+      box-sizing: border-box;
+      flex: 1;
+      overflow: hidden auto;
+    }
+    .view-content {
+      $margin: 15px;
+      padding: 0 $margin;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+    .footer {
+      flex: 0
+    }
+  }
   .gallery-selected {
     color: pink;
   }
@@ -110,10 +140,12 @@ export default {
     color: green;
   }
   .adv-swiper {
+    $marginH: 5px;
     border-radius: 10px;
     overflow: hidden;
-    height: 30vh;
-    width: calc(100% - 2px);
+    height: 25vh;
+    width: calc(100% - #{$marginH * 2});
     margin: 1px;
+    margin: 0 $marginH;
   }
 </style>

@@ -3,9 +3,9 @@
 </style>
 
 <template>
-    <div>
+    <div v-flex.column>
         <p>请选择颜色模式</p>
-        <div>
+        <div v-flex-item.1>
             <Checkbox v-model="isDarkMode" label="暗色"/>
             <Checkbox :checked="!isDarkMode" label="亮色"/>
         </div>

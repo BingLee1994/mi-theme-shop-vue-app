@@ -3,8 +3,8 @@
 </style>
 
 <template>
-    <div>
-        介绍
+    <div v-flex.column>
+        <div v-flex-item.1>介绍</div>
         <div class="miui-button-group">
             <Button @click="next">下一步</Button>
         </div>
@@ -16,9 +16,6 @@ import Button from '@miui/buttons/button'
 export default {
     name: 'AppIntro',
     components: { Button },
-    mounted() {
-        console.log('mounted')
-    },
     methods: {
         next() {
             this.$router.push({ name: 'darkModeIntro' })
