@@ -34,7 +34,10 @@
             <SearchEditText v-if="showNormalSearch" :placeholder="searchBoxPlaceholder"/>
         </div>
         <div v-if="showSeparateSearch" class="search-box-wrapper">
-            <SearchEditText v-if="showSeparateSearch" :placeholder="searchBoxPlaceholder"/>
+            <SearchEditText
+                v-if="showSeparateSearch"
+                :placeholder="searchBoxPlaceholder"
+            />
         </div>
     </div>
 </template>
