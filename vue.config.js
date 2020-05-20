@@ -22,12 +22,12 @@ module.exports = {
     },
     css: {
         loaderOptions: {
-          sass: {
-             prependData: `
-               @import "./src/style/miui/mixin.scss";
-               @import "./src/style/miui/sys-variables.scss";
+            sass: {
+                prependData: `
+               @import './src/style/miui/mixin.scss';
+               @import './src/style/miui/sys-variables.scss';
              `
-          }
+            }
         }
     }
 }

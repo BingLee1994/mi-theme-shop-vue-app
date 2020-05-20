@@ -13,8 +13,12 @@ const router = new VueRouter({
 router.beforeEach(authenticate)
 router.routeHistory = routeHistory
 
-router.afterEach((to) => {
-  routeHistory.push(to)
+router.afterEach((to, from) => {
+  let lastRouteName = from.name
+  routeHistory.push({
+    lastRouteName,
+    name: to.name
+  })
 })
 
 export default router

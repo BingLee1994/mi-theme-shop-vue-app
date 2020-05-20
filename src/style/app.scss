@@ -51,6 +51,7 @@
     .action-header {
         padding: 10px 15px;
     }
+    background-color: var(--white);
 }
 
 @mixin fillscreen {
@@ -75,7 +76,7 @@
             transform: translate3d(-20%, 0, 0);
         }
         &-active {
-            transition: transform .4s ease;
+            transition: transform .3s ease;
             z-index: 100;
             will-change: transform;
             @include fillscreen;
@@ -99,7 +100,7 @@
             transform: translate3d(0, 0, 0);
         }
         &-active {
-            transition: transform .4s ease;
+            transition: transform .3s ease;
             @if $direction == left {
                 z-index: 99;
             } @else {
