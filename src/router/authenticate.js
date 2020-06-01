@@ -26,4 +26,5 @@ export default function beforeEach(to, from, next) {
     } else {
         next()
     }
+    return targetRoute
 }
