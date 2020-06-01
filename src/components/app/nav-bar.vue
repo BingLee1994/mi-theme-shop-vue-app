@@ -56,14 +56,18 @@ export default {
 
 <style scoped lang="scss">
     .nav-bar {
+        font-size: 1.4rem;
         display: flex;
         justify-content: flex-start;
         padding: 1rem;
 
         .nav-item {
             margin-right: 1.5rem;
+            padding: 5px 0;
             &_selected {
-                border-bottom: 2px solid black;
+                color: var(--black);
+                font-size: 1.5rem;
+                border-bottom: 2px solid var(--miOrange);
             }
             &_hidden {
                 display: none;
