@@ -23,10 +23,14 @@ const flexContainer = {
             el.style.display = isInline ? 'inline-flex' : 'flex'
             el.style.flexDirection = flexDirection
             centerX && (el.style.justifyContent = 'center')
-            centerY && (el.style.alighItems = 'center')
+            centerY && (el.style.alignItems = 'center')
 
             if (modifiers.unwrap) {
                 el.style.flexWrap = 'no-wrap'
+            }
+
+            if (modifiers.wrap) {
+                el.style.flexWrap = 'wrap'
             }
         }
     }
@@ -41,11 +45,23 @@ const flexItem = {
             value = String(value)
 
             if (modifiers['1']) {
-                el.style.flex = '1'
+                el.style.flexGrow = '1'
+                el.style.flexShrink = '1'
+                el.style.flexBasis = '0'
+            }
+
+            if (modifiers['0']) {
+                el.style.flexGrow = '0'
+                el.style.flexShrink = '0'
+                el.style.flexBasis = 'auto'
             }
 
             if (modifiers.scrollY) {
                 el.style.overflowY = 'auto'
+            }
+
+            if (modifiers.hidden) {
+                el.style.overflow = 'hidden'
             }
 
             if ((!arg || arg === 'flex') && value) {
