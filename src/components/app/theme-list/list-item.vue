@@ -6,9 +6,10 @@
         <LazyImg
             :src="item.imgUrl"
             :class="'cover' + (imgClass? imgClass : '')"
-            :style="{ height: imgHeight }"
+            :style="{ width: width, height: imgHeight }"
             fitCover
             :threshold="0.1"
+            ref="img"
         />
         <p class="title">{{item.title}}</p>
         <p class="description">{{item.description}}</p>
@@ -40,16 +41,18 @@ export default {
     props: {
         item: Object,
         type: String,
-        imgClass: String
+        imgClass: String,
+        width: {
+            type: String,
+            default: '100px'
+        }
     },
     mounted() {
         if (this.item && !this.item.external) {
             let ratio = window.innerWidth / window.innerHeight
-            let width = this.$el.offsetWidth
-            let height = width / 9 * 16
-            if (ratio < 9 / 16) {
-                height = width / 9 * 18
-            }
+            let width = this.$refs.img.$el.offsetWidth
+            console.log(width)
+            let height = width / ratio
             this.imgHeight = height + 'px'
         }
     },
