@@ -13,15 +13,25 @@
 
             <span
                 v-if="showLeftButton"
-                :class="['action-button left-button', leftButtonClass]"
+                :class="['action-button icn left-button', leftButtonClass]"
                 @click="onClickLeftButton"
             ></span>
 
-            <p v-if="title" class="title bold">{{title}}</p>
+            <p
+                v-if="title"
+                :class="{
+                    title: true,
+                    bold: true,
+                    'pad-left': showRightButton,
+                    'pad-right': showBackButton || showLeftButton
+                }"
+            >
+                {{title}}
+            </p>
 
             <span
                 v-if="showRightButton"
-                :class="['action-button right-button', rightButtonClass]"
+                :class="['action-button icn right-button', rightButtonClass]"
                 @click="onClickRightButton"
             ></span>
 
@@ -52,6 +62,7 @@ export default {
     components: { SearchEditText },
     inheritAttrs: false,
     initPosition: 0,
+
     props: {
         title: String,
         showSearchBox: Boolean,
@@ -64,6 +75,11 @@ export default {
         rightButtonClass: String,
         leftButtonClass: String
     },
+
+    mounted() {
+
+    },
+
     computed: {
         showSeparateSearch() {
             return this.$props.showSearchBox && !isEmpty(this.$props.title)
@@ -72,19 +88,24 @@ export default {
             return this.$props.showSearchBox && isEmpty(this.$props.title)
         }
     },
+
     methods: {
         onClickBackButton(e) {
             this.$emit('clickBackButton')
         },
+
         onClickLeftButton(e) {
             this._onClickCustomizedButton(e)
         },
+
         onClickRightButton(e) {
             this._onClickCustomizedButton(e, false)
         },
+
         _onClickCustomizedButton(e, isLeft = true) {
             this.$emit(isLeft ? 'clickLeftButton' : 'clickRightButton')
         },
+
         async popupActionMenu(e) {
             let { actionMenuItems: menuItems } = this.$props
             if (isNone(menuItems) || menuItems.length === 0) return
