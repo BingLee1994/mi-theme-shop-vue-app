@@ -2,16 +2,8 @@ const state = {
     currentNavIndex: 0,
     navItems: [
         {
-            text: '推荐',
-            name: 'recommend'
-        },
-        {
-            text: '主题',
+            text: '主题壁纸',
             name: 'theme'
-        },
-        {
-            text: '壁纸',
-            name: 'wallpaper'
         },
         {
             text: '字体',
@@ -49,12 +41,6 @@ export default {
             let { navItems } = context.state
             let idx = navItems.findIndex(n => n.name === name)
             context.commit('setIndex', idx)
-        },
-        hideNavItem(context, idx) {
-            return context.commit('setHidden', { idx, flag: true })
-        },
-        showNavItem(context, idx) {
-            return context.commit('setHidden', { idx, flag: false })
         }
     },
 
@@ -64,13 +50,6 @@ export default {
             if (isNaN(idx)) return
             if (state.navItems[idx] && state.currentNavIndex !== idx) {
                 state.currentNavIndex = idx
-            }
-        },
-        setHidden(state, { idx, flag }) {
-            let { navItems } = state
-            if (navItems[idx].hidden !== flag) {
-                navItems[idx].hidden = flag
-                state.navItems = [...navItems]
             }
         }
     }

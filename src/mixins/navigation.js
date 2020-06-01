@@ -2,9 +2,9 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['currentNavIndex', 'currentNav', 'currentNavName', 'navItems'])
+    ...mapGetters(['currentNavIndex', 'currentNavName', 'currentNav', 'navItems'])
   },
   methods: {
-    ...mapActions(['selectNavByIndex', 'hideNavItem', 'showNavItem', 'selectNavByName'])
+    ...mapActions(['selectNavByIndex', 'selectNavByName'])
   }
 }
