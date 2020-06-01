@@ -1,5 +1,15 @@
 <template>
-    <div>
+    <div class="gallery-screen">
+        <div class="header" v-flex.centerY>
+            <NavBar
+              :navItems="navItems"
+              :selectedNav="currentNavIndex"
+              @clickNavItem="selectNavByIndex"
+              class="nav-list-wrapper"
+            >
+            </NavBar>
+            <button v-flex-item.0 class="search-button icn icn-search" @click="gotoSearch"></button>
+        </div>
         <keep-alive>
           <SwiperActivity
             ref="swiper"
@@ -22,23 +32,22 @@
 <script>
 import SwiperActivity from '@/components/app/swiper-activity/activity'
 import Item from '@/components/app/swiper-activity/item'
-import RecommendView from '@views/home/gallery/recommend'
-import ThemeView from '@views/home/gallery/theme'
-import WallpaperView from '@views/home/gallery/wallpaper'
-import NavigationMixin from '@/mixins/navigation'
+import ThemeWallpaperView from '@views/home/gallery/theme-wallpaper'
+import FontView from '@views/home/gallery/font'
+import RingtoneView from '@views/home/gallery/ringtone'
+import NavBar from '@/components/app/nav-bar'
+import navigationBar from '@/mixins/navigation'
 
 const navComponentMap = {
-  theme: 'ThemeView',
-  recommend: 'RecommendView',
-  wallpaper: 'WallpaperView',
-  font: null,
-  ringtone: null
+  theme: 'ThemeWallpaperView',
+  font: 'FontView',
+  ringtone: 'RingtoneView'
 }
 
 export default {
     name: 'Gallery',
-    components: { Item, SwiperActivity, RecommendView, ThemeView, WallpaperView },
-    mixins: [NavigationMixin],
+    mixins: [navigationBar],
+    components: { NavBar, Item, SwiperActivity, ThemeWallpaperView, FontView, RingtoneView },
 
     data() {
       return {
@@ -63,6 +72,14 @@ export default {
     methods: {
       onSwiperIndexChange(_, navIndex) {
         this.selectNavByIndex(navIndex)
+      },
+
+      /* selectNavByIndex(idx) {
+        this.selectNavByIndex = idx
+      }, */
+
+      gotoSearch() {
+        this.$router.push({ name: 'search', query: { type: this.currentNavName } })
       }
     },
 
@@ -74,6 +91,11 @@ export default {
 </script>
 
 <style lang="scss">
+  .gallery-screen {
+    .header {
+      padding: 0 10px;
+    }
+  }
   .home-selected {
     color: pink;
   }

@@ -13,6 +13,7 @@ export default {
         console.log('gallery recommend')
     },
     data() {
+        return {}
     },
     methods: {
     }
