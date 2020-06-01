@@ -5,6 +5,7 @@
 
     svg {
         width: 18px;
+        display: block;
     }
 }
 </style>
@@ -36,7 +37,7 @@ export default {
             if (this.route) {
                 this.$router.push(this.route)
             } else {
-                this.$router.go(-1)
+                this.$router.back()
             }
         }
     }
