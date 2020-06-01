@@ -1,25 +1,14 @@
 <template>
-    <div class="home-screen">
-        <div class="header">
-          <NavBar
-            :navItems="navItems"
-            :selectedNav="currentNavIndex"
-            @clickNavItem="selectNavByIndex"
-            class="nav-list-wrapper"
-          >
-          </NavBar>
-          <button class="search-button" @click="gotoSearch">搜索</button>
-        </div>
-
+    <div class="home-screen" v-flex:direction="'column'">
         <keep-alive>
-          <router-view class="body"></router-view>
+          <router-view class="body" v-flex-item.1></router-view>
         </keep-alive>
-
         <TabBar
           :tabs="tabs"
           @clickTab="selectTab"
           :selectedTab="currentTab"
           class="footer"
+          v-flex-item.0
         ></TabBar>
     </div>
 </template>
@@ -27,13 +16,10 @@
 <script>
 import TabBar from '@/components/app/tab-bar'
 import { tabsData } from './nav-and-tabs'
-import NavBar from '@/components/app/nav-bar'
-import NavigationMixin from '@/mixins/navigation'
 
 export default {
     name: 'Home',
-    components: { TabBar, NavBar },
-    mixins: [NavigationMixin],
+    components: { TabBar },
 
     watch: {
       $route() {
@@ -81,12 +67,12 @@ export default {
       },
 
       _checkHideNav(routeName) {
-        let recommendNav = 0
+        /* let recommendNav = 0
         if (routeName === 'gallery') {
           this.showNavItem(recommendNav)
         } else {
           this.hideNavItem(recommendNav)
-        }
+        } */
       },
 
       selectTab(index = 0) {
@@ -95,10 +81,6 @@ export default {
             this.$router.push(route)
             this._checkHideNav(route.name)
           }
-      },
-
-      gotoSearch() {
-        this.$router.push({ name: 'search', query: { type: this.currentNavName } })
       }
     }
 }
@@ -125,9 +107,6 @@ export default {
       padding: 0 $margin;
       overflow-y: auto;
       box-sizing: border-box;
-    }
-    .footer {
-      flex: 0
     }
   }
   .gallery-selected {
