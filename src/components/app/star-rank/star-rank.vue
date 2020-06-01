@@ -73,24 +73,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    .tab-bar {
+    .start-rank-wrapper {
         display: flex;
-        justify-content: space-evenly;
-        box-shadow: 0px -2px 4px var(--black10);
-        padding: 1rem;
-
-        .tab-item {
-            text-align: center;
-            font-size: 1.3rem;
-
-            .icon {
-                display: block;
-                width: 3rem;
-                height: 3rem;
-                border: 1px solid green;
-                margin: 0 auto;
-                margin-bottom: 2px;
-            }
-        }
+        align-items: center;
     }
 </style>
