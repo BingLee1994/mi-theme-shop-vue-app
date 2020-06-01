@@ -2,7 +2,7 @@
 let miuiRoot = null
 const BLACK = '0, 0, 0'
 const WHITE = '255, 255, 255'
-const opacity = ['05', 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+const opacity = ['01', '02', '03', '04', '05', 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 
 export default {
     name: 'MIUI-DarkMode',
