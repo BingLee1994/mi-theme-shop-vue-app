@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import preference from './preference'
-import navigation from './navigation'
+import navigation from './navigation-bar'
 import search from './search'
 import authenticator from './authenticator'
 

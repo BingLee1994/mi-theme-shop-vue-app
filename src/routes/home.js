@@ -12,7 +12,8 @@ export default [
   {
     path: 'category',
     component: Category,
-    name: 'category'
+    name: 'category',
+    showTab: false
   },
   {
     path: 'gallery/:type',

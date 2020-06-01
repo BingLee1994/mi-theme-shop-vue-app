@@ -5,7 +5,8 @@ import IntroHomeScreen from '@views/intro/index'
 import NFD from '@views/404'
 import introRoutes from './intro'
 import homeRoutes from './home'
-import ViewItemScreen from '@views/view-item'
+import ViewCategory from '@/views/view-category'
+import ViewThemeItemScreen from '@views/view-theme-item'
 import CommentsScreen from '@views/comments/comments'
 import WriteCommentsScreen from '@views/comments/write-comment'
 import LoginScreen from '@views/login'
@@ -47,37 +48,54 @@ export default [
     {
         path: '/search',
         name: 'search',
-        component: SearchScreen
+        component: SearchScreen,
+        beforeEnter(to, from, next) {
+            console.log(to)
+            let fromName = from.name
+            to.meta.keepAlive = (fromName === 'viewComment' ||
+            fromName === 'login' || fromName === 'viewItemEntry' || fromName === 'viewItem')
+            next()
+        },
+        meta: {
+            expectedEntry: ['home']
+        }
     },
 
     {
         path: '/view/:id',
         name: 'viewItemEntry',
-        component: ViewItemScreen,
+        component: ViewThemeItemScreen,
         redirect: to => {
             let { id } = to.params
             return { name: 'viewItem', params: { id, type: 'theme' } }
         },
         meta: {
             authenticate: true,
-            authenticateReason: '登录以浏览或者购买商品'
+            authenticateReason: '登录以浏览或者购买商品',
+            keepAlive: true,
+            expectedEntry: ['search']
         }
     },
 
     {
         path: '/view/:type/:id',
         name: 'viewItem',
-        component: ViewItemScreen,
+        component: ViewThemeItemScreen,
         meta: {
             authenticate: true,
-            authenticateReason: '登录以浏览或者购买商品'
+            authenticateReason: '登录以浏览或者购买商品',
+            keepAlive: true,
+            expectedEntry: ['search']
         }
     },
 
     {
         path: '/comments/:itemId/:themeName',
-        name: 'commentScreen',
-        component: CommentsScreen
+        name: 'viewComment',
+        component: CommentsScreen,
+        meta: {
+            expectedEntry: ['viewItem', 'viewItemEntry']
+        }
     },
 
     {
@@ -89,8 +107,15 @@ export default [
             animated: true,
             animationDirection: 'top',
             authenticate: true,
-            authenticateReason: '登录以发表评论'
+            authenticateReason: '登录以发表评论',
+            expectedEntry: ['viewComment']
         }
+    },
+
+    {
+        path: '/view-category/:filter/:keyWord',
+        name: 'viewCategory',
+        component: ViewCategory
     },
 
     {
