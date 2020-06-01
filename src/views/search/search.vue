@@ -1,11 +1,13 @@
 <template>
     <div class="search-view">
-        <section class="search-bar action-bar header"
+        <section
+            v-flex.centerY
+            class="search-bar action-bar header"
         >
             <button class="icon" @click="goBack">返回</button>
             <input
                 :value="keyWord"
-                placeholder="请输入"
+                placeholder="请输入关键字"
                 @input="handlekeyWord"
                 @focus="onFocus"
                 :class="{
@@ -45,8 +47,9 @@
                     :key="keyword"
                     @click="doSearch(keyword, $event)"
                     class="list-item"
+                    v-flex.centerX
                 >
-                    <span class="text">{{keyword}}</span>
+                    <span class="text" v-flex-item.1>{{keyword}}</span>
                     <span @click.stop="removeHistory(keyword)">删除</span>
                 </li>
                 <li
@@ -71,16 +74,28 @@
                 </div>
             </section>
 
-            <section class="style-list">
-                <a v-for="item in styles" :key="item.id"
-                    class="img-button cover"
+            <section class="style-list" v-flex.wrap>
+                <ImageButton
+                    v-for="item in styles"
+                    :key="item.id"
                     @click="onClickStyle(item)"
-                    v-lazy:background="item.imgUrl"
-                >
-                </a>
+                    :src="item.imgUrl"
+                />
             </section>
 
-            <CategoryList @click="onClickCategory" />
+            <section
+                class="category-list"
+                v-flex:overflow.wrap="'hidden'"
+            >
+                <ImageButton
+                    v-for="item in categoryList"
+                    :key="item.id"
+                    @click="onClick(item)"
+                    v-lazy:background="item.imgUrl"
+                >
+                    {{item.text}}
+                </ImageButton>
+            </section>
 
         </div>
         <div v-if="isShowResult" class="container">
@@ -93,20 +108,22 @@
 <script>
 import ColorfulButon from '@/components/app/colorful-button'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import CategoryList from '@/components/app/search/category-list'
 import ThemeList from '@/components/app/theme-list/list'
+import ImageButton from '@/components/app/image-button'
 import DarkModeMixin from '@/mixins/dark-mode'
 import api from '@/api'
 
 export default {
     name: 'Search',
-    components: { ColorfulButon, CategoryList, ThemeList },
+    components: { ColorfulButon, ImageButton, ThemeList },
     mixins: [DarkModeMixin],
+
     created() {
         let searchType = this.$route.query.type || 'theme'
         this.searchType = searchType
         this.setCategory(searchType)
     },
+
     data() {
         return {
             keyWord: '',
@@ -114,16 +131,24 @@ export default {
             isShowResult: false,
             isShowHistory: false,
             searchSuggestion: [],
-            searchResult: []
+            searchResult: [],
+            categoryList: [
+                { text: '主题', name: 'theme' },
+                { text: '壁纸', name: 'wallpaper' },
+                { text: '字体', name: 'font' },
+                { text: '铃声', name: 'ringtone' }
+            ]
         }
     },
+
     computed: {
         ...mapGetters(['history', 'recommendations', 'adviertisements', 'styles'])
     },
+
     mounted() {
         this.fetchSearchScreenData()
-        console.log('mounted')
     },
+
     methods: {
         ...mapMutations(['addHistory', 'setCategory', 'clearHistory', 'removeHistory']),
         ...mapActions(['fetchSearchScreenData']),
@@ -170,11 +195,7 @@ export default {
         },
 
         goBack() {
-            if (window.history.length === 1) {
-                this.$router.push({ name: 'home' })
-            } else {
-                this.$router.go(-1)
-            }
+            this.$router.push({ name: 'home' })
         }
     },
     beforeRouteEnter: (to, from, next) => {
@@ -187,17 +208,9 @@ export default {
 <style lang="scss">
 .search-view {
     overflow: hidden;
-    .cover {
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-
-    }
 
     .header.search-bar {
         min-height: 6rem;
-        display: flex;
-        align-items: center;
         $itemHeight: 4rem;
 
         .icon {
@@ -260,13 +273,6 @@ export default {
         }
 
         .history-list {
-            .list-item {
-                display: flex;
-                justify-content: center;
-            }
-            .text {
-                flex: 1;
-            }
             .clear-all-button {
                 text-align: center;
                 color: var(--black50);
@@ -300,17 +306,6 @@ export default {
                     border-radius: 10px;
                     box-shadow: 0 0 0 1px var(--black05);
                 }
-            }
-        }
-        .style-list {
-            display: flex;
-            flex-wrap: wrap;
-            .img-button {
-                width: calc(50% - 10px);
-                margin: 5px;
-                height: 60px;
-                border-radius: 6px;
-                box-shadow: 0 0 0 1px var(--black05);
             }
         }
     }
