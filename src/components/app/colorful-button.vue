@@ -56,7 +56,7 @@ export default {
         text-align: center;
         padding: 0 1rem;
         border-radius: 0.5rem;
-        box-shadow: 0 0 0 1px inset var(--accent-color);
+        box-shadow: 0 0 0 1px var(--accent-color);
         box-sizing: border-box;
         color: rgba(0,0,0,.7);
         font-size: 1.3rem;
