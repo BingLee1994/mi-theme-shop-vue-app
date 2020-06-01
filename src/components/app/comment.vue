@@ -1,6 +1,5 @@
 <template>
     <div class='comment-list-item' v-if="comment">
-        <div></div>
         <div v-flex-item.1>
             <p class="title">{{comment.userName}}</p>
             <p class="header-wrapper">
