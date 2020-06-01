@@ -1,11 +1,11 @@
 $actionBarHeigt: 4.5rem;
 $actionIconWidth: 2.5rem;
 $actionBarWrapperPaddingH: 15px;
-$actionBarWrapperPaddingV: 10px;
+$actionBarWrapperPaddingV: 8px;
 
 .miui-action-bar-wrapper {
     padding: $actionBarWrapperPaddingV 0;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid var(--black03);
 
     .miui-action-bar {
         min-height: $actionBarHeigt;
@@ -16,18 +16,29 @@ $actionBarWrapperPaddingV: 10px;
         .title {
             text-align: center;
             flex: 1;
-            margin-left: $actionIconWidth;
-            margin-right: 0;
+
+            &.pad-left {
+                margin-left: $actionIconWidth + 1rem;
+                margin-right: 0;
+            }
+
+            &.pad-right {
+                margin-left: 0;
+                margin-right: $actionIconWidth + 1rem;
+            }
         }
 
         .action-button {
             width: $actionIconWidth;
             height: $actionIconWidth;
-            border: 1px solid black;
         }
 
-        .left-button, .right-button {
-            margin: 0 1rem;
+        .left-button {
+            margin: 0 1rem 0 0;
+        }
+
+        .right-button {
+            margin: 0 0 0 1rem;
         }
     }
 
