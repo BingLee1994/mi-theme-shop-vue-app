@@ -19,6 +19,31 @@
     }
 }
 
+.app {
+    font-size: 1.4rem;
+    --miOrange: #FBBB51;
+    color: var(--black80);
+}
+
+.cover {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.icn {
+    padding: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.icn-search {
+    background-image:url("data:image/svg+xml;base64,PHN2ZyBpZD0i5Zu+5bGCXzEiIGRhdGEtbmFtZT0i5Zu+5bGCIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDE4LjIzIDE3Ij48cGF0aCBkPSJNMTkuNTQsMTcuMTNsLTUuNzgtNS43OGE2LjgzLDYuODMsMCwxLDAtLjc2LDFMMTguNjcsMThaTTguMDYsMTMuMjdhNS41Miw1LjUyLDAsMSwxLDUuNTItNS41MkE1LjUzLDUuNTMsMCwwLDEsOC4wNiwxMy4yN1oiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xLjMxIC0xKSIvPjwvc3ZnPg==");
+}
+
 .hint {
     padding: 10px;
     background-color: var(--black05);
@@ -38,20 +63,6 @@
         margin-right: 5px;
         fill: var(--balck80);
     }
-}
-
-.big-title {
-    text-align: left;
-    font-size: 2.3rem;
-    font-weight: 300;
-    margin: 10px 0;
-}
-
-.screen {
-    .action-header {
-        padding: 10px 15px;
-    }
-    background-color: var(--white);
 }
 
 @mixin fillscreen {

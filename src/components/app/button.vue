@@ -1,17 +1,16 @@
 <style lang="scss">
-.button {
-    $oringe: #FBBB51;
-    border: 1px solid $oringe;
+button.button {
+    border: 1px solid var(--miOrange);
     padding: 8px 15px;
     border-radius: 15px;
     justify-self: center;
     align-self: center;
     font-size: 1.3rem;
     line-height: 1;
-    background-color: $oringe;
-    color: white;
+    background-color: var(--miOrange);
+    color: var(--white) !important;
     &.plain {
-        color: $oringe;
+        color: var(--miOrange) !important;
         background-color: transparent;
     }
 
