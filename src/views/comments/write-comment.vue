@@ -1,8 +1,9 @@
 <template>
-    <div
-        class="screen write-comments-screen"
-        v-flex.column
-        v-full-screen.hiddenX
+    <Screen
+        class="write-comments-screen"
+        :title="name"
+        footerClassName="bottom-wrapper"
+        mainClassName="comment-form"
     >
         <div
             v-flex-item:shrink="0"
@@ -15,18 +16,15 @@
             </p>
         </div>
 
-        <section
-            v-flex-item:overflow.1.scrollY
-            class="comment-form"
-        >
+        <template slot="main">
             <div class="rank-wrapper">
                 <span>选择喜爱程度：</span>
                 <StarRank :length="5" v-model="rankPoint"/>
             </div>
             <textarea placeholder="我们期待你的精彩评论！" class="comment-box" v-model="comment"/>
-        </section>
+        </template>
 
-        <section class="footer bottom-wrapper" v-flex-item:shrink="0">
+        <template slot="footer">
             <p class="hint">您的评论经过审核后才能展示！</p>
             <Button
                 class="edit-button"
@@ -35,8 +33,8 @@
             >
                 发表评论
             </Button>
-        </section>
-    </div>
+        </template>
+    </Screen>
 </template>
 
 <script>
@@ -44,9 +42,10 @@ import api from '@/api'
 import StarRank from '@/components/app/star-rank/star-rank'
 import Button from '@/components/app/button'
 import BackButton from '@/components/app/back-button'
+import Screen from '@/components/app/base-activity'
 
 export default {
-    components: { StarRank, Button, BackButton },
+    components: { StarRank, Button, Screen, BackButton },
     data() {
         return {
             comment: '',
@@ -67,7 +66,7 @@ export default {
                 this.$toast.show('发表成功')
                 let lastRoute = this.$router.routeHistory.lastRoute
                 if (lastRoute) {
-                    this.$router.go(-1)
+                    this.$router.back()
                 } else {
                     this.$router.push({ name: 'home' })
                 }
@@ -96,7 +95,7 @@ export default {
     }
 }
 
-.footer {
+.bottom-wrapper {
     padding: 20px 0;
     text-align: center;
 
