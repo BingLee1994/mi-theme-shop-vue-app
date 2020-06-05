@@ -76,7 +76,7 @@ export default {
 
       .category-option {
         height: 100%;
-        width: 100px;
+        min-width: 80px;
         background: var(--black01);
         border-right: 1px solid var(--black03);
         position: absolute;
@@ -85,8 +85,9 @@ export default {
         bottom: 0;
 
         li {
-          padding: 15px;
+          padding: 15px 18px;
           box-sizing: border-box;
+          font-size: 1.3rem;
 
           &.selected {
             color: var(--miOrange);
