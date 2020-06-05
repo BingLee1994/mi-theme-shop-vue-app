@@ -109,7 +109,7 @@ export default {
         let elContentBody = this.$refs.content
         let elBigTitle = this.$refs.bigTitle
         let option = {
-            threshold: [0, 1],
+            threshold: [0, 0.8],
             root: elContentBody
         }
         this.scrollObserver = new IntersectionObserver(this.onBigTitleVisibilityChange, option)
