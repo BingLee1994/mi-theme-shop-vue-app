@@ -1,5 +1,5 @@
 <template>
-    <div class="gallery-screen">
+    <div class="gallery-screen" v-flex:direction="'column'">
         <div class="header" v-flex.centerY>
             <NavBar
               :navItems="navItems"
@@ -15,6 +15,7 @@
             ref="swiper"
             @indexChange="onSwiperIndexChange"
             :selected="currentNavIndex"
+            v-flex-item.1
           >
               <Item
                 v-for="item in swiperItems"
