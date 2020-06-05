@@ -44,8 +44,9 @@ export default {
         imgClass: String,
         width: {
             type: String,
-            default: '100px'
-        }
+            default: '100%'
+        },
+        height: String
     },
     mounted() {
         if (this.item && !this.item.external) {
