@@ -5,7 +5,7 @@
         :class="['image-button cover', hasChildren? 'medium': '']"
     >
         <span
-            :class="['title', darkMode? 'dark-mode': '']"
+            :class="['title', darkMode? 'dark-mode': '', small? 'small-font': '']"
             :style="{ color: color }"
         >
             <slot></slot>
@@ -25,7 +25,8 @@ export default {
         color: {
             type: String,
             default: 'var(--white80)'
-        }
+        },
+        small: Boolean
     },
 
     computed: {
@@ -46,6 +47,7 @@ export default {
         border-radius: 6px;
         box-shadow: 0 0 0 1px var(--black05);
         box-sizing: border-box;
+        display: inline-block;
 
         &.medium {
             padding: 10px;
@@ -53,9 +55,14 @@ export default {
         }
 
         .title {
+            font-size: 1.4rem;
             &.dark-mode {
                 color: var(--black80);
             }
+        }
+
+        & .small-font {
+            font-size: 1.3rem;
         }
     }
 </style>
