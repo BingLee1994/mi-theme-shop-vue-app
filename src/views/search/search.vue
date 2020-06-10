@@ -91,7 +91,7 @@
                     v-for="item in categoryList"
                     :key="item.id"
                     @click="onClick(item)"
-                    v-lazy:background="item.imgUrl"
+                    :src="item.imgUrl"
                 >
                     {{item.text}}
                 </ImageButton>
