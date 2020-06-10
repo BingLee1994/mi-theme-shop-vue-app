@@ -7,7 +7,10 @@
         @clickRightButton="gotoSearch"
         >
       </ActionBar>
-      <main v-flex-item.1.hidden>
+      <main
+        v-flex-item.1
+        @touchmove="handleTouchMove"
+      >
         <div class="category-group-wrapper">
             <ul class="category-option">
               <li
@@ -63,6 +66,10 @@ export default {
     methods: {
       gotoSearch() {
         this.$router.push({ name: 'search', query: { type: this.currentNavName } })
+      },
+
+      handleTouchMove(e) {
+        console.log(e)
       }
     }
 }
@@ -70,13 +77,14 @@ export default {
 
 <style lang="scss">
   .category-screen {
+    $sideMenuWidth: 80px;
     .category-group-wrapper {
       height: 100%;
       position: relative;
 
       .category-option {
         height: 100%;
-        min-width: 80px;
+        width: $sideMenuWidth;
         background: var(--black01);
         border-right: 1px solid var(--black03);
         position: absolute;
@@ -85,9 +93,10 @@ export default {
         bottom: 0;
 
         li {
-          padding: 15px 18px;
+          padding: 15px 0px;
+          text-align: center;
           box-sizing: border-box;
-          font-size: 1.3rem;
+          font-size: 1.2rem;
 
           &.selected {
             color: var(--miOrange);
@@ -99,11 +108,13 @@ export default {
 
       .main {
         position: absolute;
-        left: 100px;
+        padding: 15px 0;
+        left: $sideMenuWidth;
         top: 0;
         bottom: 0;
         right: 0;
         overflow: hidden auto;
+        overflow-y:auto;
       }
     }
   }
