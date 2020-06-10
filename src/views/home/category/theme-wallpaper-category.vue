@@ -10,7 +10,7 @@
                         :key="item.name"
                         :item="item"
                         width="90px"
-                        style="margin-right: 10px"
+                        style="margin:0 10px"
                     />
                     <div class="more-button">
                         <a>更多</a>
@@ -26,7 +26,7 @@
                         :key="item.name"
                         :item="item"
                         width="90px"
-                        style="margin-right: 10px"
+                        style="margin:0 10px"
                     />
                     <div class="more-button">
                         <a>更多</a>
@@ -35,20 +35,66 @@
             </div>
         </section>
 
-        <section>
+        <section class="category-wrapper">
+            <p class="title">你想要什么风格？</p>
+            <ImageButton
+                v-for="item in styles"
+                :key="item.id"
+                @click="onClick(item)"
+                :src="item.imgUrl"
+                small
+            >
+                {{item.text}}
+            </ImageButton>
+        </section>
+
+        <section class="category-wrapper">
+            <p class="title">你想要什么功能？</p>
+            <ImageButton
+                v-for="item in features"
+                :key="item.id"
+                @click="onClick(item)"
+                :src="item.imgUrl"
+                small
+            >
+                {{item.text}}
+            </ImageButton>
         </section>
     </div>
 </template>
 
 <script>
 import ThemeListItem from '@/components/app/theme-list/list-item'
+import ImageButton from '@/components/app/image-button'
 
 export default {
     name: 'ThemeWallpaperCategory',
-    components: { ThemeListItem },
+    components: { ThemeListItem, ImageButton },
 
     data() {
         return {
+            styles: [
+                {
+                    text: '中国风'
+                },
+                {
+                    text: '小清新'
+                },
+                {
+                    text: '萌萌哒'
+                }
+            ],
+            features: [
+                {
+                    text: '炫酷锁屏'
+                },
+                {
+                    text: '百变壁纸'
+                },
+                {
+                    text: '彩虹电池'
+                }
+            ],
             topThemeList: [
                 {
                     title: '超炫IOS',
@@ -86,21 +132,29 @@ export default {
 </script>
 
 <style lang="scss">
+.title {
+    font-size: 1.6rem;
+    color: var(--black);
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
 .top-rank-list-wrapper {
     border-bottom: 1px solid var(--black03);
-    .title {
-        font-size: 1.7rem;
-        color: var(--black);
-        margin: 10px;
-    }
+    padding: 15px 10px;
+    padding-bottom: 0;
     .sub-title {
-        -webkit-writing-mode: vertical-lr;
         margin: 10px 15px;
-        line-height: 1;
-        letter-spacing: 5px;
+        font-size: 1.2rem;
+        width: 13px;
+        height: 100%;
+        word-break: break-word;
+        color: var(--black60);
     }
     .rank-list {
         overflow-x: auto;
+        align-items: center;
+        padding-bottom: 15px;
         .more-button {
             flex-basis: 50px;
             width: 50px;
@@ -108,5 +162,14 @@ export default {
             flex-shrink: 0;
         }
     }
-  }
+}
+
+.category-wrapper {
+    padding: 10px;
+
+    .title {
+        margin: 10px 0;
+        margin-top: 15px;
+    }
+}
 </style>
