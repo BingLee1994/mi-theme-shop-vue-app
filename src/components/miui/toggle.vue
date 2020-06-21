@@ -22,7 +22,7 @@
             v-if="label"
             :class="{
                 'label': true,
-                'label_checked': checked,
+                'label_checked': toggleChecked,
                 [labelClass]: true
             }"
         >
@@ -35,28 +35,28 @@
 export default {
     name: 'MIUI-Toggle',
     model: {
-        prop: 'value',
+        prop: 'checked',
         event: 'change'
     },
     props: {
         disabled: Boolean,
-        value: Boolean,
+        checked: Boolean,
         label: String,
         labelClass: String,
         title: String
     },
     data() {
         return {
-            checked: this.$props.value,
+            toggleChecked: this.$props.checked,
             isAnimationPlaying: false
         }
     },
     methods: {
         swtichToggle(e) {
             if (this.$props.disabled || this.isAnimationPlaying) return
-            let value = !this.checked
+            let value = !this.toggleChecked
             this.$emit('change', value)
-            this.checked = value
+            this.toggleChecked = value
         }
     }
 }
