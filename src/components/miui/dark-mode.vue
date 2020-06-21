@@ -38,6 +38,7 @@ export default {
                 miuiRoot = this.$refs.root
             }
         }
+
         if (this.isDarkMode) {
             this.reverseColor()
         }
@@ -61,6 +62,12 @@ export default {
                     `rgba(${[whiteColor, alpha].join(',')})`
                 )
             })
+
+            if (this.isDarkMode) {
+                miuiRoot.classList.add('dark-mode')
+            } else {
+                miuiRoot.classList.remove('dark-mode')
+            }
         }
     }
 }
