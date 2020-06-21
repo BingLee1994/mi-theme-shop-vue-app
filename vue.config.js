@@ -3,7 +3,10 @@ const resolve = p => path.join(__dirname, p)
 
 module.exports = {
     chainWebpack: config => {
-        config.resolve.alias
+        config
+            .devtool('cheap-eval-source-map')
+            .resolve
+            .alias
             .set('@', resolve('src'))
             .set('@miui', resolve('src/components/miui'))
             .set('@views', resolve('src/views'))
@@ -23,10 +26,11 @@ module.exports = {
     css: {
         loaderOptions: {
             sass: {
-                prependData: `
-               @import './src/style/miui/mixin.scss';
-               @import './src/style/miui/sys-variables.scss';
-             `
+                // 新版叫prependData
+                data: `
+                    @import "~@/style/miui/mixin.scss";
+                    @import "~@/style/miui/sys-variables.scss";
+                `
             }
         }
     }
