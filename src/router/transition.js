@@ -1,5 +1,4 @@
 export default function beforeEach(to, from, _, router) {
-    console.log('t')
     if (!to) {
         return
     }
