@@ -24,8 +24,14 @@ export default {
         userContext(state) {
             return state.userContext
         },
-        userName({ navItems, currentNavIndex }) {
-            return navItems[currentNavIndex].name
+        userName({ userContext }) {
+            return userContext.username
+        },
+        userDisplayName({ userContext }) {
+            return userContext.displayName
+        },
+        avatar({ userContext }) {
+            return userContext.avatar
         },
         authenticated(state) {
             return state.userContext !== null
