@@ -419,9 +419,7 @@ export default {
                 height: 100%;
                 transition: opacity .2s ease;
                 opacity: 0;
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
+                @include bg-center(cover);
             }
         }
         .indicator-wrapper {
