@@ -81,8 +81,6 @@ var app = http.createServer((req, res) => {
     } else if (url.includes('item/detail')) {
         let mock = require('./mock/items/theme/data.json')
         let { id } = URL.parse(req.url, true).query
-        //res.json(mock[category])
-        console.log(id)
         res.json(pickRandomItem(mock, 1)[0])
 
     } else if (url.includes('comments/list')) {
@@ -101,7 +99,7 @@ var app = http.createServer((req, res) => {
                 displayName: '悄悄一角落',
                 gender: '男',
                 region: '中国',
-                avatar: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589111305614&di=d693e7d52549a956ce0e12f9a594b2ec&imgtype=0&src=http%3A%2F%2Fp4.so.qhmsg.com%2Ft010db0264294c7a369.jpg'
+                avatar: 'https://cdn.cnbj1.fds.api.mi-img.com/user-avatar/p013remDGRdN/Pkry56UelCHnD4.jpg'
             },
             accessToken: '218736ts7d67f789832ud878328e76r832y',
             refreshToken: '87fdh376ds7tf32788dsfhi1298d7f'
@@ -139,6 +137,40 @@ var app = http.createServer((req, res) => {
                 JSON.stringify(commentsList, null, 2)
             )
             res.json({})
+        })
+    } else if (url.includes('profile')) {
+        res.json({
+            liked: 10,
+            favorite: 23,
+            orderCount: 16,
+            purchased: {
+                theme: 132,
+                ringtone: 2,
+                font: 12
+            }
+        });
+    } else if (url.includes('favorite')) {
+        if (req.method === 'OPTIONS') {
+            res.json({})
+            return
+        }
+        let reqBody = ''
+        req.on('data', function(chunk) {
+            reqBody += chunk
+        })
+        req.on('end', () => {
+            reqBody = JSON.parse(reqBody)
+            let type = reqBody.type
+            let mock = []
+            if (type === 'font') {
+                mock = require('./mock/items/font/items.json')
+            } else if (type === 'ringtone') {
+                mock = require('./mock/items/ringtone/items.json')
+            } else {
+                mock = require('./mock/search/result.json')
+            }
+            mock = pickRandomItem(mock, 15)
+            res.json(mock)
         })
     } else {
         res.writeHead(404, {
