@@ -8,11 +8,13 @@ import './style/app.scss'
 import Dialog from '@miui/dialog/install'
 import Toast from '@miui/toast/install'
 import installMyDirective from '@/directives'
+import { install as Api } from '@/api'
 
 const elApp = document.getElementById('app')
 
 Vue.use(Dialog)
 Vue.use(Toast)
+Vue.use(Api)
 Vue.config.productionTip = false
 
 installMyDirective(Vue)

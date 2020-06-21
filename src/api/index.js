@@ -4,7 +4,7 @@ import { GeneralException } from './error'
 import getBaseRequestContext from './requestContext'
 
 let Env = {
-    host: '192.168.3.8',
+    host: '192.168.31.115',
     port: '4201',
     serviceName: 'api'
 }
@@ -37,6 +37,8 @@ let service = {
     },
     post: {
         login: '/login',
+        userProfile: '/profile',
+        favorite: '/favorite',
         comments: {
             post: 'comments/post'
         }
@@ -71,8 +73,8 @@ function validateResponse(response) {
     return data
 }
 
-function handleMiuiExceotion(exception) {
-    console.log(exception)
+function handleMiuiException(exception) {
+    // TODO handle the biz error
     throw exception
 }
 
@@ -82,7 +84,7 @@ const api = axios.create({
 })
 
 api.interceptors.request.use(handleMiuiRequest)
-api.interceptors.response.use(validateResponse, handleMiuiExceotion)
+api.interceptors.response.use(validateResponse, handleMiuiException)
 
 const server = {
     getQuickActionRecommend(category) {
@@ -205,6 +207,10 @@ const server = {
         return api.post(service.post.login, { username: encryptedUsn, password: encrypedPwd })
     },
 
+    getUserProfile() {
+        return api.post(service.post.userProfile)
+    },
+
     getComments(id) {
         return api.get(service.get.comments.list, { params: { id } })
     },
@@ -229,6 +235,10 @@ const server = {
                 }
             }
         )
+    },
+
+    getFavorite(type) {
+        return api.post(service.post.favorite, { type })
     }
 }
 
@@ -238,5 +248,9 @@ function isGeneralException(err) {
 
 window.server = api
 
-export { api, service, baseURL, isGeneralException }
+function install(Vue) {
+    Vue.prototype.$api = server
+}
+
+export { api, service, baseURL, isGeneralException, install }
 export default server
