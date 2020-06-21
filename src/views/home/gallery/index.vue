@@ -6,6 +6,7 @@
               :selectedNav="currentNavIndex"
               @clickNavItem="selectNavByIndex"
               class="nav-list-wrapper"
+              v-flex-item.1
             >
             </NavBar>
             <button v-flex-item.0 class="search-button icn icn-search" @click="gotoSearch"></button>
@@ -91,19 +92,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-  .gallery-screen {
-    .header {
-      padding: 0 10px;
-    }
-  }
-  .home-selected {
-    color: pink;
-  }
-  .me-selected {
-    color: blue;
-  }
-  .category-selected {
-    color: green;
-  }
+<style scoped>
+.header {
+  padding: 0 10px;
+}
 </style>

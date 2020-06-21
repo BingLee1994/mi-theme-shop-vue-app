@@ -4,7 +4,7 @@
             v-flex.centerY
             class="search-bar action-bar header"
         >
-            <button class="icon" @click="goBack">返回</button>
+            <button class="icn icn-back" @click="goBack"></button>
             <input
                 :value="keyWord"
                 placeholder="请输入关键字"
@@ -15,7 +15,6 @@
                     'dark-mode': darkMode
                 }"
             />
-            <button class="icon">筛选</button>
         </section>
 
         <div v-if="!isShowResult" class="container">
@@ -37,7 +36,10 @@
                 >
                     <span>{{keyword}}</span>
                 </li>
-                <li class="search-button list-item" @click="doSearch(null)">搜索{{keyWord}}</li>
+                <li v-flex.centerY class="search-button list-item" @click="doSearch(null)">
+                    <span class="icn icn-search"></span>
+                    {{keyWord}}
+                </li>
             </ul>
 
             <ul class="history-list option-list-wrapper"
@@ -50,7 +52,7 @@
                     v-flex.centerX
                 >
                     <span class="text" v-flex-item.1>{{keyword}}</span>
-                    <span @click.stop="removeHistory(keyword)">删除</span>
+                    <span class="icn icn-delete" @click.stop="removeHistory(keyword)"></span>
                 </li>
                 <li
                     class="list-item clear-all-button bold"
@@ -99,8 +101,15 @@
 
         </div>
         <div v-if="isShowResult" class="container">
+            <SearchFilter @change="onFilterChange">筛选器</SearchFilter>
             <p class="hint">此版本为demo版，搜索结果为从后台随机获取的数据</p>
-            <ThemeList :items="searchResult" :column="3" @click="viewDetail"/>
+            <ThemeList
+                type="theme"
+                :items="searchResult"
+                :column="3"
+                @click="viewDetail"
+                :enableSwipeToLoadMore="false"
+            />
         </div>
     </div>
 </template>
@@ -108,14 +117,15 @@
 <script>
 import ColorfulButon from '@/components/app/colorful-button'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import ThemeList from '@/components/app/theme-list/list'
+import ThemeList from '@/components/app/list-view/theme-list/list'
 import ImageButton from '@/components/app/image-button'
 import DarkModeMixin from '@/mixins/dark-mode'
+import SearchFilter from './search-filter'
 import api from '@/api'
 
 export default {
     name: 'Search',
-    components: { ColorfulButon, ImageButton, ThemeList },
+    components: { ColorfulButon, SearchFilter, ImageButton, ThemeList },
     mixins: [DarkModeMixin],
 
     created() {
@@ -194,6 +204,10 @@ export default {
             }
         },
 
+        onFilterChange() {
+
+        },
+
         goBack() {
             this.$router.push({ name: 'home' })
         }
@@ -212,6 +226,7 @@ export default {
     .header.search-bar {
         min-height: 6rem;
         $itemHeight: 4rem;
+        padding: 0 15px;
 
         .icon {
             width: $itemHeight;
@@ -227,6 +242,7 @@ export default {
             border-radius: $itemHeight/2;
             background: var(--black05);
             flex: 1;
+            margin: 0 10px;
 
             &.dark-mode {
                 background: var(--black20);
@@ -252,6 +268,7 @@ export default {
 
         .search-button {
             padding: 0 10px;
+            vertical-align: middle;
         }
 
         .option-list-wrapper {
@@ -260,7 +277,8 @@ export default {
                 border-bottom: $superLightBorder;
                 padding: 15px 10px;
                 color:var(--black);
-                border-radius: 10px;
+                display: flex;
+                align-items: center;
                 &:active {
                     background: var(--black05);
                     opacity: .8;
@@ -277,6 +295,7 @@ export default {
                 text-align: center;
                 color: var(--black50);
                 padding: 15px 0;
+                display: block !important;
             }
         }
 

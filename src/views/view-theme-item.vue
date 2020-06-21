@@ -2,10 +2,6 @@
     <Screen class="view-detail-screen" @scroll="appendRecommendListIfNeed">
 
         <template slot="maskLayer">
-            <!-- <div v-if="showLoader">
-                <Retry message="出错了请再试一次。" @click="loadThemeItem" v-if="showRetry"/>
-                <Loading v-else />
-            </div> -->
             <Loading
                 retryButton="重新加载"
                 retryMessage="暂时无法处理您的请求，请稍后再试。"
@@ -62,10 +58,10 @@
                 </div>
 
                 <div v-flex class="action-wrapper" v-if="trendData">
-                    <LikeIcon>{{trendData.likes}}</LikeIcon>
-                    <CommentIcon>{{trendData.comments}}</CommentIcon>
-                    <FavIcon>{{favorite? '已收藏': '收藏'}}</FavIcon>
-                    <span class="share-button">分享</span>
+                    <Icon type="like">{{trendData.likes}}</Icon>
+                    <Icon type="comment">{{trendData.comments}}</Icon>
+                    <Icon type="favorite">{{favorite? '已收藏': '收藏'}}</Icon>
+                    <Icon type="share">分享</Icon>
                 </div>
             </section>
 
@@ -112,10 +108,8 @@
 <script>
 import LazyImg from '@/components/app/simple-lazy-load-img'
 import Button from '@/components/app/button'
-import FavIcon from '@/components/app/icon/fav'
-import LikeIcon from '@/components/app/icon/like'
-import CommentIcon from '@/components/app/icon/comment'
-import ThemeList from '@/components/app/theme-list/list'
+import Icon from '@/components/app/icons'
+import ThemeList from '@/components/app/list-view/theme-list/list'
 import Loading from '@/components/app/loading'
 import Screen from '@/components/app/base-activity'
 import api from '@/api'
@@ -126,7 +120,7 @@ import { debounce, dateMD } from '@/utils'
 const STATUE_PURCHASED = 1
 
 export default {
-    components: { LazyImg, Screen, FavIcon, Loading, ThemeList, LikeIcon, CommentIcon, ColorfulButton, Button, StarRank },
+    components: { LazyImg, Screen, Loading, ThemeList, Icon, ColorfulButton, Button, StarRank },
     data() {
         return {
             showImagePreview: false,
@@ -171,18 +165,20 @@ export default {
         }
     },
 
-    mounted() {
-        let lastRoute = this.$router.routeHistory.lastRoute || {}
-        console.log(this.$router.routeHistory)
-        console.log(this.$router.routeHistory.lastRoute)
-        if (lastRoute.name !== 'viewComment') {
-            console.log('重新加载')
-            this.loadThemeItem()
-        }
-    },
-
     created() {
         this.appendRecommendListIfNeed = debounce(this.appendRecommendListIfNeed, 300).bind(this)
+    },
+
+    beforeRouterUpdate() {
+        console.log(this.$route.matched)
+    },
+
+    activated() {
+        console.log(this.$route.matched)
+        let lastRoute = this.$router.routeHistory.lastRoute || {}
+        if (lastRoute.name !== 'viewComment') {
+            this.loadThemeItem()
+        }
     },
 
     methods: {
@@ -599,10 +595,7 @@ export default {
                 width: $avatarSize;
                 height: $avatarSize;
                 border-radius: $avatarSize / 2;
-                background-size: #{$avatarSize} #{$avatarSize};
-                background-repeat: no-repeat;
-                background-position: center;
-                display: inline-block;
+                @include bg-center(#{$avatarSize} #{$avatarSize});
                 box-shadow: 0px 0px 3px var(--black10);
             }
         }

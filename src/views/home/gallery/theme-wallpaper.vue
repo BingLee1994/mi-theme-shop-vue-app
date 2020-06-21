@@ -11,7 +11,7 @@
         <QuickActions
             :items="quickActionItems"
         />
-        <ThemeList imgFitY :items="themeListItems"/>
+        <ThemeList :items="themeListItems"/>
     </div>
 </template>
 
@@ -19,7 +19,7 @@
 import Swiper from '@/components/app/swiper'
 import QuickActions from '@/components/app/home/quick-actions'
 import quickActionRecomend from '@/mixins/quick-action'
-import ThemeList from '@/components/app/theme-list/list'
+import ThemeList from '@/components/app/list-view/theme-list/list'
 
 export default {
     name: 'RecommendGallery',

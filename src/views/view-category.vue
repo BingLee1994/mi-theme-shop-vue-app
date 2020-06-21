@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import ThemeList from '@/components/app/theme-list/list'
+import ThemeList from '@/components/app/list-view/theme-list/list'
 import Screen from '@/components/app/base-activity'
 import api from '@/api'
 
