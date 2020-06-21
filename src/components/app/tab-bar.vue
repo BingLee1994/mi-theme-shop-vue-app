@@ -54,20 +54,25 @@ export default {
     .tab-bar {
         display: flex;
         justify-content: space-evenly;
-        box-shadow: 0px -2px 4px var(--black10);
+        align-items: center;
+        box-shadow: 0px -1px 6px var(--black05);
         padding: 1rem;
 
         .tab-item {
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1rem;
 
             .icon {
                 display: block;
-                width: 3rem;
-                height: 3rem;
-                border: 1px solid green;
+                width: 2.5rem;
+                height: 2.5rem;
                 margin: 0 auto;
                 margin-bottom: 2px;
+                @include bg-center(1.8rem 1.8rem);
+            }
+
+            .label {
+                line-height: 1;
             }
         }
     }
