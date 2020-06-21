@@ -4,7 +4,8 @@
 
 <template>
     <div>
-        <div class="screen"
+        <div
+            :class="['screen', $attrs.class]"
             v-flex.column
             v-full-screen.hidden
         >
@@ -124,6 +125,15 @@ export default {
         _adjustTitle() {
             let backButton = this.$refs.backButton
             this.$refs.title.style.paddingRight = backButton.$el.offsetWidth + 'px'
+
+            let elMain = this.$refs.content
+            let { paddingLeft, paddingRight } = getComputedStyle(elMain)
+            if (!paddingLeft || paddingLeft === '0px') {
+                this.$refs.bigTitle.style.paddingLeft = '15px'
+            }
+            if (!paddingRight || paddingRight === '0px') {
+                this.$refs.bigTitle.style.paddingRight = '15px'
+            }
         },
 
         onMainContentScroll(e) {
@@ -155,46 +165,46 @@ export default {
     color: var(--black80);
     background-color: var(--white);
 
-    .header {
+    & > .header {
         padding: 10px #{$paddingH};
+
+        & > .action-bar {
+            line-height: 1;
+
+            .title {
+                color: var(--black);
+                opacity: 0;
+                transition: all .15s ease;
+                text-align: center;
+                margin: 0 10px;
+                transform: translateY(20%);
+
+                &.show {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        }
 
         &.active {
             // box-shadow: 0px 0px 0px 1px var(--black05);
         }
     }
 
-    .action-bar {
-        line-height: 1;
-
-        .title {
-            color: var(--black);
-            opacity: 0;
-            transition: all .15s ease;
-            text-align: center;
-            margin: 0 10px;
-            transform: translateY(20%);
-
-            &.show {
-                opacity: 1;
-            transform: translateY(0);
-            }
-        }
-    }
-
-    .big-title {
+    & .big-title {
         text-align: left;
         font-size: 2.5rem;
         font-weight: 300;
-        margin: 10px 0;
+        margin: 15px 0;
         margin-top: 0;
         transform-origin: top left;
     }
 
-    .content {
+    & > main.content {
         padding: 0 #{$paddingH};
     }
 
-    .footer {
+    & > .footer {
         padding: $paddingH;
     }
 }
