@@ -2,6 +2,19 @@ function random(len) {
     return Math.floor(Math.random() * len + 1)
 }
 
+function parseTranslate(transform) {
+    if (!transform || transform === 'none') {
+        return {
+            x: 0, y: 0
+        }
+    }
+    let matrix = transform.split(',')
+    return {
+        x: parseFloat(matrix[4]),
+        y: parseFloat(matrix[5])
+    }
+}
+
 function pickRandomItem(arr, len, cb) {
     let result = []
     arr = arr.concat()
@@ -21,7 +34,7 @@ function pickRandomItem(arr, len, cb) {
     return result
 }
 
-export { random, pickRandomItem }
+export { random, pickRandomItem, parseTranslate }
 
 export function debounce(cb, timeout) {
     let timerid = null
