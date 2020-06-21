@@ -9,21 +9,19 @@
             </p>
             <p class="comment">{{comment.comment}}</p>
         </div>
-        <div @click="likeIt">
-            <LikeIcon>{{likesCount}}</LikeIcon>
-        </div>
+        <Icon type="like" @click="likeIt">{{likesCount}}</Icon>
     </div>
 </template>
 
 <script>
 import StarRank from '@/components/app/star-rank/star-rank'
-import LikeIcon from '@/components/app/icon/like'
+import Icon from '@/components/app/icons'
 import api from '@/api'
 import { dateMD } from '@/utils'
 
 export default {
     name: 'Comment',
-    components: { StarRank, LikeIcon },
+    components: { StarRank, Icon },
     props: {
         comment: {
             type: Object,
@@ -59,7 +57,7 @@ export default {
     padding: 17px 0;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid var(--black05);
+    border-bottom: 1px solid var(--black10);
 
     .title {
         color: var(--black);

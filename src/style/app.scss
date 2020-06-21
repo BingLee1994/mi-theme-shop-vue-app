@@ -31,19 +31,6 @@
     background-size: cover;
 }
 
-.icn {
-    padding: 0;
-    width: 2.5rem;
-    height: 2.5rem;
-    background-size: 70%;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.icn-search {
-    background-image:url("data:image/svg+xml;base64,PHN2ZyBpZD0i5Zu+5bGCXzEiIGRhdGEtbmFtZT0i5Zu+5bGCIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDE4LjIzIDE3Ij48cGF0aCBkPSJNMTkuNTQsMTcuMTNsLTUuNzgtNS43OGE2LjgzLDYuODMsMCwxLDAtLjc2LDFMMTguNjcsMThaTTguMDYsMTMuMjdhNS41Miw1LjUyLDAsMSwxLDUuNTItNS41MkE1LjUzLDUuNTMsMCwwLDEsOC4wNiwxMy4yN1oiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xLjMxIC0xKSIvPjwvc3ZnPg==");
-}
-
 .hint {
     padding: 10px;
     background-color: var(--black05);
@@ -54,27 +41,23 @@
     margin: 10px;
 }
 
-.icon {
-    display: inline-flex;
-    align-items: center;
-    line-height: 1;
-    svg {
-        height: 14px;
-        margin-right: 5px;
-        fill: var(--balck80);
+.has-next {
+    position: relative;
+    --border: 1px solid var(--black30);
+    padding-right: 15px !important;
+    &::after {
+        content: '';
+        border-top: var(--border);
+        border-right: var(--border);
+        transform: rotate(45deg) translateX(calc(-50% - 1px));
+        transform-origin: center;
+        display: block;
+        width: 7px;
+        height: 7px;
+        position: absolute;
+        right: 2px;
+        top: 50%;
     }
-}
-
-@mixin fillscreen {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    background-color: var(--white);
-    border-left: 1px solid var(--black10);
-    border-right: 1px solid var(--black10);
 }
 
 @mixin screen-transition($direction) {
@@ -91,6 +74,8 @@
             z-index: 100;
             will-change: transform;
             @include fillscreen;
+            border-left: 1px solid var(--black10);
+            border-right: 1px solid var(--black10);
         }
         &-to {
             @if $direction == top {
@@ -119,6 +104,8 @@
             }
             will-change: transform;
             @include fillscreen;
+            border-left: 1px solid var(--black10);
+            border-right: 1px solid var(--black10);
         }
         &-to {
             @if $direction == top {

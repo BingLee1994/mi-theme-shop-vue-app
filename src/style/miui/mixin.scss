@@ -1,3 +1,29 @@
+$screenHeightIphone5se: 568px;
+
 @mixin shadowBorder($color, $width) {
     box-shadow: 0 0 0 #{$width} inset #{$color};
+}
+
+@mixin fillscreen {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--white);
+}
+
+@mixin iphone5se {
+    @media screen and (max-height: #{$screenHeightIphone5se}) {
+        @content;
+    }
+}
+
+@mixin  bg-center($size: contain) {
+    background: {
+        position: center;
+        repeat: no-repeat;
+        size: $size;
+    }
 }
