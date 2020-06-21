@@ -4,7 +4,8 @@
             'colorful-button': true,
             'dark-mode': darkmode,
             'plain': plain,
-            'small': small
+            'small': small,
+            'tiny': tiny
         }"
         v-on="$listeners"
         ref="button"
@@ -15,6 +16,7 @@
 
 <script>
 const defaultColor = ['#d1d3eb', '#a9a4f1', '#9fd0cf', '#e3c8ab', '#efb7e9', '#bbcaa1', '#ffafaf', '#a1c9a9']
+const tinyScale = 0.8
 
 export default {
     name: 'ColorfulButton',
@@ -22,6 +24,7 @@ export default {
         plain: Boolean,
         darkmode: Boolean,
         small: Boolean,
+        tiny: Boolean,
         color: {
             type: String,
             default() {
@@ -37,8 +40,15 @@ export default {
     },
     methods: {
         _setColor() {
+            let elButton = this.$refs.button
             if (this.$props.color) {
-                this.$refs.button.style.setProperty('--accent-color', this.$props.color)
+                elButton.style.setProperty('--accent-color', this.$props.color)
+            }
+            if (this.$props.tiny) {
+                let { offsetWidth, offsetHeight } = elButton
+                elButton.style.transform = `scale(${tinyScale})`
+                elButton.style.marginRight = `${3 + offsetWidth * (tinyScale - 1)}px`
+                elButton.style.transform = `${3 + offsetHeight * (tinyScale - 1)}px`
             }
         }
     }
@@ -51,6 +61,7 @@ export default {
         $smallHeight:2.5rem;
 
         --accent-color: rgb(160, 208, 208);
+        transform-origin: left top;
         height: $normalHeight;
         line-height: 1;
         text-align: center;
@@ -96,6 +107,12 @@ export default {
         }
         &.dark-mode {
             color: rgba(255,255,255,.9);
+        }
+        &.tiny {
+            padding: 3px;
+            border: 3px;
+            font-size: 1.2rem;
+            height: initial;
         }
     }
 </style>
