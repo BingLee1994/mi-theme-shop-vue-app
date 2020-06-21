@@ -5,11 +5,13 @@ import IntroHomeScreen from '@views/intro/index'
 import NFD from '@views/404'
 import introRoutes from './intro'
 import homeRoutes from './home'
-import ViewCategory from '@/views/view-category'
+import ViewCategoryScreen from '@/views/view-category'
 import ViewThemeItemScreen from '@views/view-theme-item'
 import CommentsScreen from '@views/comments/comments'
 import WriteCommentsScreen from '@views/comments/write-comment'
 import LoginScreen from '@views/login'
+import SettingScreen from '@views/setting'
+import ViewOrderScreen from '@views/my-order'
 
 export default [
     {
@@ -50,7 +52,6 @@ export default [
         name: 'search',
         component: SearchScreen,
         beforeEnter(to, from, next) {
-            console.log(to)
             let fromName = from.name
             to.meta.keepAlive = (fromName === 'viewComment' ||
             fromName === 'login' || fromName === 'viewItemEntry' || fromName === 'viewItem')
@@ -115,7 +116,27 @@ export default [
     {
         path: '/view-category/:filter/:keyWord',
         name: 'viewCategory',
-        component: ViewCategory
+        component: ViewCategoryScreen
+    },
+
+    {
+        path: '/setting',
+        name: 'setting',
+        component: SettingScreen,
+        meta: {
+            expectedEntry: ['me']
+        }
+    },
+
+    {
+        path: '/order/:type',
+        name: 'viewOrder',
+        component: ViewOrderScreen,
+        meta: {
+            authenticate: false,
+            authenticateReason: '登录以查看订单详情',
+            expectedEntry: ['me']
+        }
     },
 
     {
