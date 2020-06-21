@@ -37,7 +37,7 @@ export default {
             if (this.route) {
                 this.$router.push(this.route)
             } else {
-                this.$router.back()
+                this.$router.go(-1)
             }
         }
     }
