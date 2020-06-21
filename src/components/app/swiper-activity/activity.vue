@@ -129,14 +129,14 @@ export default {
             wrapper.addEventListener('touchmove', e => {
                 if (this.animationPlaying) return
                 e.stopPropagation()
-                let { index } = this
+                // let { index } = this
 
                 delta = e.touches[0].clientX - startX
                 let deltaY = Math.abs(e.touches[0].clientY - startY)
 
                 // 此时还未判定是否是scroll
                 if (!lock) {
-                    let whichActivityEl = this.$refs.subWrapper.children[index]
+                    /* let whichActivityEl = this.$refs.subWrapper.children[index]
                     if (whichActivityEl) {
                         let { scrollHeight, offsetHeight } = whichActivityEl
                         if (scrollHeight <= offsetHeight) {
@@ -145,8 +145,8 @@ export default {
                             lock = true
                             return
                         }
-                    }
-                    requestAnimationFrame(() => {
+                    } */
+                    setTimeout(() => {
                         // 判断垂直滑动距离是否大于水平滑动距离
                         if (deltaY >= delta && deltaY >= 5) {
                             if (!lock) {
@@ -166,6 +166,7 @@ export default {
                 }
 
                 stop(e)
+
                 let newPosition = startPosition + delta
                 if (newPosition <= 0 && newPosition >= this.rightBoundary) {
                     this.position = newPosition
@@ -224,7 +225,8 @@ export default {
             if (curItem && !curItem.isVisible) {
                 curItem.isVisible = true
             }
-            emit && this.$emit('indexChange', index, curItem.$props.extra)
+            let extraData = curItem.$props ? curItem.$props.extra : null
+            emit && this.$emit('indexChange', index, extraData)
         },
 
         _translateSubWrapper() {
