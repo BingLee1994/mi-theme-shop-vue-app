@@ -9,7 +9,7 @@
               v-flex-item.1
             >
             </NavBar>
-            <button v-flex-item.0 class="search-button icn icn-search" @click="gotoSearch"></button>
+            <Icon type="search" v-flex-item.0 class="search-button" @click="gotoSearch"></Icon>
         </div>
         <keep-alive>
           <SwiperActivity
@@ -39,6 +39,7 @@ import FontView from '@views/home/gallery/font'
 import RingtoneView from '@views/home/gallery/ringtone'
 import NavBar from '@/components/app/nav-bar'
 import navigationBar from '@/mixins/navigation'
+import Icon from '@/components/app/icons'
 
 const navComponentMap = {
   theme: 'ThemeWallpaperView',
@@ -49,7 +50,7 @@ const navComponentMap = {
 export default {
     name: 'Gallery',
     mixins: [navigationBar],
-    components: { NavBar, Item, SwiperActivity, ThemeWallpaperView, FontView, RingtoneView },
+    components: { NavBar, Icon, Item, SwiperActivity, ThemeWallpaperView, FontView, RingtoneView },
 
     data() {
       return {

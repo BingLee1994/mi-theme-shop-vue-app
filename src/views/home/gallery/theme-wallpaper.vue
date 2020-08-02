@@ -3,15 +3,23 @@
         <Swiper
             :items="swiperItems"
             :darkIndicator="true"
-            indicatorColor="red"
-            :duration="5000"
+            :duration="4000"
             class="adv-swiper"
             name="recommend view"
         />
         <QuickActions
             :items="quickActionItems"
         />
-        <ThemeList :items="themeListItems"/>
+        <ThemeList
+            style="padding: 0 15px"
+            type="theme"
+            :items="themeListItems"
+            :showRefreshLoading="showRefreshLoading"
+            :enableSwipeToLoadMore="true"
+            @willLoadMore="reload"
+            scrollObserveTarget=".recommend-view"
+        />
+        <Loading v-if="showLoading"/>
     </div>
 </template>
 
@@ -19,96 +27,98 @@
 import Swiper from '@/components/app/swiper'
 import QuickActions from '@/components/app/home/quick-actions'
 import quickActionRecomend from '@/mixins/quick-action'
-import ThemeList from '@/components/app/list-view/theme-list/list'
+import ThemeList from '@/components/app/list-view'
+import Loading from '@/components/app/loading'
+import cacheUtil from '@/utils/cache'
+import config from '@/config'
 
 export default {
-    name: 'RecommendGallery',
-    components: { Swiper, QuickActions, ThemeList },
+    name: 'ThemeWallpaperGallery',
+    components: { Swiper, QuickActions, ThemeList, Loading },
     mixins: [quickActionRecomend],
-    mounted() {
-        console.log('gallery recommend')
-        this.getQuickActionRecommend().then(recommend => {
-            recommend.forEach(r => {
-                this.quickActionItems.push(r)
-            })
-        })
-        this.swiperItems = [
-            {
-                imgUrl: 'http://file.market.xiaomi.com/download/ThemeMarket/0c14b462253ff7ae2e032e52d6bf320a5c842d0b8'
-            },
-            {
-                imgUrl: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587358827235&di=f4c2a18daee87a808ed233421c6e7234&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Fsinacn19%2F684%2Fw421h263%2F20180602%2F947e-hcikcew8814085.jpg'
-            },
-            {
-                imgUrl: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587358929000&di=5b8ea8f9be19ba177470f196799e9ad7&imgtype=0&src=http%3A%2F%2Fbpic.588ku.com%2Fback_pic%2F05%2F82%2F77%2F835c48037821257.jpg'
-            },
-            {
-                imgUrl: 'http://t3.market.mi-img.com/thumbnail/jpeg/w242/ThemeMarket/061074f72179d01fb5cb97cd2b9f4a5670842c74e'
-            }
-        ]
-    },
     data() {
-        let list = []
-        for (let i = 0; i < 100; i++) {
-            list.push({ text: 'qeqwe', id: i })
-        }
         return {
-            list,
+            showLoading: false,
             swiperItems: [],
             quickActionItems: [
                 { text: '排行榜', routeLink: true, route: 'rank/all' },
                 { text: '分类', routeLink: true, route: 'category' }
             ],
-            themeListItems: [
-                {
-                    title: 'test',
-                    description: '免费',
-                    keywords: ['123', '456'],
-                    imgUrl: 'http://t3.market.mi-img.com/thumbnail/jpeg/w242/ThemeMarket/061074f72179d01fb5cb97cd2b9f4a5670842c74e'
-                },
-                {
-                    title: 'test',
-                    description: '免费',
-                    imgUrl: 'http://t3.market.mi-img.com/thumbnail/jpeg/w242/ThemeMarket/061074f72179d01fb5cb97cd2b9f4a5670842c74e'
-                },
-                {
-                    title: 'test',
-                    description: '免费',
-                    imgUrl: 'http://t3.market.mi-img.com/thumbnail/jpeg/w242/ThemeMarket/061074f72179d01fb5cb97cd2b9f4a5670842c74e'
-                },
-                {
-                    title: 'test',
-                    description: '免费',
-                    imgUrl: 'http://t3.market.mi-img.com/thumbnail/jpeg/w242/ThemeMarket/061074f72179d01fb5cb97cd2b9f4a5670842c74e'
-                },
-                {
-                    title: 'test',
-                    description: '免费',
-                    imgUrl: 'http://t3.market.mi-img.com/thumbnail/jpeg/w242/ThemeMarket/061074f72179d01fb5cb97cd2b9f4a5670842c74e'
-                },
-                {
-                    title: 'test',
-                    description: '免费',
-                    imgUrl: 'http://t3.market.mi-img.com/thumbnail/jpeg/w242/ThemeMarket/061074f72179d01fb5cb97cd2b9f4a5670842c74e'
-                },
-                {
-                    title: 'test',
-                    description: '免费',
-                    imgUrl: 'http://t3.market.mi-img.com/thumbnail/jpeg/w242/ThemeMarket/061074f72179d01fb5cb97cd2b9f4a5670842c74e'
-                }
-            ]
+            themeListItems: [],
+            showRefreshLoading: false
         }
     },
+    mounted() {
+        this.getQuickActionRecommend().then(recommend => {
+            recommend.forEach(r => {
+                this.quickActionItems.push(r)
+            })
+        })
+
+        this.getSwiperItems()
+        this.getThemeList()
+    },
     methods: {
-        testClick() {
-            alert(123)
+        getSwiperItems() {
+            this.showLoading = true
+            let swiperCacheName = 'theme-swiper'
+            let swiperCache = cacheUtil.get(swiperCacheName)
+            if (!swiperCache) {
+                this.$api.getSwiperItems('theme').then(list => {
+                    this.swiperItems = list
+                    this.showLoading = false
+                    cacheUtil.update(swiperCacheName, list, config.sliderImageExpiredTime)
+                })
+            } else {
+                this.swiperItems = swiperCache
+            }
+        },
+        getThemeList() {
+            this.showLoading = true
+            return this.$api.getThemeList('theme').then(list => {
+                this.themeListItems = list.map(eachItem => {
+                    let { price, type, count } = eachItem
+                    let description = ''
+                    if (type === 'theme') {
+                        description = price > 0 ? price + '米币' : '免费'
+                    }
+                    if (type === 'wallpaper') {
+                        description = count > 0 ? count + '张壁纸' : ''
+                    }
+                    eachItem.description = description
+                    return eachItem
+                })
+                this.showLoading = false
+            })
+        },
+        reload() {
+            this.showRefreshLoading = true
+            this.$api.getThemeList('theme').then(list => {
+                this.themeListItems = list.map(eachItem => {
+                    let { price, type, count } = eachItem
+                    let description = ''
+                    if (type === 'theme') {
+                        description = price > 0 ? price + '米币' : '免费'
+                    }
+                    if (type === 'wallpaper') {
+                        description = count > 0 ? count + '张壁纸' : ''
+                    }
+                    eachItem.description = description
+                    return eachItem
+                })
+                this.showRefreshLoading = false
+            })
         }
     }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .recommend-view {
         padding-top: 15px;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        box-sizing: border-box;
     }
 </style>

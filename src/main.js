@@ -9,6 +9,10 @@ import Dialog from '@miui/dialog/install'
 import Toast from '@miui/toast/install'
 import installMyDirective from '@/directives'
 import { install as Api } from '@/api'
+import './style/miui/colors.scss'
+import setupMockjs from './mock/install'
+
+setupMockjs()
 
 const elApp = document.getElementById('app')
 

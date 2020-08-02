@@ -1,6 +1,6 @@
 <template>
     <span
-        :class="['icon', iconClass]"
+        :class="iconClass"
         :style="`--icon-width: ${width || ''}`"
         v-on="$listeners"
     >
@@ -9,24 +9,43 @@
 </template>
 
 <script>
+import darkMode from '@/mixins/dark-mode'
+import { joinClass } from '../miui/utils'
 
 export default {
     name: 'Icons',
+    mixins: [darkMode],
     props: {
         type: String,
-        width: String
+        width: {
+            type: String,
+            default: '1.8rem'
+        },
+        colorMode: Number,
+        autoDarkMode: {
+            type: Boolean,
+            default: true
+        }
     },
     computed: {
         iconClass() {
-            return this.type ? `icn-${this.type}` : ''
+            let className = ['icon', this.type ? `icn-${this.type}` : '']
+            let isDarkMode = (this.darkMode && this.autoDarkMode) ||
+                (!this.autoDarkMode && this.colorMode === 0)
+
+            if (isDarkMode) {
+                className.push('light-icon')
+            }
+            return joinClass(className)
         }
     }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .icon {
     --icon-width: 1.8rem;
+    box-sizing: content-box;
     min-height: var(--icon-width);
     display: inline-block;
     padding: 0;
@@ -36,8 +55,8 @@ export default {
     background-position: left center;
 }
 
-.dark-mode .icon {
-    filter: contrast(0);
+.light-icon {
+    filter: contrast(0) brightness(2);
 }
 
 .icn-search {
@@ -74,5 +93,9 @@ export default {
 
 .icn-order {
     background-image:url("data:image/svg+xml;utf-8,%3Csvg%20class%3D%22icon%22%20style%3D%22width%3A%201em%3B%20height%3A%201em%3Bvertical-align%3A%20middle%3Bfill%3A%20currentColor%3Boverflow%3A%20hidden%3B%22%20viewBox%3D%220%200%201024%201024%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20p-id%3D%22510%22%3E%3Cpath%20d%3D%22M311.68%20602.197333h400.64v-66.901333h-400.64v66.901333z%20m0-167.893333h400.64v-66.986667h-400.64v66.986667z%20m400.64-234.88V99.029333h-66.56v100.992h-267.52V99.029333h-66.56v100.992H144.682667V938.666667h734.634666V199.424h-166.997333z%20m100.437333%20671.104H211.84V266.368H312.32v33.450667h66.56v-33.450667h266.837333v33.450667h66.56v-33.450667h100.48v604.16zM311.68%20770.133333h233.6v-66.944H311.68v66.944z%22%20p-id%3D%22511%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+}
+
+.icn-back {
+    background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Mi45NiAzOC44OSI+Cjx0aXRsZT5iYWNrLWJ0bjwvdGl0bGU+Cjxwb2x5Z29uIHN0eWxlPSJmaWxsOmJsYWNrOyIgcG9pbnRzPSI0MS43NiAyMC43NCA0MS43NiAxNi43NCA3LjY2IDE2Ljc0IDIxLjU3IDIuODMgMTguNzQgMCAwIDE4Ljc0IDE4Ljc0IDM3LjQ4IDIxLjU3IDM0LjY1IDcuNjYgMjAuNzQgNDEuNzYgMjAuNzQiLz4KPC9zdmc+");
 }
 </style>

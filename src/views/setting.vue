@@ -7,6 +7,12 @@
             <ul class="preference-list">
                 <li class="list-item">
                     <div class="content">
+                        <p class="title">暗色模式</p>
+                    </div>
+                    <Toggle v-model="darkMode" @click="toggleDarkMode"/>
+                </li>
+                <li class="list-item">
+                    <div class="content">
                         <p class="title">应用主题时应用铃声</p>
                     </div>
                     <Toggle v-model="applyRingtone"/>
@@ -16,7 +22,7 @@
                         <p class="title">流量保护</p>
                         <p class="sub-title">在使用流量下载较大文件时发出警告</p>
                     </div>
-                    <Toggle v-model="dataProtection"/>
+                    <Toggle :checked="dataProtection" @change="alertDataProtection"/>
                 </li>
                 <li class="list-item">
                     <div class="content">
@@ -43,9 +49,11 @@
 <script>
 import Screen from '@/components/app/base-activity'
 import Toggle from '@miui/toggle'
+import darkMode from '@/mixins/dark-mode'
 
 export default {
     components: { Screen, Toggle },
+    mixins: [darkMode],
     data() {
         return {
             applyRingtone: true,
@@ -57,6 +65,17 @@ export default {
     methods: {
         about() {
             this.$dialog.alert('关于此应用', '此应用仅供学习和交流使用！我是一名Vue自学者，如果你也喜欢Vue开发，希望能与你交流探讨。')
+        },
+        async alertDataProtection(e) {
+            if (this.dataProtection) {
+                await this.$dialog.confirm({
+                    title: '警告',
+                    message: '关闭流量保护可能会引起扣费，是否继续？'
+                })
+                this.dataProtection = false
+            } else {
+                this.dataProtection = !this.dataProtection
+            }
         }
     }
 }

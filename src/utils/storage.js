@@ -19,6 +19,19 @@ const util = {
     },
     empty() {
         localStorage.clear()
+    },
+    each(cb) {
+        var len = localStorage.length
+        for (let i = 0; i < len; i++) {
+            let key = localStorage.key(i)
+            let val = localStorage.getItem(key)
+            typeof cb === 'function' && cb(key, val)
+        }
+    },
+    list() {
+        var keys = []
+        util.each(key => keys.push(key))
+        return keys
     }
 }
 

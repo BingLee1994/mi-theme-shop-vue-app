@@ -1,0 +1,82 @@
+{
+    "gallery": [
+        { 
+            "text": "迪士尼",
+            "imgUrl": "",
+            "external": true,
+            "link": "https://www.shanghaidisneyresort.com/"
+        },
+        { 
+            "text": "次元之约",
+            "imgUrl": "",
+            "routeLink": true,
+            "route": "result/次元"
+        },
+        { 
+            "text": "精选主题",
+            "imgUrl": "",
+            "routeLink": true,
+            "route": "result/top"
+        }
+    ],
+    "theme": [
+        { 
+            "text": "迪士尼",
+            "imgUrl": "",
+            "external": true,
+            "link": "https://www.shanghaidisneyresort.com/"
+        },
+        { 
+            "text": "次元之约",
+            "imgUrl": "",
+            "routeLink": true,
+            "route": "result/次元"
+        },
+        { 
+            "text": "精选主题",
+            "imgUrl": "",
+            "routeLink": true,
+            "route": "result/top"
+        }
+    ],
+    "wallpaper": [
+        { 
+            "text": "迪士尼",
+            "imgUrl": "",
+            "external": true,
+            "link": "https://www.shanghaidisneyresort.com/"
+        },
+        { 
+            "text": "春日",
+            "imgUrl": "",
+            "routeLink": true,
+            "route": "result/次元"
+        },
+        { 
+            "text": "精选壁纸",
+            "imgUrl": "",
+            "routeLink": true,
+            "route": "result/top"
+        }
+    ],
+    "ringtone": [
+        { 
+            "text": "迪士尼",
+            "imgUrl": "",
+            "external": true,
+            "link": "https://www.shanghaidisneyresort.com/"
+        },
+        { 
+            "text": "抖音流行",
+            "imgUrl": "",
+            "routeLink": true,
+            "route": "result/次元"
+        },
+        { 
+            "text": "精选铃声",
+            "imgUrl": "",
+            "routeLink": true,
+            "route": "result/top"
+        }
+    ]
+}

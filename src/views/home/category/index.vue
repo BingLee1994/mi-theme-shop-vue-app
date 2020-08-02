@@ -3,7 +3,7 @@
       <ActionBar title="所有分类"
         :showBackButton="false"
         :showRightButton="true"
-        rightButtonClass="icn-search"
+        rightButtonClass="icon icn-search"
         @clickRightButton="gotoSearch"
         >
       </ActionBar>

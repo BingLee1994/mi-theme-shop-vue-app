@@ -11,13 +11,20 @@
                     v-model="password"
                     placeholder="请输入密码"
                 />
-                <span class="icon-password toggle-button" @click="togglePassword">关</span>
+                <span :class="{
+                    'icon-password': true,
+                    'toggle-button': true,
+                    'on': isShowPassword
+                }" @click="togglePassword"></span>
             </div>
-            <button class="login-button">登录</button>
+            <button :class="{
+                'login-button': true,
+                'disabled': !shouldEnableLoginButton
+            }">登录</button>
         </form>
         <div class="footer">
-            <a class="link">常见问题</a>
-            <a class="link">隐私政策</a>
+            <a class="link" @click="open('http://zhuti.xiaomi.com/agreement')">常见问题</a>
+            <a class="link" @click="open('https://privacy.mi.com/miaccount/zh_CN/')">隐私政策</a>
         </div>
     </div>
 </template>
@@ -32,9 +39,18 @@ export default {
             isShowPassword: false
         }
     },
+    computed: {
+        shouldEnableLoginButton() {
+            return this.username && this.password
+        }
+    },
     methods: {
         togglePassword() {
             this.isShowPassword = !this.isShowPassword
+        },
+
+        open(url) {
+            window.open(url, 'blank')
         },
 
         async authenticate() {
@@ -99,6 +115,14 @@ export default {
                     top: 50%;
                     margin-top: -15px;
                     right: 10px;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: 20px 20px;
+                    background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNy42NSAyMC41NyI+PGRlZnM+PHN0eWxlPi5he2ZpbGw6Izk5OTt9LmJ7ZmlsbDpub25lO3N0cm9rZTojOTk5O3N0cm9rZS1taXRlcmxpbWl0OjEwO3N0cm9rZS13aWR0aDoycHg7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT7otYTmupAgMTwvdGl0bGU+PHBhdGggY2xhc3M9ImEiIGQ9Ik0xMy44MiwxNS43MWE1LjE0LDUuMTQsMCwwLDAsMS43Ny0uMyw3LjY1LDcuNjUsMCwwLDAtLjUzLDIuNzd2LjU5bC0xLjI0LjA2YTE0LjY4LDE0LjY4LDAsMCwxLTguNDQtMi42NUExNS4xMSwxNS4xMSwwLDAsMSwwLDkuNDEsMTUuMDgsMTUuMDgsMCwwLDEsNS4zOCwyLjY1YTE0Ljc4LDE0Ljc4LDAsMCwxLDE2Ljg5LDAsMTUuMDgsMTUuMDgsMCwwLDEsNS4zOCw2Ljc2LDExLjM0LDExLjM0LDAsMCwxLTEuMTgsMi4zLDcuOTIsNy45MiwwLDAsMC0zLjg4LTEuMDYsNy4zNiw3LjM2LDAsMCwwLTIuNzYuNTMsNS4zOSw1LjM5LDAsMCwwLC4yOS0xLjc3LDYuMjgsNi4yOCwwLDEsMC02LjMsNi4zWiIvPjxwYXRoIGNsYXNzPSJhIiBkPSJNMTMuODIsNS42NWEzLjc4LDMuNzgsMCwwLDEsMi42NSwxLjEyLDMuNTUsMy41NSwwLDAsMSwxLjA2LDIuNjQsMy42MiwzLjYyLDAsMCwxLTMuNzEsMy43MSwzLjYyLDMuNjIsMCwwLDEtMy43LTMuNzEsMy41NSwzLjU1LDAsMCwxLDEuMDYtMi42NEEzLjc4LDMuNzgsMCwwLDEsMTMuODIsNS42NVoiLz48bGluZSBjbGFzcz0iYiIgeDE9IjE4LjMxIiB5MT0iMTMuMzYiIHgyPSIyNC44MSIgeTI9IjE5Ljg2Ii8+PGxpbmUgY2xhc3M9ImIiIHgxPSIyNC44MSIgeTE9IjEzLjM2IiB4Mj0iMTguMzEiIHkyPSIxOS44NiIvPjwvc3ZnPg==");
+
+                    &.on {
+                        background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyOC4yNCAyMS45NCI+PGRlZnM+PHN0eWxlPi5he2ZpbGw6I2ZmNjgwMTt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPui1hOa6kCAyPC90aXRsZT48cGF0aCBjbGFzcz0iYSIgZD0iTTEzLjgyLDE1LjcxYTUuMTQsNS4xNCwwLDAsMCwxLjc3LS4zLDcuNjUsNy42NSwwLDAsMC0uNTMsMi43N3YuNTlsLTEuMjQuMDZhMTQuNjgsMTQuNjgsMCwwLDEtOC40NC0yLjY1QTE1LjExLDE1LjExLDAsMCwxLDAsOS40MSwxNS4wOCwxNS4wOCwwLDAsMSw1LjM4LDIuNjVhMTQuNzgsMTQuNzgsMCwwLDEsMTYuODksMCwxNS4wOCwxNS4wOCwwLDAsMSw1LjM4LDYuNzYsMTEuMzQsMTEuMzQsMCwwLDEtMS4xOCwyLjMsNy45Miw3LjkyLDAsMCwwLTMuODgtMS4wNiw3LjM2LDcuMzYsMCwwLDAtMi43Ni41Myw1LjM5LDUuMzksMCwwLDAsLjI5LTEuNzcsNi4yOCw2LjI4LDAsMSwwLTYuMyw2LjNabTAtMTAuMDZhMy43OCwzLjc4LDAsMCwxLDIuNjUsMS4xMiwzLjU1LDMuNTUsMCwwLDEsMS4wNiwyLjY0LDMuNjIsMy42MiwwLDAsMS0zLjcxLDMuNzEsMy42MiwzLjYyLDAsMCwxLTMuNy0zLjcxLDMuNTUsMy41NSwwLDAsMSwxLjA2LTIuNjRBMy43OCwzLjc4LDAsMCwxLDEzLjgyLDUuNjVaTTI4LjI0LDE1LjcxLDIyLDIxLjk0bC00LjQxLTQuMzUsMS44OC0xLjg4TDIyLDE4LjE4bDQuMzYtNC4zNloiLz48L3N2Zz4=");
+                    }
                 }
             }
         }
@@ -117,12 +141,17 @@ export default {
         &:active {
             opacity: .9;
         }
+
+        &.disabled {
+            opacity: .5;
+            filter: saturate(0);
+       }
     }
 
     .footer {
         position: fixed;
         bottom: 40px;
-        background: white;
+        background: var(--white);
         left: 0;
         width: 100vw;
         display: flex;

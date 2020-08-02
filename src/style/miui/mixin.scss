@@ -1,17 +1,17 @@
-$screenHeightIphone5se: 568px;
+$screenHeightIphone5se: 569px;
 
 @mixin shadowBorder($color, $width) {
     box-shadow: 0 0 0 #{$width} inset #{$color};
 }
 
-@mixin fillscreen {
+@mixin fillscreen($bg: var(--white)) {
     position: fixed;
     left: 0;
     top: 0;
-    width: 100vw;
-    height: 100vh;
+    bottom: 0;
+    right: 0;
     overflow: hidden;
-    background-color: var(--white);
+    background-color: $bg;
 }
 
 @mixin iphone5se {

@@ -2,15 +2,19 @@
     <span
         class="lazy-img-wrapper"
         :style="{
-            background: placeholder
+            backgroundColor: placeholder
         }"
+        ref="placeholder"
         v-on="$listeners"
     >
         <img
             class="lazy-img"
             ref="img"
             @load="onImgLoaded"
-            :style="`object-fit: ${fitContain? 'contain': (fitCover? 'cover': '')}`"
+            :style="{
+                objectFit: fitContain? 'contain': (fitCover? 'cover': ''),
+                transitionDuration: transitionDuration + 's'
+            }"
         />
     </span>
 </template>
@@ -18,6 +22,7 @@
 <script>
 const THRESHOLD = 0.5
 const BG_COLOR = ['#E8F6F6', '#EFF1FE', '#FFF5EC', '#FAFEF0', '#FFECFD']
+const transitionDuration = 0.2
 
 export default {
     name: 'SimpleLazyLoadImg',
@@ -42,7 +47,8 @@ export default {
     data() {
         let random = Math.floor(Math.random() * BG_COLOR.length)
         return {
-            placeholder: BG_COLOR[random]
+            placeholder: BG_COLOR[random],
+            transitionDuration
         }
     },
 

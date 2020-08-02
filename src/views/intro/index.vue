@@ -8,7 +8,7 @@
         v-flex.column
         class="intro-screen"
     >
-        欢迎使用
+        <p class="title">欢迎使用主题商店</p>
         <router-view v-flex-item.1 class="intro-body"></router-view>
     </div>
 </template>
@@ -20,9 +20,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .intro-screen {
-        padding: 15px;
+        padding: 20px;
         box-sizing: border-box;
+        background: url(../../assets/img/me-bg.png) no-repeat top;
+        background-size: contain;
+
+        .title {
+            margin: 20px 15px;
+            margin-bottom: 5px;
+            font-size: 2rem;
+            text-align: center;
+            color: var(black);
+        }
     }
 </style>

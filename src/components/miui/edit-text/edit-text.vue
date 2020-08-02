@@ -26,6 +26,8 @@ export default {
         showPasswordButton: Boolean,
         showClearButton: Boolean,
         name: String,
+        height: String,
+        title: String,
         appearance: {
             type: EditTextAppearance,
             default: null
@@ -56,6 +58,9 @@ export default {
             requestAnimationFrame(() => {
                 this._updateNativeInputValue(val)
             })
+        },
+        type(val) {
+            this.visualType = val
         }
     },
     methods: {
@@ -110,7 +115,7 @@ export default {
     },
     render() {
         let {
-            widen, disabled, width,
+            widen, disabled, width, height,
             prefixIconClass, name,
             suffixIconClass, placeholder, type,
             showPasswordButton, showClearButton, appearance
@@ -118,7 +123,7 @@ export default {
 
         let { visualType, showPrependText, showAppendText } = this
 
-        let style = { width: `${parseInt(width)}px` }
+        let style = { width, height }
         if (!isNone(appearance)) {
             Object.assign(style, appearance.toStyle())
         }
@@ -126,6 +131,7 @@ export default {
         return (
             <div
                 style={style}
+                title={this.$props.title}
                 class={
                     joinClass(
                         'miui-edit-text-wrapper',

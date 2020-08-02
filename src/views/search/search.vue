@@ -4,7 +4,7 @@
             v-flex.centerY
             class="search-bar action-bar header"
         >
-            <button class="icn icn-back" @click="goBack"></button>
+            <Icon type="back" @click="goBack"/>
             <input
                 :value="keyWord"
                 placeholder="请输入关键字"
@@ -37,7 +37,7 @@
                     <span>{{keyword}}</span>
                 </li>
                 <li v-flex.centerY class="search-button list-item" @click="doSearch(null)">
-                    <span class="icn icn-search"></span>
+                    <Icon type="search" />
                     {{keyWord}}
                 </li>
             </ul>
@@ -52,7 +52,7 @@
                     v-flex.centerX
                 >
                     <span class="text" v-flex-item.1>{{keyword}}</span>
-                    <span class="icn icn-delete" @click.stop="removeHistory(keyword)"></span>
+                    <Icon type="delete" @click.stop="removeHistory(keyword)"/>
                 </li>
                 <li
                     class="list-item clear-all-button bold"
@@ -86,7 +86,7 @@
             </section>
 
             <section
-                class="category-list"
+                class="category-list mg-b25"
                 v-flex:overflow.wrap="'hidden'"
             >
                 <ImageButton
@@ -100,9 +100,9 @@
             </section>
 
         </div>
+
+        <SearchFilter v-if="isShowResult" @change="onFilterChange">筛选器</SearchFilter>
         <div v-if="isShowResult" class="container">
-            <SearchFilter @change="onFilterChange">筛选器</SearchFilter>
-            <p class="hint">此版本为demo版，搜索结果为从后台随机获取的数据</p>
             <ThemeList
                 type="theme"
                 :items="searchResult"
@@ -116,6 +116,7 @@
 
 <script>
 import ColorfulButon from '@/components/app/colorful-button'
+import Icon from '@/components/app/icons'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import ThemeList from '@/components/app/list-view/theme-list/list'
 import ImageButton from '@/components/app/image-button'
@@ -125,7 +126,7 @@ import api from '@/api'
 
 export default {
     name: 'Search',
-    components: { ColorfulButon, SearchFilter, ImageButton, ThemeList },
+    components: { ColorfulButon, Icon, SearchFilter, ImageButton, ThemeList },
     mixins: [DarkModeMixin],
 
     created() {
@@ -143,10 +144,10 @@ export default {
             searchSuggestion: [],
             searchResult: [],
             categoryList: [
-                { text: '主题', name: 'theme' },
-                { text: '壁纸', name: 'wallpaper' },
-                { text: '字体', name: 'font' },
-                { text: '铃声', name: 'ringtone' }
+                { text: '主题', name: 'theme', imgUrl: require('../../assets/img/i-theme.jpg') },
+                { text: '壁纸', name: 'wallpaper', imgUrl: require('../../assets/img/i-wallpaper.jpg') },
+                { text: '字体', name: 'font', imgUrl: require('../../assets/img/i-font.jpg') },
+                { text: '铃声', name: 'ringtone', imgUrl: require('../../assets/img/i-ringtone.jpg') }
             ]
         }
     },
@@ -157,6 +158,11 @@ export default {
 
     mounted() {
         this.fetchSearchScreenData()
+        let { keyword } = this.$route.query
+        if (keyword) {
+            this.keyWord = keyword
+            this.doSearch()
+        }
     },
 
     methods: {
@@ -166,17 +172,22 @@ export default {
             this.isShowResult = false
             this.keyWord = e.target.value
         },
+
         onClickRecommend(keyWord) {
             this.keyWord = keyWord
         },
+
         onClickAdviertisement(item) {
             console.log(item)
         },
+
         onClickStyle() {
         },
+
         onClickCategory({ name }) {
             console.log(name)
         },
+
         onFocus() {
             this.isShowHistory = true
         },
@@ -191,7 +202,18 @@ export default {
             this.addHistory(this.keyWord)
 
             this.isShowResult = true
-            this.searchResult = await api.search(keyWord, this.searchType)
+            let response = await api.search(keyWord, this.searchType)
+            let resultList = []
+            response.forEach(item => {
+                if (item.type === this.searchType) {
+                    resultList.push({
+                        title: item.title,
+                        imgUrl: item.imgUrl,
+                        type: item.type
+                    })
+                }
+            })
+            this.searchResult = resultList
         },
 
         async viewDetail(item) {
@@ -204,8 +226,8 @@ export default {
             }
         },
 
-        onFilterChange() {
-
+        async onFilterChange(filterRule) {
+            this.doSearch()
         },
 
         goBack() {
@@ -222,6 +244,9 @@ export default {
 <style lang="scss">
 .search-view {
     overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 
     .header.search-bar {
         min-height: 6rem;
@@ -229,9 +254,8 @@ export default {
         padding: 0 15px;
 
         .icon {
-            width: $itemHeight;
-            height: $itemHeight;
             margin: 0 5px;
+            box-sizing: border-box;
         }
 
         input.search-box {
@@ -252,8 +276,10 @@ export default {
     }
 
     .container {
-        padding: 0 10px 10px;
+        padding: 0 15px;
         box-sizing: border-box;
+        flex: 1;
+        overflow-y: auto;
         $superLightBorder: 1px solid var(--black05);
 
         .suggestion-wrapper {

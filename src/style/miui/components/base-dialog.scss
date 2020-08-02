@@ -1,5 +1,5 @@
 $dialogBorderRadius: 2rem;
-$dialogPadding: 2.5rem;
+$dialogPadding: 2.2rem;
 $dialogPaddingH: 3rem;
 $dialogMargin: 1rem;
 
@@ -92,9 +92,26 @@ $dialogMargin: 1rem;
         background: var(--dialog-background);
         padding: $dialogPadding $dialogPaddingH;
         border-radius: $dialogBorderRadius;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+
+        .content-wrapper {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin-right: -#{$dialogPaddingH - 1rem};
+            .content {
+                flex: 1;
+                overflow-y: auto;
+                padding-right: #{$dialogPaddingH - 1rem};
+            }
+        }
 
         .title {
             font-size: var(--fontSize18);
+            margin-bottom: $dialogPadding;
         }
 
         .message {
@@ -104,12 +121,24 @@ $dialogMargin: 1rem;
         }
 
         .message, .title {
-            margin-bottom: $dialogPadding;
             text-align: center;
         }
 
         .checkbox-option-wrapper {
             display: block
+        }
+
+        .list-option {
+            border-bottom: 1px solid var(--black10);
+            padding: 20px 5px;
+
+            &:last-of-type {
+                border: none;
+            }
+
+            &:active {
+                background-color: var(--black05);
+            }
         }
 
         .with-divider-10 {
@@ -130,6 +159,7 @@ $dialogMargin: 1rem;
 
         & > .button-wrapper {
             display: flex;
+            margin-top: 25px;
 
             .divider {
                 width: 1rem;

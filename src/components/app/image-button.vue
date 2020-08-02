@@ -2,6 +2,7 @@
     <a
         v-on="$listeners"
         v-lazy:background="src"
+        :style="`background-color:${backgroundColor}`"
         :class="['image-button cover', medium? 'medium': '', small? 'small': '']"
     >
         <span
@@ -31,7 +32,8 @@ export default {
         textAlign: {
             type: String,
             default: ''
-        }
+        },
+        backgroundColor: String
     },
 
     computed: {

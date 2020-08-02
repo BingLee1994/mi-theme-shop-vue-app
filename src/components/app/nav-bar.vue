@@ -68,6 +68,7 @@ export default {
                 color: var(--black);
                 font-size: 1.5rem;
                 border-bottom: 2px solid var(--miOrange);
+                font-weight: bold;
             }
             &_hidden {
                 display: none;

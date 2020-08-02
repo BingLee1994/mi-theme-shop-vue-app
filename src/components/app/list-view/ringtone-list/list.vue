@@ -15,11 +15,9 @@
 <script>
 import Loading from '../../loading'
 import RingtoneListItem from './list-item'
-import SwipeToLoadMore from '../mixin/swipe-up-load-more'
 
 export default {
     name: 'RingtoneList',
-    mixins: [SwipeToLoadMore],
     components: { RingtoneListItem, Loading },
     props: {
         items: Array,

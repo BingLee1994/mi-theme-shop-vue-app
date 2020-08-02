@@ -13,7 +13,7 @@ $toggleDisabledOpacity: .5;
     .miui-toggle {
         height: $toggleHeight;
         width: $toggleWidth;
-        background-color: var(--black05);
+        background-color: var(--black10);
         border-radius: $toggleHeight / 2;
         @include shadowBorder(var(--black05), 1px);
         box-sizing: border-box;

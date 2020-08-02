@@ -1,22 +1,16 @@
 
-import AppIntro from '@views/intro/app'
 import DarkModeIntro from '@views/intro/color-mode'
-import FontSizeIntro from '@views/intro/font-size'
+import PermissionIntro from '@views/intro/permission'
 
 export default [
-  {
-    path: 'app',
-    component: AppIntro,
-    name: 'appIntro'
-  },
   {
     path: 'dark-mode-intro',
     component: DarkModeIntro,
     name: 'darkModeIntro'
   },
   {
-    path: 'font-size-intro',
-    component: FontSizeIntro,
-    name: 'fontSizeIntro'
+    path: 'permission-intro',
+    component: PermissionIntro,
+    name: 'permissionIntro'
   }
 ]

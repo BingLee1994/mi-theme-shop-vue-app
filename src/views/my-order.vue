@@ -26,7 +26,7 @@
                         column="3"
                         type="theme"
                         @click="viewDetail"
-                        :showLoadMoreLoading="loadMoreloading === 'theme'"
+                        :showRefreshLoading="loadMoreloading === 'theme'"
                         @willLoadMore="requestMoreItem"
                     />
                 </Item>
@@ -34,7 +34,7 @@
                 <Item extra="font">
                     <ThemeList
                         type="font"
-                        :showLoadMoreLoading="loadMoreloading === 'font'"
+                        :showRefreshLoading="loadMoreloading === 'font'"
                         class="order-list-wrapper"
                         :items="orderList.font"
                         @click="viewDetail"
@@ -46,7 +46,7 @@
                 <Item extra="ringtone">
                     <ThemeList
                         type="ringtone"
-                        :showLoadMoreLoading="loadMoreloading === 'ringtone'"
+                        :showRefreshLoading="loadMoreloading === 'ringtone'"
                         class="order-list-wrapper"
                         :items="orderList.ringtone"
                         @click="viewDetail"
@@ -105,12 +105,21 @@ export default {
         async getOrderItem(type) {
             this.showLoading = true
             let response = await this.$api.getFavorite(type)
+            if (type === 'theme') {
+                response = response.map(theme => {
+                    return {
+                        imgUrl: theme.imgUrl,
+                        id: theme.id,
+                        name: theme.name,
+                        type: 'theme'
+                    }
+                })
+            }
             this.orderList[type] = response
             this.showLoading = false
         },
 
         requestMoreItem(type) {
-            console.log('request load more ')
             this.loadMoreloading = type
             setTimeout(() => {
                 this.loadMoreloading = -1

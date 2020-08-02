@@ -12,14 +12,13 @@ function isValidStyle(name, val) {
 }
 
 export default class EditTextAppearance {
-    constructor(bgColor, color, bgImage, caretColor, borderColor, height, borderWidth, borderRadius = '') {
+    constructor(bgColor, color, bgImage, caretColor, borderColor, borderWidth, borderRadius = '') {
         let style = {}
         style.backgroundColor = isValidStyle('backgroundColor', bgColor) ? bgColor : ''
         style.color = isValidStyle('color', color) ? color : ''
         style.backgroundImage = isValidStyle('backgroundImage', bgImage) ? bgImage : ''
         style.caretColor = isValidStyle('caretColor', caretColor) ? caretColor : ''
         style.borderRadius = isValidStyle('borderRadius', borderRadius) ? borderRadius : ''
-        style.height = isValidStyle('height', height) ? height : ''
         this.__style__ = style
         this.__borderColor__ = isValidStyle('borderColor', borderColor) ? borderColor : 'var(--accentColor)'
         this.__borderWidth__ = isValidStyle('borderWidth', borderWidth) ? borderWidth : '2px'

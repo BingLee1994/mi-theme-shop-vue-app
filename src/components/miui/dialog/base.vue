@@ -16,7 +16,7 @@
                 <div class="content-wrapper">
                     <p class="title bold">{{title}}</p>
                     <p class="message" v-if="message">{{message}}</p>
-                    <div>
+                    <div class="content">
                         <slot></slot>
                     </div>
                 </div>
@@ -51,6 +51,7 @@ import { isNone, callFunc, isFunc } from '../utils'
 import Button from '../buttons/button'
 import darkMode from '@/mixins/dark-mode'
 
+// eslint-disable-next-line no-unused-vars
 const DEFAULT_BUTTON = { text: '完成' }
 
 export default {
@@ -88,7 +89,7 @@ export default {
     },
     methods: {
         _makeButtonOption(option, isPrimaty = true) {
-            if (isNone(option)) return isPrimaty ? DEFAULT_BUTTON : null
+            if (isNone(option)) return null
             let buttonOption = {
                 primary: isPrimaty,
                 disabled: false

@@ -58,10 +58,10 @@
                 </div>
 
                 <div v-flex class="action-wrapper" v-if="trendData">
-                    <Icon type="like">{{trendData.likes}}</Icon>
-                    <Icon type="comment">{{trendData.comments}}</Icon>
-                    <Icon type="favorite">{{favorite? '已收藏': '收藏'}}</Icon>
-                    <Icon type="share">分享</Icon>
+                    <Icon width="15px" type="like">{{trendData.likes}}</Icon>
+                    <Icon width="15px" type="comment">{{trendData.comments}}</Icon>
+                    <Icon width="15px" type="favorite">{{favorite? '已收藏': '收藏'}}</Icon>
+                    <Icon width="15px" type="share">分享</Icon>
                 </div>
             </section>
 
@@ -169,12 +169,7 @@ export default {
         this.appendRecommendListIfNeed = debounce(this.appendRecommendListIfNeed, 300).bind(this)
     },
 
-    beforeRouterUpdate() {
-        console.log(this.$route.matched)
-    },
-
     activated() {
-        console.log(this.$route.matched)
         let lastRoute = this.$router.routeHistory.lastRoute || {}
         if (lastRoute.name !== 'viewComment') {
             this.loadThemeItem()

@@ -115,6 +115,7 @@ export default {
                 if (e.cancelable) {
                     e.preventDefault()
                 }
+                e.stopPropagation()
             }
 
             wrapper.addEventListener('touchstart', e => {
@@ -222,8 +223,12 @@ export default {
             index = Math.abs(index)
             let curItem = items[Math.abs(index)]
             // 不可以直接修改prop
-            if (curItem && !curItem.isVisible) {
-                curItem.isVisible = true
+            if (curItem) {
+                if (!curItem.isVisible) {
+                    curItem.isVisible = true
+                } else {
+                    curItem.onShow()
+                }
             }
             let extraData = curItem.$props ? curItem.$props.extra : null
             emit && this.$emit('indexChange', index, extraData)

@@ -4,7 +4,12 @@ const resolve = p => path.join(__dirname, p)
 module.exports = {
     chainWebpack: config => {
         config
-            .devtool('cheap-eval-source-map')
+            .module
+            .rule('images')
+            .use('url-loader')
+                .loader('url-loader')
+                .tap(options => Object.assign(options, { limit: 2 }))
+        config.devtool('cheap-eval-source-map')
             .resolve
             .alias
             .set('@', resolve('src'))
@@ -13,6 +18,15 @@ module.exports = {
             .set('@style', resolve('src/style'))
             .set('@assets', resolve('src/assets'))
             .set('~@miui/component-style', resolve('src/style/miui/components'))
+
+            config.plugin('define')
+            .tap(args => {
+                args[0] = {
+                    ENV: JSON.stringify(process.env.NODE_ENV || 'production'),
+                    VERSION: JSON.stringify(process.env.APP_VERSION)
+                }
+                return args
+            })
     },
     pages: {
         index: {
@@ -27,9 +41,9 @@ module.exports = {
         loaderOptions: {
             sass: {
                 // 新版叫prependData
-                data: `
+                prependData: `
+                    @import "~@/style/miui/vars.scss";
                     @import "~@/style/miui/mixin.scss";
-                    @import "~@/style/miui/sys-variables.scss";
                 `
             }
         }

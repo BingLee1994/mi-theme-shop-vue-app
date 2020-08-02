@@ -1,33 +1,47 @@
-$buttonHeightNormal: 5rem;
-$buttonHeightMedium: 4.5rem;
-$buttonMargin: 15px;
-$buttonDisabledOpacity: .5;
-$primaryFontSize: 1.6rem;
-
 .miui-button {
     --main-background: var(--black05);
     --main-background-active: var(--black10);
+    --buttonHeightNormal: 5rem;
+    --buttonMiniHeight: 3rem;
+    --buttonMargin: 15px;
+    --buttonDisabledOpacity: .5;
+    --primaryFontSize: 1.6rem;
+
+    @include iphone5se {
+        --buttonMargin: 7px;
+    }
 
     background: var(--main-background);
-    padding: #{($buttonHeightNormal - $primaryFontSize) / 2} #{$buttonHeightNormal / 2};
+    padding: calc((var(--buttonHeightNormal) - var(--primaryFontSize)) / 2) calc(var(--buttonHeightNormal) / 2);
     font-size: var(--primaryFontSize);
-    min-height: $buttonHeightMedium;
+    min-height: var(--buttonMiniHeight);
     line-height: 1;
     box-sizing: border-box;
-    border-radius: $buttonHeightNormal / 2;
+    border-radius: calc(var(--buttonHeightNormal) / 2);
     font-weight: bold;
-    margin-left: $buttonMargin;
+    margin: var(--buttonMargin);
     user-select: none;
     cursor: pointer;
     &_widden {
         display: block;
-        width: calc(100% - #{$buttonMargin} * 2);
-        margin: $buttonMargin;
+        width: calc(100% - var(--buttonMargin) * 2);
+        margin: var(--buttonMargin);
     }
     &_disabled {
         pointer-events: none;
         cursor: not-allowed;
-        opacity: $buttonDisabledOpacity;
+        opacity: var(--buttonDisabledOpacity);
+    }
+    &_medium {
+        --buttonMargin: 10px;
+        --buttonHeightNormal:4.5rem;
+        font-size: 1.4rem;
+    }
+    &_small {
+        --buttonMargin: 5px;
+        --buttonHeightNormal: 3rem;
+        font-size: 1.2rem;
+        font-weight: normal;
     }
     &:active {
         background: var(--main-background-active);
@@ -39,11 +53,23 @@ $primaryFontSize: 1.6rem;
             color: var(--white90);
         }
     }
+
+    &_selected {
+        background: var(--accentColor);
+        color: var(--white90);
+        &:active {
+            opacity: .9;
+            background: var(--accentColor);
+            color: var(--white);
+        }
+    }
+
     $buttonSelector: &;
+
     &-group {
         display: flex;
         justify-content: center;
-        padding-right: $buttonMargin;
+        padding-right: var(--buttonMargin);
         #{$buttonSelector} {
             flex: 1;
         }

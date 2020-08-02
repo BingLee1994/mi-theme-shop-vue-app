@@ -18,9 +18,9 @@
                 </div>
             </div>
             <div class="top-rank-list-wrapper">
-                <p class="title">人气榜单</p>
+                <p class="title">新品榜单</p>
                 <div v-flex class="rank-list">
-                    <p class="sub-title">人气爆款，好看经典</p>
+                    <p class="sub-title">优质新品，等你发现</p>
                     <ThemeListItem
                         v-for="item in newThemeList"
                         :key="item.name"
@@ -140,7 +140,7 @@ export default {
         padding-bottom: 0;
 
         & > .title {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: var(--black);
             margin: 15px 10px;
             line-height: 1;

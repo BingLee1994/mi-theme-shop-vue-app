@@ -31,6 +31,10 @@ $actionBarWrapperPaddingV: 8px;
         .action-button {
             width: $actionIconWidth;
             height: $actionIconWidth;
+            flex-basis: $actionIconWidth;
+            flex-shrink: 0;
+            flex-grow: 0;
+            box-sizing: border-box;
         }
 
         .left-button {

@@ -17,6 +17,7 @@
                 @click="onClick(item, index, $event)"
                 :style="item.style"
                 :item="item"
+                :type="item.type"
             />
         </div>
     </div>

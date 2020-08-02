@@ -15,7 +15,10 @@ export default {
         title: String,
         widen: Boolean,
         primary: Boolean,
-        disabled: Boolean
+        disabled: Boolean,
+        medium: Boolean,
+        small: Boolean,
+        selected: Boolean
     },
     data() {
         return {
@@ -50,10 +53,13 @@ export default {
     },
     render() {
         let classNames = ['miui-button']
-        let { widen, primary, disabled } = this.$props
+        let { widen, primary, disabled, small, medium, selected } = this.$props
         widen && classNames.push('miui-button_widden')
         primary && classNames.push('miui-button_primary')
         disabled && classNames.push('miui-button_disabled')
+        medium && classNames.push('miui-button_medium')
+        small && classNames.push('miui-button_small')
+        selected && classNames.push('miui-button_selected')
 
         return (
             <button

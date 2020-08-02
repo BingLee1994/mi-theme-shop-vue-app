@@ -2,7 +2,16 @@
     "compilerOptions": {
         "target": "es2020",
         "module": "system",
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./",
+        "paths": {
+            "@/*":  ["src/*"],
+            "@miui/*":  ["src/components/miui/*"],
+            "@views/*":  ["src/views/*"],
+            "@style/*":  ["src/style/*"],
+            "@assets/*":  ["src/assets/*"],
+            "~@miui/component-style/*":  ["src/style/miui/components/*"]
+        }
     },
     "exclude": [
         "node_modules",

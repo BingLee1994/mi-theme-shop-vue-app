@@ -15,6 +15,16 @@ function parseTranslate(transform) {
     }
 }
 
+export function arrayRemove(arr, item) {
+    let length = arr.length
+    for (let i = length - 1; i >= 0; i--) {
+        if (arr[i] === item) {
+            return arr.splice(i, 1)
+        }
+    }
+    return null
+}
+
 function pickRandomItem(arr, len, cb) {
     let result = []
     arr = arr.concat()
@@ -53,4 +63,14 @@ export function debounce(cb, timeout) {
 export function dateMD(val, divider = '') {
     let date = new Date(Number(val))
     return `${date.getMonth()}月${divider}${date.getDate()}日`
+}
+
+export function isUndefined(val) {
+    return typeof val === 'undefined'
+}
+
+export function assert(condition, msg) {
+    if (!condition) {
+        throw new Error(msg)
+    }
 }

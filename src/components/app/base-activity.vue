@@ -57,12 +57,10 @@
 </template>
 
 <script>
-import darkMode from '@/mixins/dark-mode'
 import BackButton from '@/components/app/back-button'
 
 export default {
     name: 'BaseActivity',
-    mixins: [darkMode],
     components: { BackButton },
     props: {
         title: String,

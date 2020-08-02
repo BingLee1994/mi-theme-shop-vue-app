@@ -18,12 +18,13 @@ function handleDarkModeChange(_this) {
 
 export default {
     computed: {
-        darkMode() {
-            let $store = this.$store
-            if (!$store) {
-                $store = store
+        darkMode: {
+            get() {
+                return store.state.preference.darkMode
+            },
+            set(value) {
+                store.commit('setDarkMode', value)
             }
-            return $store.state.preference.darkMode
         }
     },
     mounted() {

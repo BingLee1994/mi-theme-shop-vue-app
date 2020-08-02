@@ -1,8 +1,8 @@
 <template>
     <div class="theme-list-warapper" ref="listWrapper">
         <div class="swipe-to-load" ref="loader">
-            <LoadingLoaderIcon small v-if="showLoadMoreLoading">{{loadMoreLoadingMessage}}</LoadingLoaderIcon>
-            <span v-else>松手以加载更多</span>
+            <LoadingLoaderIcon small v-if="showRefreshLoading">{{loadMoreLoadingMessage}}</LoadingLoaderIcon>
+            <span v-else>松手以刷新</span>
         </div>
         <component ref="list" :is="componentName" v-bind="$attrs" v-on="$listeners"/>
     </div>
@@ -23,10 +23,12 @@ const componentMap = {
 }
 
 export default {
+    inheritAttrs: false,
     name: 'MIUIThemeList',
     components: { ThemeList, FontList, RingtoneList, Loading, LoadingLoaderIcon },
     props: {
-        showLoadMoreLoading: {
+        scrollObserveTarget: [Object, String],
+        showRefreshLoading: {
             type: Boolean,
             default: false
         },
@@ -49,7 +51,7 @@ export default {
 
     mounted() {
         this.enableSwipeToLoadMoreListener()
-        this.loaderHeight = this.$refs.loader.offsetHeight
+        this.loaderHeight = this.$refs.loader.offsetHeight * 1.5
         this.$refs.loader.style.top = `-${this.loaderHeight}px`
         this.touchMoveThreshold = this.loaderHeight * 2
 
@@ -57,7 +59,7 @@ export default {
     },
 
     watch: {
-        showLoadMoreLoading(show) {
+        showRefreshLoading(show) {
             if (!show) {
                 this.transitionBack()
             }
@@ -65,6 +67,33 @@ export default {
     },
 
     methods: {
+        isCanSwipe() {
+            return !(
+                !this.enableSwipeToLoadMore ||
+                this.isAnimationPlaying ||
+                this.showRefreshLoading
+            )
+        },
+        getScrollObserveTarget() {
+            let { scrollObserveTarget } = this
+            let target = this.$refs.listWrapper
+            let overflow = 'auto'
+            if (typeof scrollObserveTarget === 'string') {
+                let el = document.querySelector(scrollObserveTarget)
+                if (el) {
+                    target = el
+                }
+            }
+            if (scrollObserveTarget instanceof HTMLElement) {
+                target = scrollObserveTarget
+            }
+            if (target !== this.$refs.listWrapper) {
+                overflow = ''
+            }
+            this.$refs.listWrapper.style.overflowY = overflow
+            return target
+        },
+
         transitionBack() {
             let elList = this.$refs.list.$el
             let elLoader = this.$refs.loader
@@ -82,6 +111,7 @@ export default {
 
         enableSwipeToLoadMoreListener() {
             if (!this.loadMoreListenerEEnabled) {
+                let scrollObserveTarget = null
                 let elListWrapper = this.$refs.listWrapper
                 let elList = this.$refs.list.$el
                 let elLoader = this.$refs.loader
@@ -89,51 +119,63 @@ export default {
                 let startX = 0
                 let startPos = 0
                 let moveDis = 0
+                let isCanReload = false
                 let isScrolling = false
                 let touchDirectionLocked = false
 
                 elListWrapper.addEventListener('touchstart', e => {
-                    startY = e.touches[0].pageY
-                    startX = e.touches[0].pageX
-                    startPos = parseTranslate(getComputedStyle(elList).transform).y
-                    touchDirectionLocked = false
-                    isScrolling = false
+                    if (this.isCanSwipe()) {
+                        startY = e.touches[0].pageY
+                        startX = e.touches[0].pageX
+                        startPos = parseTranslate(getComputedStyle(elList).transform).y
+                        touchDirectionLocked = false
+                        isScrolling = false
+                        scrollObserveTarget = this.getScrollObserveTarget()
+                        isCanReload = false
+                    }
                 })
 
+                // swip down
                 elListWrapper.addEventListener('touchmove', e => {
-                    if (!this.enableSwipeToLoadMore) {
-                        return
-                    }
-                    let curY = e.touches[0].pageY
-                    let deltaY = startY - curY
-                    let curX = e.touches[0].pageX
-                    let deltaX = startX - curX
-                    moveDis = Math.abs(deltaY)
-                    if (!touchDirectionLocked) {
-                        isScrolling = Math.abs(deltaY) > Math.abs(deltaX)
-                        touchDirectionLocked = true
-                    }
-                    if (elListWrapper.scrollTop === 0 &&
-                        !this.showLoadMoreLoading &&
-                        !this.isAnimationPlaying &&
-                        isScrolling
-                    ) {
-                        if (moveDis <= this.touchMoveThreshold) {
+                    if (this.isCanSwipe()) {
+                        let curY = e.touches[0].pageY
+                        let deltaY = startY - curY
+                        let curX = e.touches[0].pageX
+                        let deltaX = startX - curX
+                        moveDis = deltaY
+                        if (scrollObserveTarget.scrollTop > 0) {
+                            moveDis = 0
+                            return
+                        }
+                        if (!touchDirectionLocked) {
+                            isScrolling = Math.abs(deltaY) > Math.abs(deltaX)
+                            touchDirectionLocked = true
+                        }
+                        if (!this.showRefreshLoading &&
+                            !this.isAnimationPlaying &&
+                            deltaY < 0 &&
+                            isScrolling &&
+                            Math.abs(moveDis) <= this.touchMoveThreshold
+                        ) {
                             let translateY = startPos - deltaY
                             elList.style.transform = `translateY(${translateY}px)`
                             elLoader.style.transform = `translateY(${translateY}px)`
+                            isCanReload = true
                         }
                     }
                 })
 
                 elListWrapper.addEventListener('touchend', e => {
-                    if (!this.enableSwipeToLoadMore) {
-                        return
-                    }
-                    if (moveDis >= this.touchMoveThreshold) {
-                        this.$emit('willLoadMore', this.$props.type)
-                    } else {
-                        this.transitionBack()
+                    if (this.isCanSwipe()) {
+                        if (
+                            Math.abs(moveDis) >= this.touchMoveThreshold &&
+                            moveDis < 0 &&
+                            isCanReload
+                        ) {
+                            this.$emit('willLoadMore', this.$props.type)
+                        } else {
+                            this.transitionBack()
+                        }
                     }
                 })
             }
@@ -146,7 +188,7 @@ export default {
     .theme-list-warapper {
         $gapWidth: 15px;
         position: relative;
-        overflow: hidden auto;
+        overflow: hidden;
 
         .swipe-to-load {
             position: absolute;

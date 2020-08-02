@@ -28,13 +28,7 @@ const TEXT_CANCEL = '取消'
 function getCommonDialogActions(confirmCb, cancelCb) {
     let resolvedVal = NOTASSIGNED
     let rejectedReason = NOTASSIGNED
-    return {
-        cancel(p) {
-            rejectedReason = p
-        },
-        confirm(s) {
-            resolvedVal = s
-        },
+    let option = {
         closed() {
             if (resolvedVal !== NOTASSIGNED) {
                 callFunc(confirmCb, resolvedVal)
@@ -46,6 +40,20 @@ function getCommonDialogActions(confirmCb, cancelCb) {
             showNextDialogIfNeed()
         }
     }
+
+    if (cancelCb) {
+        option.cancel = p => {
+            rejectedReason = p
+        }
+    }
+
+    if (confirmCb) {
+        option.confirm = s => {
+            resolvedVal = s
+        }
+    }
+
+    return option
 }
 
 function createDialog(options) {
@@ -136,6 +144,36 @@ function createinputOptions(inputOptions, h = VUECreateElement) {
         )
     }
     return inputElements
+}
+
+function createActionList(actionList, resolve, h = VUECreateElement) {
+    return actionList.map((eachAc, idx) => {
+        let option = eachAc
+        if (typeof eachAc !== 'object') {
+            option = {
+                text: String(eachAc)
+            }
+        }
+
+        return (
+            <div
+                id={option.id || idx}
+                class="list-option"
+                onClick={
+                    _ => {
+                        curDialogInstance.closed = () => {
+                            resolve(eachAc)
+                            dialogIsShowing = false
+                            showNextDialogIfNeed()
+                        }
+                        curDialogInstance.isShow = false
+                    }
+                }
+            >
+                {option.text}
+            </div>
+        )
+    })
 }
 
 const dialogUtils = {
@@ -253,6 +291,35 @@ const dialogUtils = {
         })
     },
 
+    actionList(options) {
+        let { title, message, secondaryButton, actionList } = options
+
+        if (!isPlainObject(secondaryButton)) {
+            secondaryButton = {
+                text: secondaryButton || TEXT_CANCEL,
+                disabled: false
+            }
+        }
+
+        return new Promise((resolve, reject) => {
+            let actions = getCommonDialogActions(
+                cancelVal => reject(cancelVal)
+            )
+            let children = createActionList(actionList, resolve)
+
+            let promptDialogOption = {
+                props: {
+                    title,
+                    message,
+                    secondaryButton: secondaryButton || TEXT_CANCEL
+                },
+                actions,
+                children
+            }
+            mountDialog(promptDialogOption)
+        })
+    },
+
     popup(options) {
         let { title, message, primaryButton, secondaryButton, children } = options
 
@@ -267,7 +334,7 @@ const dialogUtils = {
                 children
             }
             if (typeof secondaryButton === 'undefined') {
-                promptDialogOption.props.secondaryButton = TEXT_CANCEL
+                // promptDialogOption.props.secondaryButton = TEXT_CANCEL
             } else if (secondaryButton) {
                 promptDialogOption.props.secondaryButton = secondaryButton
             }

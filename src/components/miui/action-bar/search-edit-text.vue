@@ -6,7 +6,6 @@ const searchBoxAppearance = new EditTextAppearance('var(--black10)')
 searchBoxAppearance.borderWidth = 0
 searchBoxAppearance.caretColor = 'var(--black80)'
 searchBoxAppearance.borderRadius = '2.2rem'
-searchBoxAppearance.height = '4.5rem'
 
 export default {
     inheritAttrs: false,
@@ -20,6 +19,7 @@ export default {
                 suffixIconClass="search"
                 widen
                 style={{ margin: 0 }}
+                height="4.5rem"
             >
             </EditText>
         )

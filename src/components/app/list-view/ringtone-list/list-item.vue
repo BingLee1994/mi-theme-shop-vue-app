@@ -1,5 +1,5 @@
 <template>
-    <div class="ringtone-list-item" v-flex.centerY>
+    <div @click="setRingtone" class="ringtone-list-item" v-flex.centerY>
         <div v-flex-item.1>
             <p class="title">{{name}}</p>
             <p class="keywords-wrapper">
@@ -21,7 +21,7 @@
         <div v-flex-item.0>
             <button
                 :class="['play', this.playing? 'pause': '']"
-                @click="playAudio"
+                @click.stop="playAudio"
             ></button>
         </div>
     </div>
@@ -29,9 +29,11 @@
 
 <script>
 import ColorfulButton from '@/components/app/colorful-button'
+import darkMode from '@/mixins/dark-mode'
 
 export default {
     name: 'RingtoneListItem',
+    mixins: [darkMode],
     components: { ColorfulButton },
     props: {
         keyWords: Array,
@@ -45,6 +47,15 @@ export default {
     },
 
     methods: {
+        setRingtone() {
+            this.$dialog.confirm({
+                title: '设定铃声',
+                message: '是否设置系统铃声？'
+            }).then(() => {
+                this.$toast.show('恭喜设定成功！')
+            })
+        },
+
         playAudio() {
             this.playing = true
             this.$toast.show('亲，这只是个小demo哦，暂时无法获取音频资源！')
@@ -52,6 +63,10 @@ export default {
                 this.playing = false
             }, 200)
         }
+    },
+
+    created() {
+        this.darkModeClass = 'dark-mode'
     }
 }
 </script>
@@ -101,6 +116,12 @@ export default {
 
         .play:active {
             opacity: .9;
+        }
+
+        &.dark-mode {
+            .play, .pause {
+                filter: brightness(2) contrast(0);
+            }
         }
     }
 </style>

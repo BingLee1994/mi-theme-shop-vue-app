@@ -41,6 +41,12 @@ export default {
         setWidth(width) {
             this.$refs.itemWrapper.style.width = `${width}px`
             this.$refs.itemWrapper.style.left = (width * this.index) + 'px'
+        },
+        onShow() {
+            let child = this.$slots.default || []
+            if (child[0] && child[0].componentInstance && child[0].componentInstance.onShow) {
+                child[0].componentInstance.onShow()
+            }
         }
     }
 }

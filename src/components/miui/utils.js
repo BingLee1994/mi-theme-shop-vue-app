@@ -119,6 +119,12 @@ function joinClass() {
     let className = []
     let args = arguments || []
     Array.prototype.forEach.call(args, arg => {
+        if (Array.isArray(arg)) {
+            arg.forEach(a => {
+                !isNone(a) && (className.push(a))
+            })
+            return
+        }
         !isNone(arg) && (className.push(arg))
     })
     return className.join(' ')

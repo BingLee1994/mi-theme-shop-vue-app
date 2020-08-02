@@ -2,11 +2,13 @@ import axios from 'axios'
 import { nanoid } from 'nanoid'
 import { GeneralException } from './error'
 import getBaseRequestContext from './requestContext'
+import useMock from '../mock/install'
 
 let Env = {
-    host: '192.168.31.115',
+    host: '192.168.1.7',
     port: '4201',
-    serviceName: 'api'
+    // serviceName: 'api'
+    serviceName: ''
 }
 
 let { host, port, serviceName } = Env
@@ -33,6 +35,10 @@ let service = {
         comments: {
             list: 'comments/list',
             detail: 'comments/detail'
+        },
+        theme: {
+            list: 'theme-list',
+            swiperItems: 'swiper'
         }
     },
     post: {
@@ -79,7 +85,7 @@ function handleMiuiException(exception) {
 }
 
 const api = axios.create({
-    baseURL: [baseURL, serviceName].join('/'),
+    baseURL: serviceName ? [baseURL, serviceName].join('/') : baseURL,
     timeout: timeout
 })
 
@@ -87,6 +93,13 @@ api.interceptors.request.use(handleMiuiRequest)
 api.interceptors.response.use(validateResponse, handleMiuiException)
 
 const server = {
+    getSwiperItems(type) {
+        return api.get(service.get.theme.swiperItems, { params: { type } })
+    },
+
+    getThemeList(type, filter) {
+        return api.get(service.get.theme.list, { params: { type, filter } })
+    },
     getQuickActionRecommend(category) {
         return api.get(service.get.quickAction.recommend, { params: { category } })
     },
@@ -114,8 +127,8 @@ const server = {
         return api.get(service.get.search.search, { params: { keyword, type } })
     },
 
-    getItemDetail(id) {
-        return api.get(service.get.item.detail, { params: { id } })
+    getItemDetail(id, type = 'theme') {
+        return api.get(service.get.item.detail, { params: { id, type } })
     },
 
     getItemChangeLog(id) {
@@ -152,7 +165,6 @@ const server = {
         // MOCK
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                console.log(purchased)
                 if (purchased) {
                     resolve({ status: 1, downloadUrl: '' })
                     return
@@ -251,6 +263,8 @@ window.server = api
 function install(Vue) {
     Vue.prototype.$api = server
 }
+
+useMock(api)
 
 export { api, service, baseURL, isGeneralException, install }
 export default server

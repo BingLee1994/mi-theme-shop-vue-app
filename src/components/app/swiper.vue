@@ -29,6 +29,10 @@
                 'indicator-wrapper': true,
                 'indicator-wrapper_dark': darkIndicator
             }"
+
+            :style="{
+                opacity: shouldShowIndicator ? 1 : 0
+            }"
         >
             <span
                 v-for="count in indicatorLength"
@@ -50,7 +54,7 @@
 import { pickRandomItem } from '@/utils'
 const MOVE_LEFT = 0
 const MOVE_RIGHT = 1
-const ANI_DURATION = 0.25
+const ANI_DURATION = 0.3
 const MOVE_THRESHOLD = 20 / 100
 const DEFAULT_INTERVAL_DURATION = 3 * 1000
 const DEFAULT_MAX_INTERVAL_DURATION = 10 * 1000
@@ -74,13 +78,26 @@ export default {
             default: DEFAULT_INTERVAL_DURATION,
             validator(val) {
                 if (val < DEFAULT_INTERVAL_DURATION || val > DEFAULT_MAX_INTERVAL_DURATION) {
-                    throw new Error('Invalid duration, the duration must be in [3s, 10s].')
+                    throw new Error(
+                        `Invalid duration, the duration must be in [${DEFAULT_INTERVAL_DURATION / 1000}s, ${DEFAULT_MAX_INTERVAL_DURATION / 1000}s].`
+                    )
                 }
                 return true
             }
         },
         darkIndicator: Boolean,
-        indicatorColor: String
+        indicatorColor: {
+            type: String,
+            default: 'white'
+        },
+        showIndicator: {
+            type: Boolean,
+            default: true
+        },
+        disableTimer: {
+            type: Boolean,
+            default: false
+        }
     },
 
     data() {
@@ -94,6 +111,13 @@ export default {
     },
 
     computed: {
+        shouldShowIndicator() {
+            if (this.$props.items.length <= 1) {
+                return false
+            }
+            return this.showIndicator
+        },
+
         enableCircle() {
             return this.$props.items.length >= 2
         },
@@ -162,7 +186,9 @@ export default {
 
         this._lazyLoadImgIfNeed()
         this._enabledTouchListener()
-        this._startAutoPlayIfNeed()
+        if (!this._startAutoPlayIfNeed) {
+            this._startAutoPlayIfNeed()
+        }
         this._genRandomColorfulBg()
         this._enableWrapperIntersectionObserver()
 
@@ -311,7 +337,7 @@ export default {
         },
 
         _startAutoPlayIfNeed() {
-            if (!this.autoPlayTimerId && this.length >= 2) {
+            if (!this.autoPlayTimerId && this.length >= 2 && !this.disableTimer) {
                 this.autoPlayTimerId = setInterval(this._autoPlayTimer.bind(this), this.duration)
             }
         },
@@ -364,13 +390,33 @@ export default {
 
         _lazyLoadImgIfNeed() {
             let { index, length, swiperItems: items, $refs } = this
+            console.log(index)
             if (length === 0) return
-            index = Math.abs(index)
-            let curImg = $refs[`img_${index}`][0]
-            let currentBg = curImg.style.backgroundImage
-            if (!currentBg) {
-                curImg.style.backgroundImage = `url(${items[index].imgUrl})`
-                curImg.style.opacity = 1
+            function showImg(idx) {
+                idx = Math.abs(idx)
+                let curImg = $refs[`img_${idx}`][0]
+                let currentBg = curImg.getAttribute('src')
+                if (!currentBg) {
+                    let bgImage = items[idx]
+                    if (bgImage && typeof bgImage === 'object') {
+                        bgImage = bgImage.imgUrl
+                    }
+                    curImg.setAttribute('src', bgImage)
+                    curImg.style.opacity = 1
+                }
+            }
+            showImg(index)
+            if (length <= 1) {
+                return
+            }
+            if (index === 1) {
+                showImg(length - 1)
+            }
+            if (index === length - 1) {
+                showImg(0)
+            }
+            if (index === 0) {
+                showImg(length - 2)
             }
         },
 
@@ -419,7 +465,8 @@ export default {
                 height: 100%;
                 transition: opacity .2s ease;
                 opacity: 0;
-                @include bg-center(cover);
+                object-position: center;
+                object-fit: cover;
             }
         }
         .indicator-wrapper {

@@ -1,4 +1,4 @@
-import WelcomeScreen from '@views/welcome'
+import SplashActivity from '@views/splash-activity'
 import HomeScreen from '@views/home/index'
 import SearchScreen from '@views/search/search'
 import IntroHomeScreen from '@views/intro/index'
@@ -12,12 +12,13 @@ import WriteCommentsScreen from '@views/comments/write-comment'
 import LoginScreen from '@views/login'
 import SettingScreen from '@views/setting'
 import ViewOrderScreen from '@views/my-order'
+import ViewWallpaperScreen from '@views/wallpaper-viewer'
 
 export default [
     {
         path: '/',
-        name: 'welcome',
-        component: WelcomeScreen
+        name: 'entry',
+        component: SplashActivity
     },
 
     {
@@ -30,7 +31,7 @@ export default [
         path: '/intro',
         name: 'intro',
         component: IntroHomeScreen,
-        redirect: { name: 'appIntro' },
+        redirect: { name: 'darkModeIntro' },
         children: introRoutes
     },
 
@@ -75,6 +76,15 @@ export default [
             authenticateReason: '登录以浏览或者购买商品',
             keepAlive: true,
             expectedEntry: ['search']
+        }
+    },
+
+    {
+        path: '/view-wallpaper/:id',
+        name: 'viewWallpaperItem',
+        component: ViewWallpaperScreen,
+        meta: {
+            expectedEntry: ['home']
         }
     },
 
@@ -124,7 +134,8 @@ export default [
         name: 'setting',
         component: SettingScreen,
         meta: {
-            expectedEntry: ['me']
+            expectedEntry: ['me'],
+            keepAlive: false
         }
     },
 

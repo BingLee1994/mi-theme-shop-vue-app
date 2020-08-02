@@ -41,7 +41,7 @@
         }
 
         &.small {
-            --width: 15px;
+            --width: 16px;
             --color: var(--black80);
             --border-width: 1px;
             margin: 0 5px;
