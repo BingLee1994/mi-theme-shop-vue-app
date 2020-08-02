@@ -43,6 +43,7 @@ export default {
         }
     },
     props: {
+        isGotoDetailPage: Boolean,
         item: Object,
         type: String,
         imgClass: String,
@@ -76,20 +77,24 @@ export default {
             })
         },
         onClick(item, e) {
-            let routeName = 'viewItem'
-            let { type, id } = this.$props
-            let params = {
-                type: type || 'theme',
-                id: id || 'tst'
+            if (this.isGotoDetailPage) {
+                let routeName = 'viewItem'
+                let { type, id } = this.$props
+                let params = {
+                    type: type || 'theme',
+                    id: id || 'tst'
+                }
+                if (type === 'wallpaper') {
+                    routeName = 'viewWallpaperItem'
+                    delete params.type
+                }
+                this.$router.push({
+                    name: routeName,
+                    params
+                })
+            } else {
+                this.$emit('click', item)
             }
-            if (type === 'wallpaper') {
-                routeName = 'viewWallpaperItem'
-                delete params.type
-            }
-            this.$router.push({
-                name: routeName,
-                params
-            })
         }
     }
 }

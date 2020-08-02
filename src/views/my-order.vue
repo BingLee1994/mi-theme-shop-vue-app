@@ -1,7 +1,7 @@
 <template>
     <Screen
         class="order-screen"
-        title="我的主题订单"
+        :title="title"
         mainClassName="screen-body"
     >
         <template slot="main">
@@ -84,6 +84,17 @@ export default {
                 font: [],
                 ringtone: []
             }
+        }
+    },
+
+    computed: {
+        title() {
+            let titles = {
+                favorite: '我的收藏',
+                order: '我的订单',
+                default: '我的项目'
+            }
+            return titles[this.$route.params.type]
         }
     },
 

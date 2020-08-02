@@ -13,6 +13,7 @@ import LoginScreen from '@views/login'
 import SettingScreen from '@views/setting'
 import ViewOrderScreen from '@views/my-order'
 import ViewWallpaperScreen from '@views/wallpaper-viewer'
+import FollowArtistScreen from '@views/my-follow-artist.vue'
 
 export default [
     {
@@ -126,7 +127,10 @@ export default [
     {
         path: '/view-category/:filter/:keyWord',
         name: 'viewCategory',
-        component: ViewCategoryScreen
+        component: ViewCategoryScreen,
+        meta: {
+            expectedEntry: ['viewFollowArtist']
+        }
     },
 
     {
@@ -144,8 +148,19 @@ export default [
         name: 'viewOrder',
         component: ViewOrderScreen,
         meta: {
-            authenticate: false,
+            authenticate: true,
             authenticateReason: '登录以查看订单详情',
+            expectedEntry: ['me']
+        }
+    },
+
+    {
+        path: '/follow-artist',
+        name: 'viewFollowArtist',
+        component: FollowArtistScreen,
+        meta: {
+            authenticate: true,
+            authenticateReason: '登录以查看您的关注列表',
             expectedEntry: ['me']
         }
     },

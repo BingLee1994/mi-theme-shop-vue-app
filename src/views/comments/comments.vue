@@ -67,6 +67,7 @@ export default {
     },
 
     async mounted() {
+        console.log(this.$route.params)
         this.getComments()
     },
 

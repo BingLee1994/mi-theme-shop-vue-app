@@ -45,7 +45,7 @@ export default {
     methods: {
         next() {
             let stPermission = this.$dialog.popup({
-                title: '权限管理',
+                title: '权限管理（模拟）',
                 children: (
                     <div>
                         <div class="f-l sys-icn icn-storage mg-r20"></div>
@@ -59,7 +59,7 @@ export default {
             })
 
             let settingPermission = this.$dialog.popup({
-                title: '权限管理',
+                title: '权限管理（模拟）',
                 children: (
                     <div>
                         <div class="f-l sys-icn icn-setting mg-r20"></div>

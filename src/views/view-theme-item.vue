@@ -1,5 +1,10 @@
 <template>
-    <Screen class="view-detail-screen" @scroll="appendRecommendListIfNeed">
+    <Screen
+        class="view-detail-screen"
+        ref="detailScreen"
+        @scroll="appendRecommendListIfNeed"
+        :backRoute="backRoute"
+    >
 
         <template slot="maskLayer">
             <Loading
@@ -58,9 +63,9 @@
                 </div>
 
                 <div v-flex class="action-wrapper" v-if="trendData">
-                    <Icon width="15px" type="like">{{trendData.likes}}</Icon>
-                    <Icon width="15px" type="comment">{{trendData.comments}}</Icon>
-                    <Icon width="15px" type="favorite">{{favorite? '已收藏': '收藏'}}</Icon>
+                    <Icon width="15px" type="like" @click="likeIt">{{likes}}</Icon>
+                    <Icon width="15px" type="comment" @click="gotoComments">{{trendData.comments}}</Icon>
+                    <Icon width="15px" type="favorite" @click="toggleFavorite">{{favorite? '已收藏': '收藏'}}</Icon>
                     <Icon width="15px" type="share">分享</Icon>
                 </div>
             </section>
@@ -99,7 +104,7 @@
             </section>
 
             <p class="section-title">猜你喜欢</p>
-            <ThemeList :items="recommendList" column="3"/>
+            <ThemeList :items="recommendList" column="3" @clickItem="loadThemeItem"/>
             <p class="no-more-item" v-show="showNoMoreItem">到底啦</p>
         </template>
     </Screen>
@@ -138,10 +143,12 @@ export default {
             purchased: false,
             topComments: null,
             recommendList: [],
+            likes: false,
             themeId: '',
             follow: false,
             favorite: false,
-            showNoMoreItem: false
+            showNoMoreItem: false,
+            backRoute: null
         }
     },
 
@@ -176,6 +183,13 @@ export default {
         }
     },
 
+    beforeRouteEnter(to, from, next) {
+        next(_this => {
+            console.log(from)
+            _this.backRoute = from.name === 'viewComment' ? { name: 'home' } : null
+        })
+    },
+
     methods: {
         showNetworkError() {
             this.$toast.show('（模拟后台）糟糕，服务器开小差了，请稍后再试哦！')
@@ -199,6 +213,8 @@ export default {
         },
 
         async loadThemeItem() {
+            this.$toast.show('demo里的主题数据随机展示哦', 1)
+            this.$refs.detailScreen.resetScrollBar()
             try {
                 this.showLoadingLayer()
                 let themeData = await api.getItemDetail()
@@ -212,8 +228,10 @@ export default {
                 this.keywords = themeData.keywords || []
                 this.follow = (themeData.artist || {}).follow
                 this.favorite = themeData.favorite
+                this.likes = themeData.trend.likes
 
-                this.mockList()
+                this.recommendList = []
+                this.getReconmand()
                 this.hideLoadingLayer(themeData.id)
                 this.getChangesLog()
             } catch (e) {
@@ -230,6 +248,13 @@ export default {
         viewImage(src) {
             this.showImagePreview = true
             this.currentImage = src
+        },
+
+        toggleFavorite() {
+            this.favorite = !this.favorite
+            if (this.favorite) {
+                this.$toast.show('已收藏！')
+            }
         },
 
         async checkOrderStatus() {
@@ -262,6 +287,10 @@ export default {
             }
         },
 
+        likeIt() {
+            this.likes++
+        },
+
         genOrderList(h, price, itemName) {
             return <div class="view-detail-screen order-list-popup">
                 <p class="order-list">
@@ -273,7 +302,7 @@ export default {
                 </p>
                 <p class="order-list">
                     <span>支付方式</span>
-                    <span>小米钱包</span>
+                    <span>大米钱包</span>
                 </p>
             </div>
         },
@@ -404,19 +433,22 @@ export default {
             }
             let { scrollTop, scrollHeight, offsetHeight } = event.target
             if (scrollTop >= (scrollHeight - offsetHeight - 20)) {
-                this.mockList()
+                this.getReconmand()
             }
         },
 
-        mockList() {
-            let i = 5
-            while (i > 0) {
-                this.recommendList.push({
-                    title: 'test',
-                    imgUrl: 'http://t3.market.mi-img.com/thumbnail/jpeg/w242/ThemeMarket/061074f72179d01fb5cb97cd2b9f4a5670842c74e'
+        getReconmand() {
+            this.$api.getReconmandList().then(list => {
+                list.forEach(listItem => {
+                    this.recommendList.push({
+                        id: listItem.id,
+                        imgUrl: listItem.previewImage,
+                        type: listItem.type,
+                        title: listItem.name,
+                        name: listItem.name
+                    })
                 })
-                i--
-            }
+            })
         }
     }
 }
@@ -592,6 +624,7 @@ export default {
                 border-radius: $avatarSize / 2;
                 @include bg-center(#{$avatarSize} #{$avatarSize});
                 box-shadow: 0px 0px 3px var(--black10);
+                display: inline-block;
             }
         }
 
@@ -649,7 +682,6 @@ export default {
     &.item-detail-popup-wrapper {
         margin: 0 -20px;
         padding: 0 20px;
-        margin-bottom: 20px;
         max-height: 50vh;
         overflow: hidden auto;
         font-size: 1.4rem;

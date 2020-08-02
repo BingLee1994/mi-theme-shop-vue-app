@@ -1,12 +1,11 @@
 <template>
-    <Screen class="view-detail-screen" :title="title">
+    <Screen class="view-category-screen" :title="title">
 
-        <!-- <template slot="maskLayer">
+        <template slot="maskLayer">
             <div>
-                <Retry message="出错了请再试一次。"/>
-                <Loading v-else />
+                <Loading v-show="showLoading"/>
             </div>
-        </template> -->
+        </template>
 
         <template slot="main">
             <ThemeList :items="itemList" column="3" @click="viewDetail"/>
@@ -23,7 +22,8 @@ export default {
     components: { Screen, ThemeList },
     data() {
         return {
-            itemList: []
+            itemList: [],
+            showLoading: true
         }
     },
 
@@ -35,8 +35,17 @@ export default {
 
     async mounted() {
         try {
+            this.showLoading = true
             let result = await api.search(this.$route.params.keyWord, 'theme')
-            this.itemList = result
+            this.itemList = result.map(theme => {
+                return {
+                    title: theme.title,
+                    imgUrl: theme.imgUrl,
+                    id: theme.id,
+                    type: 'theme'
+                }
+            })
+            this.showLoading = false
         } catch (err) {
             console.log(err)
         }
@@ -49,7 +58,6 @@ export default {
                     name: 'viewItemEntry', params: { id: item.itemId }
                 })
             } catch (err) {
-
             }
         }
     }

@@ -4,11 +4,13 @@ const mockDataMapping = {
     get: {
         '/search/theme': [require('../mock-data/items/theme/all-theme.json'), 15],
         '/search/recommend/theme': [require('../mock-data/items/theme/all-theme.json'), 2],
-        '/search': [require('../mock-data/search/result.json'), 12]
+        '/search': [require('../mock-data/search/result.json'), 12],
+        '/item/recommand': [require('../mock-data/items/theme/all-theme.json'), 7]
     },
     post: {
         '/profile': require('../mock-data/user/profile.json'),
-        '/login': require('../mock-data/user/user.json')
+        '/login': require('../mock-data/user/user.json'),
+        '/follow-artist': [require('../mock-data/user/follow-artist.json')]
     }
 }
 

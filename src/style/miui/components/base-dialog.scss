@@ -110,6 +110,7 @@ $dialogMargin: 1rem;
         }
 
         .title {
+            padding-right: #{$dialogPaddingH - 1rem};
             font-size: var(--fontSize18);
             margin-bottom: $dialogPadding;
         }
