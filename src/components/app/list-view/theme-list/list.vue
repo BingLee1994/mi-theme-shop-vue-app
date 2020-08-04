@@ -18,6 +18,7 @@
                 :style="item.style"
                 :item="item"
                 :type="item.type"
+                :isGotoDetailPage="isGotoDetailPage"
             />
         </div>
     </div>
@@ -60,12 +61,16 @@ export default {
                 result[columnIdx].push(item)
             })
             return result
+        },
+
+        isGotoDetailPage() {
+            return !this.$listeners.clickItem
         }
     },
 
     methods: {
         onClick(item, index, e) {
-            this.$emit('click', item, index, e)
+            this.$emit('clickItem', item, index, e)
         }
     }
 }

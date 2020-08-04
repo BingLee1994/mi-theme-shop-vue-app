@@ -30,7 +30,8 @@ let service = {
             recommend: 'quick-action/recommend'
         },
         item: {
-            detail: 'item/detail'
+            detail: 'item/detail',
+            recommand: 'item/recommand'
         },
         comments: {
             list: 'comments/list',
@@ -47,6 +48,9 @@ let service = {
         favorite: '/favorite',
         comments: {
             post: 'comments/post'
+        },
+        user: {
+            followArtist: '/follow-artist'
         }
     }
 }
@@ -131,6 +135,10 @@ const server = {
         return api.get(service.get.item.detail, { params: { id, type } })
     },
 
+    getReconmandList(id, type = 'theme') {
+        return api.get(service.get.item.recommand, { params: { id, type } })
+    },
+
     getItemChangeLog(id) {
         // MOCK
         return new Promise(resolve => {
@@ -159,6 +167,10 @@ const server = {
                 ])
             }, 1000)
         })
+    },
+
+    getFollowArtist() {
+        return api.post(service.post.user.followArtist)
     },
 
     getOrderStatus(id, purchased) {

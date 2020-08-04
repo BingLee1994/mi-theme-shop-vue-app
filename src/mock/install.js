@@ -36,7 +36,7 @@ export default function(api) {
         args.method = 'get'
         return router.handle(path, args)
     }
-    api.post = function(path, args) {
+    api.post = function(path, args = {}) {
         args.method = 'post'
         return router.handle(path, args)
     }

@@ -9,7 +9,7 @@
                     <div class="content">
                         <p class="title">暗色模式</p>
                     </div>
-                    <Toggle v-model="darkMode" @click="toggleDarkMode"/>
+                    <Toggle v-model="darkMode"/>
                 </li>
                 <li class="list-item">
                     <div class="content">
@@ -66,15 +66,19 @@ export default {
         about() {
             this.$dialog.alert('关于此应用', '此应用仅供学习和交流使用！我是一名Vue自学者，如果你也喜欢Vue开发，希望能与你交流探讨。')
         },
-        async alertDataProtection(e) {
-            if (this.dataProtection) {
-                await this.$dialog.confirm({
-                    title: '警告',
-                    message: '关闭流量保护可能会引起扣费，是否继续？'
-                })
-                this.dataProtection = false
+        async alertDataProtection(newVal) {
+            if (!newVal) {
+                try {
+                    await this.$dialog.confirm({
+                        title: '警告（模拟）',
+                        message: '关闭流量保护可能会引起扣费，是否继续？'
+                    })
+                    this.dataProtection = false
+                } catch (err) {
+                    this.dataProtection = true
+                }
             } else {
-                this.dataProtection = !this.dataProtection
+                this.dataProtection = newVal
             }
         }
     }

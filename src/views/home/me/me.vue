@@ -15,22 +15,28 @@
             >
                 <div class="avatar" v-lazy:background="avatar"></div>
                 <p>{{userName}}</p>
-                <p class="secondary has-next">我的关注</p>
+                <router-link
+                    tag="p"
+                    to="/follow-artist"
+                    class="secondary has-next"
+                >我的关注</router-link>
             </section>
 
             <section
                 class="img-button-wrapper"
                 v-flex.wrap
             >
-                <div
+                <router-link
                     v-for="(count, name)  in purchased"
                     :key="name"
                     class="img-button"
+                    tag="div"
+                    :to="{ name: 'viewOrder', params: {type: 'favorite'} }"
                 >
                     <div :class="[name, 'category-icon']"></div>
                     <p class="title">{{name | mapLabel}}</p>
                     <p class="sub-title">{{count}}</p>
-                </div>
+                </router-link>
             </section>
 
             <div class="divider"></div>
@@ -166,8 +172,10 @@ export default {
         transform: translate(-50%, -50%);
 
         .wallpaper {
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
+            display: inline-block;
+            filter: saturate(0.9) brightness(1.05);
 
             background: {
                 position: center;

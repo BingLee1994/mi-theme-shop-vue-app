@@ -22,7 +22,7 @@
             v-if="label"
             :class="{
                 'label': true,
-                'label_checked': toggleChecked,
+                'label_checked': checked,
                 [labelClass]: true
             }"
         >
@@ -47,16 +47,14 @@ export default {
     },
     data() {
         return {
-            toggleChecked: this.$props.checked,
             isAnimationPlaying: false
         }
     },
     methods: {
         swtichToggle(e) {
             if (this.$props.disabled || this.isAnimationPlaying) return
-            let value = !this.toggleChecked
+            let value = !this.$props.checked
             this.$emit('change', value)
-            this.toggleChecked = value
         }
     }
 }

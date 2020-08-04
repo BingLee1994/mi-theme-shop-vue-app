@@ -23,6 +23,7 @@
                         v-flex-item.0
                         v-show="showBackButton"
                         ref="backButton"
+                        :route="backRoute"
                     />
                     <p
                         :class="{
@@ -70,7 +71,8 @@ export default {
         },
         mainClassName: String,
         headerClassName: String,
-        footerClassName: String
+        footerClassName: String,
+        backRoute: [String, Object]
     },
 
     data() {
@@ -144,6 +146,10 @@ export default {
             if (showTopTitle !== this.showTopTitle) {
                 this.showTopTitle = showTopTitle
             }
+        },
+
+        resetScrollBar() {
+            this.$refs.content.scrollTop = 0
         }
     },
 
