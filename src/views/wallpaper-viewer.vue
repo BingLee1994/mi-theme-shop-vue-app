@@ -36,7 +36,7 @@ export default {
         }
     },
     mounted() {
-        this.$toast.show('demo版，壁纸随机显示。')
+        this.$toast.show('demo版，壁纸随机显示哦。（由于没有真实后台）')
         this.getWallpapers()
     },
     methods: {

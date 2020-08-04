@@ -36,7 +36,7 @@
               <keep-alive>
                 <component :is="componentName"/>
               </keep-alive>
-              <div class="loader" ref="loader" v-show="showLoader">上滑加载更多</div>
+              <div class="loader" ref="loader" v-show="showLoader">上滑翻页</div>
             </div>
 
         </div>

@@ -1,6 +1,6 @@
 <template>
     <div class="login-view">
-        <div class="title">登录大米账号登录</div>
+        <div class="title">登录大米账号</div>
         <form class="login-form" @submit.prevent="authenticate">
             <div class="input-item">
                 <input type="text" v-model="username" placeholder="邮箱/手机号/大米ID"/>

@@ -1,49 +1,79 @@
 <template>
     <div>
-        <div class="rank-list">
-            <RankList
-                class="top-rank-wrapper"
-                accentColor="#FC565E"
-                title="热销榜单"
-                :list="rankList.bestSeller">
-                <template slot="titleIcon">
-                    <span class="rank-icon mg-r5 bg-contain"></span>
-                </template>
-                <span slot="titleTailIcon" class="bg-contain rank-tail-icon mg-l5"></span>
-                <template slot="rankNumber" slot-scope="rank">
-                    <span :class="`rank-number rank-number-${rank.rankNumber}`">{{rank.rankNumber}}</span>
-                </template>
-            </RankList>
-        </div>
-        <div class="rank-list">
-            <RankList
-                accentColor="#9B51FE"
-                title="新品榜单"
-                :list="rankList.bestSeller">
-            </RankList>
-        </div>
+        <RankList
+            class="top-rank-wrapper"
+            accentColor="#FC565E"
+            title="热销榜单"
+            :list="rankList.bestSeller">
+            <template slot="titleIcon">
+                <span class="rank-icon mg-r5 bg-contain"></span>
+            </template>
+            <span slot="titleTailIcon" class="bg-contain rank-tail-icon mg-l5"></span>
+            <template slot="rankNumber" slot-scope="rank">
+                <span :class="`rank-number rank-number-${rank.rankNumber}`">{{rank.rankNumber}}</span>
+            </template>
+        </RankList>
+        <RankList
+            accentColor="#9B51FE"
+            title="新品榜单"
+            :list="rankList.newSeller">
+        </RankList>
+
+        <p class="pd-h20 mg-b5 mg-t25">字体集</p>
+        <FontPreviewList
+            @clickItem="gotoDetail"
+            :items="fontCollection"
+        />
     </div>
 </template>
 
 <script>
 import RankList from './component/font-rak-list'
+import FontPreviewList from './component/font-preview-card-list'
 
 export default {
     name: 'ThemeWallpaperCategory',
-    components: { RankList },
+    components: { RankList, FontPreviewList },
     data() {
         return {
             rankList: {
                 bestSeller: [
-                    { imgUrl: 'http://t3.market.xiaomi.com/thumbnail/png/w250/ThemeMarket/0517aa4ff7960423a3d8300bb1ff85087822c5176' },
-                    { imgUrl: 'http://t3.market.xiaomi.com/thumbnail/png/w250/ThemeMarket/0517aa4ff7960423a3d8300bb1ff85087822c5176' },
-                    { imgUrl: 'http://t3.market.xiaomi.com/thumbnail/png/w250/ThemeMarket/0517aa4ff7960423a3d8300bb1ff85087822c5176' }
+                    { imgUrl: 'http://t3.market.xiaomi.com/thumbnail/png/w250/ThemeMarket/0517aa4ff7960423a3d8300bb1ff85087822c5176', id: 1 },
+                    { imgUrl: 'http://t2.market.xiaomi.com/thumbnail/png/w250/ThemeMarket/01d6345b4f4ac433b1510fc80c7ec67f3bc731266', id: 2 },
+                    { imgUrl: 'http://t4.market.xiaomi.com/thumbnail/png/w250/ThemeMarket/00251d5569ebf41ec2bae7302aeacb1612b2c5eb1', id: 3 }
+                ],
+                newSeller: [
+                    { imgUrl: 'http://t5.market.mi-img.com/thumbnail/png/w250/ThemeMarket/0546a5917a858cbd14f330e6cb2ccf545684134c4', id: 4 },
+                    { imgUrl: 'http://t5.market.xiaomi.com/thumbnail/png/w250/ThemeMarket/0dea547e12d86eb19071d2c4205c0ee4d8b418c3c', id: 5 },
+                    { imgUrl: 'http://t3.market.xiaomi.com/thumbnail/png/w250/ThemeMarket/0617aa5ff7950423e3d83c0bb19f850f782225176', id: 6 }
                 ]
-            }
+            },
+            fontCollection: [
+                { nameCN: '方正字体', nameEN: 'FANG ZHENG @ 123' },
+                { nameCN: '汉仪字体', nameEN: 'HANYI @ 123' },
+                { nameCN: '神韵字体', nameEN: 'SHENYUN @ 123' },
+                { nameCN: '兄弟字体', nameEN: 'XIONGDI @ 123' },
+                { nameCN: '腾翔字体', nameEN: 'STENGXIANG @ 123' },
+                { nameCN: '伯乐字体', nameEN: 'BOLE @ 123' },
+                { nameCN: '梦家叔字体', nameEN: 'UNCLE @ 123' },
+                { nameCN: 'XFont', nameEN: 'XFONT @ 123' },
+                { nameCN: '文鼎字体', nameEN: 'WENDING @ 123' },
+                { nameCN: '书法字体', nameEN: 'SHUFA @ 123' }
+            ]
         }
     },
 
     methods: {
+        gotoDetail(fontItem) {
+            console.log(fontItem)
+            this.$router.push({
+                name: 'viewItem',
+                params: {
+                    type: 'font',
+                    id: fontItem.id || 'PHN2ZyB4bWxucz'
+                }
+            })
+        }
     }
 }
 </script>

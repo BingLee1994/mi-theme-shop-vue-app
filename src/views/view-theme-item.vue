@@ -36,7 +36,7 @@
                         v-for="(src, index) in previewImgs"
                         :key="index"
                         :src="src"
-                        class="item"
+                        :class="`item item-${itemType}`"
                         fitY
                         :name = "'slider' + index"
                         :threshold="0.1"
@@ -59,14 +59,14 @@
 
                 <div class="description-wrapper">
                     <span class="description text-trim-ellipsis">{{itemInfo.description}}</span>
-                    <span class="expand-button primary" @click="showItemDetailPopup">详情</span>
+                    <span class="expand-button primary link" @click="showItemDetailPopup">详情</span>
                 </div>
 
                 <div v-flex class="action-wrapper" v-if="trendData">
                     <Icon width="15px" type="like" @click="likeIt">{{likes}}</Icon>
                     <Icon width="15px" type="comment" @click="gotoComments">{{trendData.comments}}</Icon>
                     <Icon width="15px" type="favorite" @click="toggleFavorite">{{favorite? '已收藏': '收藏'}}</Icon>
-                    <Icon width="15px" type="share">分享</Icon>
+                    <Icon width="15px" type="share" @click="share">分享</Icon>
                 </div>
             </section>
 
@@ -76,7 +76,7 @@
                 </ColorfulButton>
             </div>
 
-            <p class="section-title">主题作者</p>
+            <p class="section-title">主题设计师</p>
             <section class="artist-wrapper" v-if="artist">
                 <div class="avatar">
                     <span class="img" v-lazy:background.once="artist.avatar"></span>
@@ -120,7 +120,7 @@ import Screen from '@/components/app/base-activity'
 import api from '@/api'
 import StarRank from '@/components/app/star-rank/star-rank'
 import ColorfulButton from '@/components/app/colorful-button'
-import { debounce, dateMD } from '@/utils'
+import { debounce, dateMD, isWechat } from '@/utils'
 
 const STATUE_PURCHASED = 1
 
@@ -185,7 +185,6 @@ export default {
 
     beforeRouteEnter(to, from, next) {
         next(_this => {
-            console.log(from)
             _this.backRoute = from.name === 'viewComment' ? { name: 'home' } : null
         })
     },
@@ -213,11 +212,12 @@ export default {
         },
 
         async loadThemeItem() {
-            this.$toast.show('demo里的主题数据随机展示哦', 1)
+            this.$toast.show('demo里的主题数据随机展示哦!（由于没有真实后台）', 1)
             this.$refs.detailScreen.resetScrollBar()
             try {
                 this.showLoadingLayer()
-                let themeData = await api.getItemDetail()
+                let { type, id } = this.$route.params
+                let themeData = await api.getItemDetail(id, type)
                 this.previewImgs = themeData.previewImgs || []
                 this.itemInfo = themeData.info || {}
                 this.trendData = themeData.trend || {}
@@ -360,6 +360,12 @@ export default {
             this.isDescExpanded = !this.isDescExpanded
         },
 
+        share() {
+            if (!isWechat()) {
+                this.$dialog.alert('', '暂时无法在浏览器里分享微信好友哦，请在微信里使用！')
+            }
+        },
+
         createDetailDialog(h) {
             let { title, description } = this.itemInfo || {}
             return <div class="view-detail-screen item-detail-popup-wrapper">
@@ -390,14 +396,17 @@ export default {
             let artist = this.artist || {}
             if (this.follow) {
                 try {
-                    await this.$dialog.confirm({
-                        title: '确定',
-                        message: `确定取消关注${artist.name || ''}?`,
-                        secondaryButton: '手滑了',
-                        primaryButton: '确定'
-                    })
-                    await api.updateFollowStatus(artist.id, !this.follow)
-                    this.follow = !this.follow
+                    try {
+                        await this.$dialog.confirm({
+                            title: '我会继续努力的',
+                            message: `取关后可能无法找到此设计师，确定取消关注${artist.name || ''}?`,
+                            secondaryButton: '残忍取关',
+                            primaryButton: '手滑了'
+                        })
+                    } catch (err) {
+                        await api.updateFollowStatus(artist.id, !this.follow)
+                        this.follow = !this.follow
+                    }
                 } catch (_) {
                 }
             } else {
@@ -538,7 +547,9 @@ export default {
     .preview-slider-wrapper {
         overflow: hidden;
         margin-bottom: 20px;
+        margin-right: -20px;
         .preview-slider {
+            padding-right: 20px;
             width: auto;
             overflow: auto hidden;
             white-space: nowrap;
@@ -553,6 +564,10 @@ export default {
                 border-radius: 10px;
                 box-shadow: 0 0 0 1px var(--black05);
                 margin-top: 1px;
+
+                &-font {
+                    width: 100%;
+                }
             }
         }
     }

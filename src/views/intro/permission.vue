@@ -39,63 +39,86 @@ export default {
     components: { Button },
     data() {
         return {
-            permissionAllowed: false
+            storagePermissionGranted: false,
+            settingPermissionGranted: false
+        }
+    },
+    computed: {
+        permissionAllowed() {
+            return this.storagePermissionGranted && this.settingPermissionGranted
         }
     },
     methods: {
         next() {
-            let stPermission = this.$dialog.popup({
-                title: '权限管理（模拟）',
-                children: (
-                    <div>
-                        <div class="f-l sys-icn icn-storage mg-r20"></div>
+            let tasks = []
+            if (!this.storagePermissionGranted) {
+                let stPermissionDialog = this.$dialog.popup({
+                    title: '权限管理（模拟）',
+                    children: (
                         <div>
-                            允许主题商店读写您的存储设备？您的隐私可能被泄露。
+                            <div class="f-l sys-icn icn-storage mg-r20"></div>
+                            <div>
+                                允许主题商店读写您的存储设备？您的隐私可能被泄露。
+                            </div>
                         </div>
-                    </div>
-                ),
-                secondaryButton: '禁止',
-                primaryButton: '允许'
-            })
+                    ),
+                    secondaryButton: '禁止',
+                    primaryButton: {
+                        text: '允许',
+                        name: 'setting'
+                    }
+                })
+                tasks.push(stPermissionDialog)
+            }
+            if (!this.settingPermissionGranted) {
+                let settingPermissionDialog = this.$dialog.popup({
+                    title: '权限管理（模拟）',
+                    children: (
+                        <div>
+                            <div class="f-l sys-icn icn-setting mg-r20"></div>
+                            <p>允许主题商店修改系统设置？</p>
+                        </div>
+                    ),
+                    secondaryButton: '禁止',
+                    primaryButton: {
+                        text: '允许',
+                        name: 'storage'
+                    }
+                })
+                tasks.push(settingPermissionDialog)
+            }
 
-            let settingPermission = this.$dialog.popup({
-                title: '权限管理（模拟）',
-                children: (
-                    <div>
-                        <div class="f-l sys-icn icn-setting mg-r20"></div>
-                        <p>允许主题商店修改系统设置？</p>
-                    </div>
-                ),
-                secondaryButton: '禁止',
-                primaryButton: '允许'
-            })
-
-            let result = []
-            let task = [stPermission, settingPermission]
+            let results = []
             new Promise(resolve => {
-                task.forEach(task => {
-                    task.then(() => {
-                        result.push(true)
-                        if (result.length === 2) {
-                            resolve(result)
+                tasks.forEach(task => {
+                    task.then(result => {
+                        if (result.name === 'setting') {
+                            this.settingPermissionGranted = true
+                        }
+                        if (result.name === 'storage') {
+                            this.storagePermissionGranted = true
+                        }
+                        results.push(true)
+                        if (results.length === tasks.length) {
+                            resolve(results)
                         }
                     })
                     .catch(() => {
-                        result.push(false)
-                        if (result.length === 2) {
-                            resolve(result)
+                        results.push(false)
+                        if (results.length === tasks.length) {
+                            resolve(results)
                         }
                     })
                 })
             })
             .then(() => {
-                if (!result.some(r => !r)) {
+                if (!results.some(r => !r)) {
                     this.$router.push({ name: 'home' })
                 } else {
-                    if (!result[0]) {
+                    if (!this.settingPermissionGranted) {
                         this.$toast.show('请允许应用修改设置！')
                     }
-                    if (!result[1]) {
+                    if (!this.storagePermissionGranted) {
                         this.$toast.show('请允许应用读写存储！')
                     }
                 }

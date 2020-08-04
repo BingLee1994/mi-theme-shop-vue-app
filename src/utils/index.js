@@ -2,6 +2,11 @@ function random(len) {
     return Math.floor(Math.random() * len + 1)
 }
 
+export function isWechat() {
+    let ua = navigator.userAgent.toLowerCase()
+    return ua.includes('micromessenger')
+}
+
 function parseTranslate(transform) {
     if (!transform || transform === 'none') {
         return {

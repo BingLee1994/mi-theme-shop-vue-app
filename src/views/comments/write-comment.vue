@@ -59,17 +59,37 @@ export default {
         }
     },
 
+    created() {
+        this.submitted = false
+    },
+
     methods: {
         submitComment() {
             let { comment, rankPoint } = this
             api.submitComment(comment, rankPoint, 'theme12345').then((response) => {
                 this.$toast.show('发表成功')
+                this.submitted = true
                 let lastRoute = this.$router.routeHistory.lastRoute
                 if (lastRoute) {
                     this.$router.back()
                 } else {
                     this.$router.push({ name: 'home' })
                 }
+            })
+        }
+    },
+
+    beforeRouteLeave(to, from, next) {
+        if (!this.submitted && this.comment) {
+            this.$dialog.confirm(
+                {
+                    title: '确认舍弃？',
+                    message: '您的评论将会被舍弃，是否继续？',
+                    primaryButton: '留页',
+                    secondaryButton: '舍弃'
+                }
+            ).catch(() => {
+                next(to)
             })
         }
     }

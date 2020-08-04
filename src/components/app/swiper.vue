@@ -20,6 +20,7 @@
                     left: `${index*width}px`,
                     width: `${width}px`
                 }"
+                @click="onClickItem(item, index)"
             >
                 <img :ref="`img_${index}`"/>
             </a>
@@ -427,6 +428,10 @@ export default {
                 let targetPosition = -index * this.width
                 this._swipeToWithAnimation(index, targetPosition)
             }
+        },
+
+        onClickItem(item, idx) {
+            this.$emit('clickItem', item, idx)
         }
     },
 

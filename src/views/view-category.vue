@@ -16,10 +16,11 @@
 <script>
 import ThemeList from '@/components/app/list-view/theme-list/list'
 import Screen from '@/components/app/base-activity'
+import Loading from '@/components/app/loading'
 import api from '@/api'
 
 export default {
-    components: { Screen, ThemeList },
+    components: { Screen, ThemeList, Loading },
     data() {
         return {
             itemList: [],
@@ -34,6 +35,7 @@ export default {
     },
 
     async mounted() {
+        this.$toast.show('Demo里的数据随机展示!（由于没有真实后台）')
         try {
             this.showLoading = true
             let result = await api.search(this.$route.params.keyWord, 'theme')

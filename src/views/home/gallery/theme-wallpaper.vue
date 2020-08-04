@@ -6,6 +6,7 @@
             :duration="4000"
             class="adv-swiper"
             name="recommend view"
+            @clickItem = "handleSwiperClick"
         />
         <QuickActions
             :items="quickActionItems"
@@ -32,6 +33,28 @@ import Loading from '@/components/app/loading'
 import cacheUtil from '@/utils/cache'
 import config from '@/config'
 
+const swiperHandler = {
+    category(item, vm) {
+        let { keyWord, filter } = item
+        vm.$router.push({
+            name: 'viewCategory',
+            params: { keyWord, filter }
+        })
+    },
+    theme(item, vm) {
+        vm.$router.push({
+            name: 'viewItem',
+            params: {
+                type: 'theme',
+                id: item.id
+            }
+        })
+    },
+    external(item) {
+        window.open(item.url)
+    }
+}
+
 export default {
     name: 'ThemeWallpaperGallery',
     components: { Swiper, QuickActions, ThemeList, Loading },
@@ -48,6 +71,7 @@ export default {
             showRefreshLoading: false
         }
     },
+
     mounted() {
         this.getQuickActionRecommend().then(recommend => {
             recommend.forEach(r => {
@@ -58,6 +82,7 @@ export default {
         this.getSwiperItems()
         this.getThemeList()
     },
+
     methods: {
         getSwiperItems() {
             this.showLoading = true
@@ -73,6 +98,7 @@ export default {
                 this.swiperItems = swiperCache
             }
         },
+
         getThemeList() {
             this.showLoading = true
             return this.$api.getThemeList('theme').then(list => {
@@ -91,6 +117,14 @@ export default {
                 this.showLoading = false
             })
         },
+
+        handleSwiperClick(item) {
+            let handler = swiperHandler[item.type]
+            if (handler) {
+                handler(item, this)
+            }
+        },
+
         reload() {
             this.showRefreshLoading = true
             this.$api.getThemeList('theme').then(list => {
