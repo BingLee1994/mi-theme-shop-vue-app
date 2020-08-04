@@ -2,7 +2,8 @@
     <span
         class="lazy-img-wrapper"
         :style="{
-            backgroundColor: placeholder
+            backgroundColor: placeholder,
+            display: block? 'block': ''
         }"
         ref="placeholder"
         v-on="$listeners"
@@ -13,7 +14,8 @@
             @load="onImgLoaded"
             :style="{
                 objectFit: fitContain? 'contain': (fitCover? 'cover': ''),
-                transitionDuration: transitionDuration + 's'
+                transitionDuration: transitionDuration + 's',
+                display: block? 'block': ''
             }"
         />
     </span>
@@ -41,7 +43,8 @@ export default {
             validator(val) {
                 return val >= 0 && val <= 1
             }
-        }
+        },
+        block: Boolean
     },
 
     data() {
@@ -81,6 +84,7 @@ export default {
     methods: {
         onImgLoaded({ target }) {
             target.style.opacity = 1
+            this.$refs.placeholder.style.backgroundColor = ''
         },
 
         onIntersectionChange(e) {

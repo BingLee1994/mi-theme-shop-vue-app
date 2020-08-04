@@ -15,6 +15,7 @@
         right: 0;
         bottom: 0;
         background-color: rgba(0,0,0,1);
+        z-index: 999999
     }
 }
 
@@ -75,6 +76,9 @@ $space:5,10,15,20,25,30, 35, 40;
         &-t#{$s} {
             margin-top: #{$s}px;
         }
+        &-l#{$s} {
+            margin-left: #{$s}px;
+        }
         &-h#{$s} {
             margin: {
                 left: #{$s}px !important;
@@ -93,10 +97,21 @@ $space:5,10,15,20,25,30, 35, 40;
                 bottom: #{$s}px !important;
             }
         }
+        &-#{$s} {
+            margin: {
+                top: #{$s}px !important;
+                bottom: #{$s}px !important;
+                left: #{$s}px !important;
+                right: #{$s}px !important;
+            }
+        }
     }
     .pd {
         &-t#{$s} {
             padding-top: #{$s}px;
+        }
+        &-l#{$s} {
+            padding-left: #{$s}px;
         }
         &-h#{$s} {
             padding: {
@@ -111,6 +126,14 @@ $space:5,10,15,20,25,30, 35, 40;
             padding: {
                 top: #{$s}px !important;
                 bottom: #{$s}px !important;
+            }
+        }
+        &-#{$s} {
+            padding: {
+                top: #{$s}px !important;
+                bottom: #{$s}px !important;
+                left: #{$s}px !important;
+                right: #{$s}px !important;
             }
         }
     }
@@ -246,4 +269,9 @@ $space:5,10,15,20,25,30, 35, 40;
     &.icn-storage {
         background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5Ljk5IDguMzEiPjxkZWZzPjxzdHlsZT4uYXtmaWxsOiM1NTZmOGU7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT7otYTmupAgNjwvdGl0bGU+PHBhdGggY2xhc3M9ImEiIGQ9Ik0uODQsNy40OUg4LjMzdi44MkguODRhLjg2Ljg2LDAsMCwxLS42LS4yM0EuODEuODEsMCwwLDEsMCw3LjQ5VjEuNjZILjg0Wm04LjktNi40MmEuNzYuNzYsMCwwLDEsLjI1LjU5VjUuODFhLjc5Ljc5LDAsMCwxLS4yNS42LjgxLjgxLDAsMCwxLS41OS4yNEgyLjVhLjc5Ljc5LDAsMCwxLS41OS0uMjQuOTEuOTEsMCwwLDEtLjI1LS42di01QS45MS45MSwwLDAsMSwxLjkxLjIzLjgyLjgyLDAsMCwxLDIuNSwwSDVsLjg0LjgySDkuMTVBLjkxLjkxLDAsMCwxLDkuNzQsMS4wN1oiLz48L3N2Zz4=");
     }
+}
+
+.bg-contain {
+    background-repeat: no-repeat;
+    background-size: contain;
 }
