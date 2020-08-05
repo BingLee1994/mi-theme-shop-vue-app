@@ -88,8 +88,8 @@
 
             <p class="section-title">主题设计师</p>
             <section class="artist-wrapper" v-if="artist">
-                <div class="avatar">
-                    <span class="img" v-lazy:background.once="artist.avatar"></span>
+                <div class="avatar-wrapper">
+                    <span class="avatar img" v-lazy:background.once="artist.avatar"></span>
                 </div>
                 <div class="tittle">{{artist.name}}</div>
                 <div class="description">
@@ -135,6 +135,7 @@ import { debounce, dateMD, isWechat } from '@/utils'
 const STATUE_PURCHASED = 1
 
 export default {
+    name: 'viewDetailScreen',
     components: { LazyImg, Screen, Loading, ThemeList, Icon, ColorfulButton, Button, StarRank },
     data() {
         return {
@@ -186,9 +187,14 @@ export default {
         this.appendRecommendListIfNeed = debounce(this.appendRecommendListIfNeed, 300).bind(this)
     },
 
+    mounted() {
+        this.loadThemeItem()
+    },
+
     activated() {
         let lastRoute = this.$router.routeHistory.lastRoute || {}
         if (lastRoute.name !== 'viewComment') {
+            console.log('refresh page')
             this.loadThemeItem()
         }
     },
@@ -197,6 +203,10 @@ export default {
         next(_this => {
             _this.backRoute = from.name === 'viewComment' ? { name: 'home' } : null
         })
+    },
+
+    deactivated() {
+        console.log(this)
     },
 
     methods: {
@@ -638,7 +648,7 @@ export default {
         grid-template-areas: 'a t b'
         'a d b';
 
-        .avatar {
+        .avatar-wrapper {
             grid-area: a;
             align-self: center;
             .img {

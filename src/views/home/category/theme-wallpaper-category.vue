@@ -11,6 +11,7 @@
                         :item="item"
                         width="90px"
                         style="margin:0 10px"
+                        @click="gotoDetail(item)"
                     />
                 </div>
             </div>
@@ -24,6 +25,7 @@
                         :item="item"
                         width="90px"
                         style="margin:0 10px"
+                        @click="gotoDetail(item)"
                     />
                 </div>
             </div>
@@ -34,9 +36,11 @@
             <ImageButton
                 v-for="item in styles"
                 :key="item.id"
-                @click="onClick(item)"
+                @click="gotoCollection(item)"
                 :src="item.imgUrl"
                 small
+                cover
+                color="var(--black80)"
             >
                 {{item.text}}
             </ImageButton>
@@ -47,10 +51,11 @@
             <ImageButton
                 v-for="item in features"
                 :key="item.id"
-                @click="onClick(item)"
+                @click="gotoCollection(item)"
                 :src="item.imgUrl"
                 small
                 textAlign="center bottom"
+                cover
             >
                 {{item.text}}
             </ImageButton>
@@ -80,6 +85,27 @@ export default {
     },
 
     methods: {
+        gotoDetail(themeItem) {
+            this.$router.push({
+                name: 'viewItem',
+                params: {
+                    id: themeItem.id,
+                    type: 'theme'
+                }
+            })
+        },
+
+        gotoCollection(themeItem) {
+            this.$router.push({
+                name: 'viewCategory',
+                params: {
+                    id: themeItem.id,
+                    filter: 'theme',
+                    keyWord: themeItem.text
+                }
+            })
+        },
+
         async getData() {
             try {
                 let trend = await this.$api.getTrend('theme')

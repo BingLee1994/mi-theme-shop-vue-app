@@ -56,7 +56,7 @@ export default {
                 name: 'viewItem',
                 params: {
                     type: this.$props.type || 'font',
-                    id: this.$props.id
+                    id: this.$props.id || 'detaultid'
                 }
             })
         }

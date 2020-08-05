@@ -177,6 +177,7 @@ $space:5,10,15,20,25,30, 35, 40;
 }
 
 @mixin screen-transition($direction) {
+    $aniDuration: .3s;
     &-enter {
         @if $direction == top {
             transform: translate3d(0, 100%, 0);
@@ -186,7 +187,7 @@ $space:5,10,15,20,25,30, 35, 40;
             transform: translate3d(-20%, 0, 0);
         }
         &-active {
-            transition: transform .3s ease;
+            transition: transform $aniDuration ease;
             z-index: 100;
             will-change: transform;
             @include fillscreen;
@@ -212,7 +213,7 @@ $space:5,10,15,20,25,30, 35, 40;
             transform: translate3d(0, 0, 0);
         }
         &-active {
-            transition: transform .3s ease;
+            transition: transform $aniDuration ease;
             @if $direction == left {
                 z-index: 99;
             } @else {
@@ -274,4 +275,9 @@ $space:5,10,15,20,25,30, 35, 40;
 .bg-contain {
     background-repeat: no-repeat;
     background-size: contain;
+}
+
+.avatar {
+    background-image: url(../assets//img/avatar.png);
+    display: inline-block;
 }

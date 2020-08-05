@@ -4,7 +4,7 @@ const mockDataMapping = {
     get: {
         '/search/theme': [require('../mock-data/items/theme/all-theme.json'), 15],
         '/search/recommend/theme': [require('../mock-data/items/theme/all-theme.json'), 2],
-        '/search': [require('../mock-data/search/result.json'), 12],
+        '/search/font': [require('../mock-data/search/result.json'), 12],
         '/item/recommand': [require('../mock-data/items/theme/all-theme.json'), 7]
     },
     post: {

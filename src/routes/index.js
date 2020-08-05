@@ -42,7 +42,7 @@ export default [
         component: HomeScreen,
         children: homeRoutes,
         meta: {
-            keepAlive: true
+            keepAlive: false
         },
         redirect: {
             name: 'gallery'
@@ -65,18 +65,14 @@ export default [
     },
 
     {
-        path: '/view/:id',
-        name: 'viewItemEntry',
+        path: '/view/:type/:id',
+        name: 'viewItem',
         component: ViewThemeItemScreen,
-        redirect: to => {
-            let { id } = to.params
-            return { name: 'viewItem', params: { id, type: 'theme' } }
-        },
         meta: {
             authenticate: true,
             authenticateReason: '登录以浏览或者购买商品',
             keepAlive: true,
-            expectedEntry: ['search', 'home', 'category']
+            expectedEntry: ['search', 'home']
         }
     },
 
@@ -86,18 +82,6 @@ export default [
         component: ViewWallpaperScreen,
         meta: {
             expectedEntry: ['home']
-        }
-    },
-
-    {
-        path: '/view/:type/:id',
-        name: 'viewItem',
-        component: ViewThemeItemScreen,
-        meta: {
-            authenticate: true,
-            authenticateReason: '登录以浏览或者购买商品',
-            keepAlive: true,
-            expectedEntry: ['search', 'home']
         }
     },
 

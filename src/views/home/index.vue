@@ -26,6 +26,7 @@ export default {
     },
 
     created() {
+      console.error('home screen created')
       this.syncNavTabByRoute()
     },
 

@@ -55,7 +55,16 @@ export default {
         this.length = validChild.length
     },
 
+    activated() {
+        console.log('activity activated!')
+    },
+
+    deactivated() {
+        console.log('activity hidden!')
+    },
+
     mounted() {
+        console.log('activity mounted!')
         if (this.$slots.default) {
             // 这里是VNode中的instance已经创建
             this.$slots.default.forEach(s => this.items.push(s.componentInstance))

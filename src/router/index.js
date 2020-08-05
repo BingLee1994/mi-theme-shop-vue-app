@@ -8,7 +8,11 @@ import handleTransition from './transition'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    console.error('savedPosition is')
+    console.error(savedPosition)
+  }
 })
 
 router.beforeEach(function(to, from, next) {

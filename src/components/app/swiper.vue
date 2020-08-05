@@ -391,7 +391,6 @@ export default {
 
         _lazyLoadImgIfNeed() {
             let { index, length, swiperItems: items, $refs } = this
-            console.log(index)
             if (length === 0) return
             function showImg(idx) {
                 idx = Math.abs(idx)

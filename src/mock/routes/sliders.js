@@ -30,9 +30,8 @@ module.exports = {
                 }
                 mock.push(item)
             } else {
-
+                mock.push(img)
             }
-            mock.push()
         }
         return new Promise((resolve, reject) => {
             setTimeout(() => {

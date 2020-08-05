@@ -1,5 +1,5 @@
 <template>
-    <div class="recommend-view">
+    <div class="recommend-view" ref="container">
         <Swiper
             :items="swiperItems"
             :darkIndicator="true"
@@ -72,6 +72,10 @@ export default {
         }
     },
 
+    created() {
+        this.savedScroll = 0
+    },
+
     mounted() {
         this.getQuickActionRecommend().then(recommend => {
             recommend.forEach(r => {
@@ -81,6 +85,20 @@ export default {
 
         this.getSwiperItems()
         this.getThemeList()
+    },
+
+    activated() {
+        if (this.$refs.container && this.savedScroll) {
+            console.log('restore saved scroll')
+            this.$refs.container.scrollTop = this.savedScroll
+        }
+    },
+
+    deactivated() {
+        console.log('theme gallety hidden!')
+        if (this.$refs.container) {
+            this.savedScroll = this.$refs.container.scrollTop
+        }
     },
 
     methods: {

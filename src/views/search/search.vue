@@ -82,6 +82,7 @@
                     :key="item.id"
                     @click="onClickStyle(item)"
                     :src="item.imgUrl"
+                    cover
                 />
             </section>
 
@@ -94,6 +95,7 @@
                     :key="item.id"
                     @click="onClick(item)"
                     :src="item.imgUrl"
+                    cover
                 >
                     {{item.text}}
                 </ImageButton>
@@ -104,7 +106,7 @@
         <SearchFilter v-if="isShowResult" @change="onFilterChange">筛选器</SearchFilter>
         <div v-if="isShowResult" class="container">
             <ThemeList
-                type="theme"
+                :type="searchType"
                 :items="searchResult"
                 :column="3"
                 @click="viewDetail"
@@ -118,7 +120,7 @@
 import ColorfulButon from '@/components/app/colorful-button'
 import Icon from '@/components/app/icons'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import ThemeList from '@/components/app/list-view/theme-list/list'
+import ThemeList from '@/components/app/list-view'
 import ImageButton from '@/components/app/image-button'
 import DarkModeMixin from '@/mixins/dark-mode'
 import SearchFilter from './search-filter'
@@ -206,11 +208,15 @@ export default {
             let resultList = []
             response.forEach(item => {
                 if (item.type === this.searchType) {
-                    resultList.push({
-                        title: item.title,
-                        imgUrl: item.imgUrl,
-                        type: item.type
-                    })
+                    if (item.type === 'theme') {
+                        item = {
+                            title: item.title,
+                            imgUrl: item.imgUrl,
+                            type: item.type,
+                            id: item.id || 'detaultid'
+                        }
+                    }
+                    resultList.push(item)
                 }
             })
             this.searchResult = resultList
@@ -219,7 +225,7 @@ export default {
         async viewDetail(item) {
             try {
                 await this.$router.push({
-                    name: 'viewItemEntry', params: { id: item.itemId }
+                    name: 'viewItem', params: { id: item.itemId, type: this.searchType || 'theme' }
                 })
             } catch (err) {
 
@@ -231,10 +237,11 @@ export default {
         },
 
         goBack() {
-            this.$router.push({ name: 'home' })
+            window.history.go(-1)
         }
     },
     beforeRouteEnter: (to, from, next) => {
+        console.log(from)
         document.body.scrollTop = 0
         next()
     }

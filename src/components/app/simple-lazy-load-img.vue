@@ -84,7 +84,7 @@ export default {
     methods: {
         onImgLoaded({ target }) {
             target.style.opacity = 1
-            this.$refs.placeholder.style.backgroundColor = ''
+            this.$refs.placeholder && (this.$refs.placeholder.style.backgroundColor = '')
         },
 
         onIntersectionChange(e) {

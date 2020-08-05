@@ -29,7 +29,8 @@
             <div
               class="main"
               ref="componentWrapper"
-              @touchstart="handleTouchMove"
+              @touchstart="handleTouchStart"
+              @touchmove="handleTouchMove"
               @touchend="handleTouchCancel"
               @touchcancel="handleTouchCancel"
             >
@@ -80,6 +81,8 @@ export default {
 
     created() {
       this.canShowNextComponent = false
+      this.moveStartY = 0
+      this.moveDis = 0
     },
 
     watch: {
@@ -134,16 +137,30 @@ export default {
         this.$router.push({ name: 'search', query: { type: this.currentNavName } })
       },
 
+      handleTouchStart(e) {
+        this.moveStartY = e.touches[0].pageY
+      },
+
       handleTouchMove(e) {
-        let { currentTarget: elComponentWrapper } = e
-        if (elComponentWrapper.scrollTop >= elComponentWrapper.scrollHeight - elComponentWrapper.offsetHeight - 5) {
-          this.canShowNextComponent = true
-        } else {
-          this.canShowNextComponent = false
+        let curY = e.touches[0].pageY
+        this.moveDis = curY - this.moveStartY
+        let elComponentWrapper = e.currentTarget
+
+        if (elComponentWrapper.scrollTop !== elComponentWrapper.scrollHeight - elComponentWrapper.offsetHeight) {
+          console.log('not in the bottom')
+          this.moveDis = 0
         }
       },
 
       handleTouchCancel(e) {
+        let { currentTarget: elComponentWrapper } = e
+        if (
+          this.moveDis < -10 &&
+          elComponentWrapper.scrollTop >= elComponentWrapper.scrollHeight - elComponentWrapper.offsetHeight - 2) {
+          this.canShowNextComponent = true
+        } else {
+          this.canShowNextComponent = false
+        }
         if (this.canShowNextComponent) {
           let { navItems, currentNavIndex } = this
           let nextNav = currentNavIndex + 1

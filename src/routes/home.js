@@ -7,22 +7,34 @@ export default [
   {
     path: 'gallery',
     name: 'gallery',
-    component: Gallery
+    component: Gallery,
+    meta: {
+      keepAlive: false
+    }
   },
   {
     path: 'category',
     component: Category,
     name: 'category',
-    showTab: false
+    showTab: false,
+    meta: {
+      keepAlive: true
+    }
   },
   {
     path: 'gallery/:type',
     component: Gallery,
-    name: 'galleryByType'
+    name: 'galleryByType',
+    meta: {
+      keepAlive: true
+    }
   },
   {
     path: 'me',
     component: Me,
-    name: 'me'
+    name: 'me',
+    meta: {
+      keepAlive: true
+    }
   }
 ]

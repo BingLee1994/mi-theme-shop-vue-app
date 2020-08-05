@@ -4,7 +4,9 @@
             class="top-rank-wrapper"
             accentColor="#FC565E"
             title="热销榜单"
-            :list="rankList.bestSeller">
+            :list="rankList.bestSeller"
+            @clickItem="gotoDetail"
+        >
             <template slot="titleIcon">
                 <span class="rank-icon mg-r5 bg-contain"></span>
             </template>
@@ -16,12 +18,14 @@
         <RankList
             accentColor="#9B51FE"
             title="新品榜单"
-            :list="rankList.newSeller">
+            :list="rankList.newSeller"
+            @clickItem="gotoDetail"
+        >
         </RankList>
 
         <p class="pd-h20 mg-b5 mg-t25">字体集</p>
         <FontPreviewList
-            @clickItem="gotoDetail"
+            @clickItem="gotoCollection"
             :items="fontCollection"
         />
     </div>
@@ -71,6 +75,16 @@ export default {
                 params: {
                     type: 'font',
                     id: fontItem.id || 'PHN2ZyB4bWxucz'
+                }
+            })
+        },
+        gotoCollection(fontItem) {
+            this.$router.push({
+                name: 'viewCategory',
+                params: {
+                    filter: 'font',
+                    keyWord: fontItem.nameCN,
+                    id: fontItem.id || 'defaultid'
                 }
             })
         }

@@ -7,6 +7,7 @@ import themeList from './theme-list'
 import themeSearch from './theme-search'
 import themeTrend from './theme-trend'
 import themeStyle from './theme-style'
+import Search from './search'
 
 const allRoutes = [
     commentsList,
@@ -17,7 +18,8 @@ const allRoutes = [
     themeList,
     themeSearch,
     themeTrend,
-    themeStyle
+    themeStyle,
+    Search
 ]
 
 export default function mountRoute(router) {

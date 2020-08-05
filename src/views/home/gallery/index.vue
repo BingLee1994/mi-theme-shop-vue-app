@@ -59,6 +59,7 @@ export default {
     },
 
     created() {
+      console.log('Gallery page CREATED!!')
       let swiperItems = []
       this.navItems.forEach((n, index) => {
         let componentName = navComponentMap[n.name]
@@ -70,6 +71,19 @@ export default {
         }
       })
       this.swiperItems = swiperItems
+    },
+
+    activated() {
+      console.log(this.swiperItems)
+      console.log('Gallery page restored!')
+    },
+
+    deactivated() {
+      console.log('Gallery page hide!')
+    },
+
+    mounted() {
+      console.log('Gallery page mounted!')
     },
 
     methods: {
@@ -84,12 +98,18 @@ export default {
       gotoSearch() {
         this.$router.push({ name: 'search', query: { type: this.currentNavName } })
       }
-    },
-
-    beforeRouteUpdate(to, from, next) {
-      console.log('复用了')
-      next()
     }
+
+    /* beforeRouteLeave(to, from, next) {
+      // this.savedScrollBar = this.
+      let elSwiper = this.$refs.swiper.$el
+      let childItem = elSwiper.querySelector('.swiper-activity-item-wrapper')
+      if (childItem) {
+        debugger
+        this.savedScroll = childItem.scrollTop
+      }
+      next()
+    } */
 }
 </script>
 

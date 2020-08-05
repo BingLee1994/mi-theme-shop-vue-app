@@ -1,5 +1,5 @@
 <template>
-    <div class="recommend-view">
+    <div class="recommend-view" ref="container">
         <Swiper
             :items="swiperItems"
             :darkIndicator="true"
@@ -49,6 +49,20 @@ export default {
         this.getThemeList()
         this.getSwiperItems()
     },
+
+    activated() {
+        if (this.$refs.container && this.savedScroll) {
+            console.log('restore saved scroll')
+            this.$refs.container.scrollTop = this.savedScroll
+        }
+    },
+
+    deactivated() {
+        if (this.$refs.container) {
+            this.savedScroll = this.$refs.container.scrollTop
+        }
+    },
+
     methods: {
         getSwiperItems() {
             this.showLoading = true
@@ -74,3 +88,9 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+ .recommend-view {
+    height: 100%;
+    overflow-y: auto;
+ }
+</style>

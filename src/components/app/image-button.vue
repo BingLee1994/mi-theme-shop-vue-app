@@ -2,8 +2,12 @@
     <a
         v-on="$listeners"
         v-lazy:background="src"
-        :style="`background-color:${backgroundColor}`"
-        :class="['image-button cover', medium? 'medium': '', small? 'small': '']"
+        :style="{
+            backgroundColor:backgroundColor,
+            backgroundSize: cover ? 'cover': ( contain ? 'contain' : '')
+
+        }"
+        :class="['image-button', medium? 'medium': '', small? 'small': '']"
     >
         <span
             :class="['title', darkMode? 'dark-mode': '', textAlignV, textAlignH]"
@@ -33,7 +37,9 @@ export default {
             type: String,
             default: ''
         },
-        backgroundColor: String
+        backgroundColor: String,
+        cover: Boolean,
+        contain: Boolean
     },
 
     computed: {
@@ -67,6 +73,8 @@ export default {
         display: inline-block;
         font-size: 1.4rem;
         position: relative;
+        background-position: center;
+        background-repeat: no-repeat;
 
         &.medium {
             height: 80px;
@@ -82,6 +90,7 @@ export default {
             left: var(--padding);
             right: var(--padding);
             top: var(--padding);
+            text-shadow: 1px 1px 4px var(--black20);
 
             &.center {
                 text-align: center;

@@ -106,7 +106,7 @@ export default {
         async viewDetail(item) {
             try {
                 await this.$router.push({
-                    name: 'viewItemEntry', params: { id: item.itemId }
+                    name: 'viewItem', params: { id: item.itemId, type: item.type || 'theme' }
                 })
             } catch (err) {
 
