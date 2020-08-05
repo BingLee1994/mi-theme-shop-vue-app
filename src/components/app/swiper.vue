@@ -58,7 +58,7 @@ const MOVE_RIGHT = 1
 const ANI_DURATION = 0.3
 const MOVE_THRESHOLD = 20 / 100
 const DEFAULT_INTERVAL_DURATION = 3 * 1000
-const DEFAULT_MAX_INTERVAL_DURATION = 10 * 1000
+const DEFAULT_MAX_INTERVAL_DURATION = 30 * 1000
 const BG_COLOR = ['#E8F6F6', '#EFF1FE', '#FFF5EC', '#FAFEF0', '#FFECFD']
 const VISIBILITY_THRESHOLD = 0.5
 const TYPE_DATA_CHANGE = 0
@@ -172,6 +172,18 @@ export default {
             this.index = 1
             this.length = this.swiperItems.length
         }
+        this.doneSetup = false
+    },
+
+    deactivated() {
+        this._stopAutoPlay()
+    },
+
+    activated() {
+        this._setSize()
+        this._lazyLoadImgIfNeed()
+        this.position = -this.width * this.index
+        this._startAutoPlayIfNeed()
     },
 
     mounted() {
@@ -187,9 +199,7 @@ export default {
 
         this._lazyLoadImgIfNeed()
         this._enabledTouchListener()
-        if (!this._startAutoPlayIfNeed) {
-            this._startAutoPlayIfNeed()
-        }
+        this._startAutoPlayIfNeed()
         this._genRandomColorfulBg()
         this._enableWrapperIntersectionObserver()
 
@@ -198,6 +208,7 @@ export default {
         })
 
         window.addEventListener('resize', this._adjustSwiperUIonResize)
+        this.doneSetup = true
     },
 
     updated() {
@@ -434,7 +445,7 @@ export default {
         }
     },
 
-    destroyed() {
+    beforeDestroy() {
         this._stopAutoPlay()
         if (this.observer) {
             this.observer.disconnect(this.$refs.wrapper)
