@@ -177,6 +177,8 @@ $dialogMargin: 1rem;
         padding: $dialogPadding/2 $dialogPaddingH;
         padding-left: $dialogPaddingH/2;
         line-height: 1;
+        flex-direction: row;
+        justify-content: flex-start;
         .loader {
             display: inline-block;
             width: 2rem;

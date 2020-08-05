@@ -10,6 +10,9 @@
                 <a class="link" @click="showTNC">用户隐私协议</a>
                 。
             </p>
+            <p>
+                此demo仅供学习交流！
+            </p>
             <div class="mg-t25" v-flex>
                 <div class="f-l sys-icn icn-storage mg-r20"></div>
                 <div v-flex-item.1>
@@ -126,10 +129,10 @@ export default {
         },
         showTNC() {
             this.$dialog.popup({
-                title: '隐私协议',
+                title: '隐私协议（模拟）',
                 children: (
                     <div>
-                        <div>    （以下文本仅为demo演示用）以下隐私协议是本游戏对用户隐私保护的许诺，请您务必仔细阅读本协议，以了解我们关于管理您个人信息的情况。本隐私协议的全部条款属于本软件用户服务协议的重要部份之一。
+                        <div>    以下隐私协议是本游戏对用户隐私保护的许诺，请您务必仔细阅读本协议，以了解我们关于管理您个人信息的情况。本隐私协议的全部条款属于本软件用户服务协议的重要部份之一。
 为了给您提供更准确、更有针对性的服务，本软件可能会以如下方式，使用您提交的个人信息。但本软件会以高度的勤勉义务对待这些信息，在未征得您许可的情况下，不会将这些信息对外公开或向第三方提供。
 </div>
                         <ul class="mg-t20">
@@ -144,7 +147,7 @@ export default {
                         </ul>
                     </div>
                 ),
-                primaryButton: '我知道了'
+                primaryButton: '我已了解并同意'
             })
         },
         previous() {

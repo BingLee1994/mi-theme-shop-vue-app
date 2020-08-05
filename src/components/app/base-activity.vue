@@ -44,9 +44,12 @@
                 v-flex-item:overflow.1="`hidden auto`"
                 ref="content"
                 @scroll="onMainContentScroll"
+                :style="{
+                    padding: `0 ${padding}px`
+                }"
             >
                 <p class="big-title" ref="bigTitle" v-show="title">{{title}}</p>
-                <slot name="main"></slot>
+                <slot name="main" :padding="padding"></slot>
             </main>
 
             <footer v-show="showFooter" :class="['footer', footerClassName]">
@@ -77,7 +80,8 @@ export default {
 
     data() {
         return {
-            showTopTitle: false
+            showTopTitle: false,
+            padding: 15
         }
     },
 
@@ -205,7 +209,6 @@ export default {
     }
 
     & > main.content {
-        padding: 0 #{$paddingH};
     }
 
     & > .footer {

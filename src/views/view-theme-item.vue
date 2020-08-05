@@ -27,10 +27,20 @@
             </transition>
         </template>
 
-        <template slot="main">
-            <div class="preview-slider-wrapper">
+        <template slot="main" slot-scope="frame">
+            <div
+                class="preview-slider-wrapper"
+                :style="{
+                    margin: `0 -${frame.padding}px`
+                }"
+            >
                 <div
-                    class="preview-slider" v-if="previewImgs.length"
+                    class="preview-slider"
+                    v-if="previewImgs.length"
+                    :style="{
+                        paddingLeft: `${frame.padding}px`,
+                        paddingRight: `${frame.padding}px`
+                    }"
                 >
                     <LazyImg
                         v-for="(src, index) in previewImgs"
@@ -191,7 +201,7 @@ export default {
 
     methods: {
         showNetworkError() {
-            this.$toast.show('（模拟后台）糟糕，服务器开小差了，请稍后再试哦！')
+            this.$toast.show('（模拟后台）糟糕，服务器开小差了，请稍后再试哦！', 1)
         },
 
         showLoading(msg) {
@@ -258,7 +268,7 @@ export default {
         },
 
         async checkOrderStatus() {
-            let closeLoading = this.showLoading('查询中...')
+            let closeLoading = this.showLoading('查询中...（模拟）')
             let themeId = this.themeId
 
             if (themeId) {
@@ -546,8 +556,6 @@ export default {
 
     .preview-slider-wrapper {
         overflow: hidden;
-        margin-bottom: 20px;
-        margin-right: -20px;
         .preview-slider {
             padding-right: 20px;
             width: auto;

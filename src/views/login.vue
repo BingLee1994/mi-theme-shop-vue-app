@@ -62,10 +62,10 @@ export default {
                     console.log(this.$store.getters)
                     let attemptRoute = this.$store.getters['authenticator/attemptRoute']
                     if (attemptRoute) {
-                        this.$router.push(attemptRoute)
+                        this.$router.replace(attemptRoute)
                         this.$store.commit('authenticator/setAttemptRoute', null)
                     } else {
-                        this.$router.push({ name: 'home' })
+                        this.$router.replace({ name: 'home' })
                     }
                 } catch (e) {
                     this.$toast.show('登录失败，请稍后再试！')

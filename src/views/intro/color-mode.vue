@@ -44,13 +44,23 @@ export default {
             }
         }
     },
+    created() {
+        this.setCardHeight = this.setCardHeight.bind(this)
+    },
     mounted() {
-        let previewCard = document.querySelectorAll('.preview-card')
-        Array.prototype.forEach.call(previewCard, card => {
-            card.style.height = (card.offsetWidth) / 9 * 16 + 'px'
-        })
+        this.setCardHeight()
+        window.addEventListener('resize', this.setCardHeight)
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.setCardHeight)
     },
     methods: {
+        setCardHeight() {
+            let previewCard = document.querySelectorAll('.preview-card')
+            Array.prototype.forEach.call(previewCard, card => {
+                card.style.height = (card.offsetWidth) / 9 * 16 + 'px'
+            })
+        },
         toggleDarkMode(darkMode = true) {
             if (this.isDarkMode !== darkMode) {
                 this.isDarkMode = darkMode

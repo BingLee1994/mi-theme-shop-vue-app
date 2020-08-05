@@ -1,7 +1,7 @@
 
 <template>
     <li
-        class="font-preview-card pd-v10"
+        class="font-preview-card pd-5 pd-v10"
         v-on="$listeners"
         :style="`--accentColor:${accentColor}`"
     >
@@ -45,6 +45,7 @@ export default {
 
         .sub-title {
             font-size: 1.2rem;
+            word-break: break-all;
             @include iphone5se {
                 font-size: 1rem;
             }

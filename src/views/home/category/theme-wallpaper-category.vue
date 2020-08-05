@@ -12,9 +12,6 @@
                         width="90px"
                         style="margin:0 10px"
                     />
-                    <div class="more-button">
-                        <a>更多</a>
-                    </div>
                 </div>
             </div>
             <div class="top-rank-list-wrapper">
@@ -28,9 +25,6 @@
                         width="90px"
                         style="margin:0 10px"
                     />
-                    <div class="more-button">
-                        <a>更多</a>
-                    </div>
                 </div>
             </div>
         </section>
@@ -74,60 +68,33 @@ export default {
 
     data() {
         return {
-            styles: [
-                {
-                    text: '中国风'
-                },
-                {
-                    text: '小清新'
-                },
-                {
-                    text: '萌萌哒'
-                }
-            ],
-            features: [
-                {
-                    text: '炫酷锁屏'
-                },
-                {
-                    text: '百变壁纸'
-                },
-                {
-                    text: '彩虹电池'
-                }
-            ],
-            topThemeList: [
-                {
-                    title: '超炫IOS',
-                    imgUrl: 'http://file.market.xiaomi.com/download/ThemeMarket/0c14b462253ff7ae2e032e52d6bf320a5c842d0b8'
-                },
-                {
-                    title: '超炫IOS',
-                    imgUrl: 'http://file.market.xiaomi.com/download/ThemeMarket/0c14b462253ff7ae2e032e52d6bf320a5c842d0b8'
-                },
-                {
-                    title: '超炫IOS',
-                    imgUrl: 'http://file.market.xiaomi.com/download/ThemeMarket/0c14b462253ff7ae2e032e52d6bf320a5c842d0b8'
-                }
-            ],
-            newThemeList: [
-                {
-                    title: '超炫IOS',
-                    imgUrl: 'http://file.market.xiaomi.com/download/ThemeMarket/0c14b462253ff7ae2e032e52d6bf320a5c842d0b8'
-                },
-                {
-                    title: '超炫IOS',
-                    imgUrl: 'http://file.market.xiaomi.com/download/ThemeMarket/0c14b462253ff7ae2e032e52d6bf320a5c842d0b8'
-                },
-                {
-                    title: '超炫IOS',
-                    imgUrl: 'http://file.market.xiaomi.com/download/ThemeMarket/0c14b462253ff7ae2e032e52d6bf320a5c842d0b8'
-                }
-            ]
+            styles: [],
+            features: [],
+            topThemeList: [],
+            newThemeList: []
         }
     },
 
+    mounted() {
+        this.getData()
+    },
+
     methods: {
+        async getData() {
+            try {
+                let trend = await this.$api.getTrend('theme')
+                let styleAndFeature = await this.$api.getStyle('theme')
+
+                this.topThemeList = trend.topList
+                this.newThemeList = trend.newList
+
+                this.styles = styleAndFeature.styles
+                this.features = styleAndFeature.features
+            } catch (err) {
+                console.log(err)
+                this.$toast.show('服务期初小差了！请稍后再试（模拟）')
+            }
+        }
     }
 }
 </script>
@@ -159,6 +126,7 @@ export default {
             overflow-x: auto;
             align-items: center;
             padding-bottom: 15px;
+            align-items: flex-start;
             .more-button {
                 flex-basis: 50px;
                 width: 50px;

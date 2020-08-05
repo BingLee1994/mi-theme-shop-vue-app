@@ -50,12 +50,12 @@ export default {
             },
             fontCollection: [
                 { nameCN: '方正字体', nameEN: 'FANG ZHENG @ 123' },
-                { nameCN: '汉仪字体', nameEN: 'HANYI @ 123' },
+                { nameCN: '程序员', nameEN: 'DVELOPER @ 123' },
                 { nameCN: '神韵字体', nameEN: 'SHENYUN @ 123' },
                 { nameCN: '兄弟字体', nameEN: 'XIONGDI @ 123' },
                 { nameCN: '腾翔字体', nameEN: 'STENGXIANG @ 123' },
                 { nameCN: '伯乐字体', nameEN: 'BOLE @ 123' },
-                { nameCN: '梦家叔字体', nameEN: 'UNCLE @ 123' },
+                { nameCN: '家叔字体', nameEN: 'UNCLE @ 123' },
                 { nameCN: 'XFont', nameEN: 'XFONT @ 123' },
                 { nameCN: '文鼎字体', nameEN: 'WENDING @ 123' },
                 { nameCN: '书法字体', nameEN: 'SHUFA @ 123' }

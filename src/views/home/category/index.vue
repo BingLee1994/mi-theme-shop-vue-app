@@ -29,7 +29,7 @@
             <div
               class="main"
               ref="componentWrapper"
-              @touchmove="handleTouchMove"
+              @touchstart="handleTouchMove"
               @touchend="handleTouchCancel"
               @touchcancel="handleTouchCancel"
             >
@@ -103,6 +103,11 @@ export default {
       }
     },
 
+    beforeDestroy() {
+      this.intersectionOb.disconnect()
+      this.intersectionOb = null
+    },
+
     methods: {
       checkShowLoader() {
         setTimeout(() => {
@@ -118,9 +123,10 @@ export default {
       handleLoaderVisibility([e]) {
         let { intersectionRatio, target: elLoader } = e
         if (intersectionRatio >= loaderIntersecThresHold) {
-          elLoader.style.opacity = 1
+          elLoader.classList.add('active')
         } else {
-          elLoader.style.opacity = 0
+          elLoader.classList.remove('active')
+          this.canShowNextComponent = false
         }
       },
 
@@ -130,7 +136,7 @@ export default {
 
       handleTouchMove(e) {
         let { currentTarget: elComponentWrapper } = e
-        if (elComponentWrapper.scrollTop >= elComponentWrapper.offsetHeight) {
+        if (elComponentWrapper.scrollTop >= elComponentWrapper.scrollHeight - elComponentWrapper.offsetHeight - 5) {
           this.canShowNextComponent = true
         } else {
           this.canShowNextComponent = false
@@ -145,6 +151,7 @@ export default {
             nextNav = 0
           }
           this.selectNavByIndex(nextNav)
+          this.$refs.componentWrapper.scrollTop = 0
 
           this.checkShowLoader()
         }
@@ -198,8 +205,15 @@ export default {
           font-size: 1.2rem;
           color: var(--black30);
           padding: 10px 0;
-          transition: opacity .2s ease;
+          transition: all .2s ease;
           opacity: 0;
+          transform: translateY(10px);
+          transform-origin: bottom center;
+
+          &.active {
+            opacity: 1;
+          transform: translateY(0px);
+          }
         }
       }
     }

@@ -76,7 +76,7 @@ export default [
             authenticate: true,
             authenticateReason: '登录以浏览或者购买商品',
             keepAlive: true,
-            expectedEntry: ['search', 'home']
+            expectedEntry: ['search', 'home', 'category']
         }
     },
 

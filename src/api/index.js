@@ -40,6 +40,10 @@ let service = {
         theme: {
             list: 'theme-list',
             swiperItems: 'swiper'
+        },
+        data: {
+            style: 'data/style',
+            trend: 'data/trend'
         }
     },
     post: {
@@ -263,6 +267,14 @@ const server = {
 
     getFavorite(type) {
         return api.post(service.post.favorite, { type })
+    },
+
+    getTrend(type) {
+        return api.get(service.get.data.trend, { type })
+    },
+
+    getStyle(type) {
+        return api.get(service.get.data.style, { type })
     }
 }
 
