@@ -8,6 +8,7 @@
             :class="['screen', $attrs.class]"
             v-flex.column
             v-full-screen.hidden
+            ref="screen"
         >
             <header
                 :class="[
@@ -17,6 +18,7 @@
                 ]"
                 v-flex-item.0
                 v-show="showHeader"
+                ref="header"
             >
                 <div class="action-bar" v-flex.centerY>
                     <BackButton
@@ -123,6 +125,13 @@ export default {
             this.connected = true
         }
         this._adjustTitle()
+        this.elMain = this.$refs
+
+        this.$emit('ref', {
+            screen: this.$refs.screen,
+            header: this.$refs.header,
+            amin: this.$refs.content
+        })
     },
 
     methods: {
