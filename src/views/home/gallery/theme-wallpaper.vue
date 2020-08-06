@@ -3,7 +3,7 @@
         <Swiper
             :items="swiperItems"
             :darkIndicator="true"
-            :duration="4000"
+            :duration="3000"
             class="adv-swiper"
             name="recommend view"
             @clickItem = "handleSwiperClick"
@@ -95,7 +95,6 @@ export default {
     },
 
     deactivated() {
-        console.log('theme gallety hidden!')
         if (this.$refs.container) {
             this.savedScroll = this.$refs.container.scrollTop
         }

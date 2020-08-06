@@ -147,7 +147,6 @@ export default {
         let elComponentWrapper = e.currentTarget
 
         if (elComponentWrapper.scrollTop !== elComponentWrapper.scrollHeight - elComponentWrapper.offsetHeight) {
-          console.log('not in the bottom')
           this.moveDis = 0
         }
       },

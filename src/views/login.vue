@@ -59,7 +59,6 @@ export default {
             if (username && password) {
                 try {
                     await this.$store.dispatch('authenticator/authenticate', { username, password })
-                    console.log(this.$store.getters)
                     let attemptRoute = this.$store.getters['authenticator/attemptRoute']
                     if (attemptRoute) {
                         this.$router.replace(attemptRoute)

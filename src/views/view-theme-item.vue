@@ -184,18 +184,22 @@ export default {
     },
 
     created() {
+        this.savedScrollTop = 0
         this.appendRecommendListIfNeed = debounce(this.appendRecommendListIfNeed, 300).bind(this)
     },
 
-    mounted() {
+    /* mounted() {
         this.loadThemeItem()
-    },
+    }, */
 
     activated() {
         let lastRoute = this.$router.routeHistory.lastRoute || {}
         if (lastRoute.name !== 'viewComment') {
-            console.log('refresh page')
+            console.log('refresh page to load theme data')
             this.loadThemeItem()
+        } else if (this.savedScrollTop) {
+            this.$refs.detailScreen.$refs.content &&
+                (this.$refs.detailScreen.$refs.content.scrollTop = this.savedScrollTop)
         }
     },
 
@@ -205,8 +209,10 @@ export default {
         })
     },
 
-    deactivated() {
-        console.log(this)
+    beforeRouteUpdate(to, from, next) {
+        console.log('theme item updated')
+        this.loadThemeItem()
+        next()
     },
 
     methods: {
@@ -456,6 +462,7 @@ export default {
         },
 
         appendRecommendListIfNeed(event) {
+            this.savedScrollTop = event.target.scrollTop
             if (this.recommendList.length >= 20) {
                 this.showNoMoreItem = true
                 return

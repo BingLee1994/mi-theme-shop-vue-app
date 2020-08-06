@@ -5,7 +5,6 @@
             :darkIndicator="true"
             :duration="5000"
             class="adv-swiper"
-            name="recommend view"
         />
         <QuickActions
             :items="quickActionItems"

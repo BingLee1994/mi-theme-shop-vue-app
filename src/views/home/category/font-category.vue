@@ -69,7 +69,6 @@ export default {
 
     methods: {
         gotoDetail(fontItem) {
-            console.log(fontItem)
             this.$router.push({
                 name: 'viewItem',
                 params: {
