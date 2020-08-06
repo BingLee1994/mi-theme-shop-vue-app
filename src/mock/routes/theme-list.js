@@ -11,11 +11,14 @@ export default {
             default: require('../mock-data/search/result.json')
         }
         let response = mock[type] || mock.default
-        response = pickRandomItem(response, 15)
+        response = pickRandomItem(response, 1)
 
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                resolve(response)
+                resolve(response.map(r => {
+                    r.id = parseInt(Math.random * 10000)
+                    return r
+                }))
             }, 500)
         })
     }
