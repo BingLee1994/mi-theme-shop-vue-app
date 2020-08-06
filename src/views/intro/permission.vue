@@ -10,8 +10,8 @@
                 <a class="link" @click="showTNC">用户隐私协议</a>
                 。
             </p>
-            <p>
-                此demo仅供学习交流！
+            <p class="bold mg-t20">
+                此demo为h5应用，非小程序，仅供学习交流！
             </p>
             <div class="mg-t25" v-flex>
                 <div class="f-l sys-icn icn-storage mg-r20"></div>
@@ -58,10 +58,10 @@ export default {
                 let stPermissionDialog = this.$dialog.popup({
                     title: '权限管理（模拟）',
                     children: (
-                        <div>
-                            <div class="f-l sys-icn icn-storage mg-r20"></div>
+                        <div v-flex>
+                            <div style="flex: 0 0 auto" class="f-l sys-icn icn-storage mg-r20"></div>
                             <div>
-                                允许主题商店读写您的存储设备？您的隐私可能被泄露。
+                                允许主题商店读写您的存储设备？您的隐私可能被泄露。（此弹窗为html模拟，非系统弹窗，请勿担心隐私问题。）
                             </div>
                         </div>
                     ),

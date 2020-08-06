@@ -54,6 +54,7 @@ export default {
         this.loaderHeight = this.$refs.loader.offsetHeight * 1.5
         this.$refs.loader.style.top = `-${this.loaderHeight}px`
         this.touchMoveThreshold = this.loaderHeight * 2
+        this.maxTouchMoveThreshold = this.loaderHeight * 3
 
         this.isAnimationPlaying = false
     },
@@ -155,12 +156,12 @@ export default {
                             !this.isAnimationPlaying &&
                             deltaY < 0 &&
                             isScrolling &&
-                            Math.abs(moveDis) <= this.touchMoveThreshold
+                            Math.abs(moveDis) <= this.maxTouchMoveThreshold
                         ) {
                             let translateY = startPos - deltaY
                             elList.style.transform = `translateY(${translateY}px)`
                             elLoader.style.transform = `translateY(${translateY}px)`
-                            isCanReload = true
+                            isCanReload = Math.abs(moveDis) >= this.touchMoveThreshold
                         }
                     }
                 })

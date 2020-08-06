@@ -46,7 +46,7 @@ export default {
             this.showLoading = true
             let result = await api.search(this.$route.params.keyWord, type)
             console.log(result)
-            if (type === 'theme') { 
+            if (type === 'theme') {
                 result = result.map(theme => {
                     return {
                         title: theme.title,
