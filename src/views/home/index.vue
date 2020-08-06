@@ -112,7 +112,7 @@ export default {
 
 <style lang="scss">
   .home-screen {
-    --footer-height: 70px;
+    --footer-height: 7rem;
     @include fillscreen;
 
     .body {

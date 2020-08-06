@@ -1,0 +1,21 @@
+
+[
+    { 
+        "text": "抖音",
+        "imgUrl": "",
+        "external": true,
+        "link": "https://www.shanghaidisneyresort.com/"
+    },
+    { 
+        "text": "快手热歌",
+        "imgUrl": "",
+        "routeLink": true,
+        "route": "result/次元"
+    },
+    { 
+        "text": "怀旧金曲",
+        "imgUrl": "",
+        "routeLink": true,
+        "route": "result/top"
+    }
+]

@@ -31,15 +31,15 @@
             <div
                 class="preview-slider-wrapper"
                 :style="{
-                    margin: `0 -${frame.padding}px`
+                    margin: `0 -${frame.padding}`
                 }"
             >
                 <div
                     class="preview-slider"
                     v-if="previewImgs.length"
                     :style="{
-                        paddingLeft: `${frame.padding}px`,
-                        paddingRight: `${frame.padding}px`
+                        paddingLeft: `${frame.padding}`,
+                        paddingRight: `${frame.padding}`
                     }"
                 >
                     <LazyImg
@@ -73,10 +73,10 @@
                 </div>
 
                 <div v-flex class="action-wrapper" v-if="trendData">
-                    <Icon width="15px" type="like" @click="likeIt">{{likes}}</Icon>
-                    <Icon width="15px" type="comment" @click="gotoComments">{{trendData.comments}}</Icon>
-                    <Icon width="15px" type="favorite" @click="toggleFavorite">{{favorite? '已收藏': '收藏'}}</Icon>
-                    <Icon width="15px" type="share" @click="share">分享</Icon>
+                    <Icon width="1.5rem" type="like" @click="likeIt">{{likes}}</Icon>
+                    <Icon width="1.5rem" type="comment" @click="gotoComments">{{trendData.comments}}</Icon>
+                    <Icon width="1.5rem" type="favorite" @click="toggleFavorite">{{favorite? '已收藏': '收藏'}}</Icon>
+                    <Icon width="1.5rem" type="share" @click="share">分享</Icon>
                 </div>
             </section>
 
@@ -584,9 +584,9 @@ export default {
             .item {
                 display: inline-block;
                 margin: 0 5px;
-                width: 130px;
-                height: 260px;
-                border-radius: 10px;
+                width: 13rem;
+                height: 26rem;
+                border-radius: 1rem;
                 box-shadow: 0 0 0 1px var(--black05);
                 margin-top: 1px;
 

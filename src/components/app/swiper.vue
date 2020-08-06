@@ -497,9 +497,9 @@ export default {
             }
             .indicator {
                 display: inline-block;
-                width: 6px;
-                height: 6px;
-                border-radius: 3px;
+                width: .6rem;
+                height: .6rem;
+                border-radius: .3rem;
                 background-color:var(--background-color);
                 opacity: .3;
                 margin: 0 3px;

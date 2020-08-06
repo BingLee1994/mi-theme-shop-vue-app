@@ -109,14 +109,14 @@ export default {
                 }
                 .toggle-button {
                     position: absolute;
-                    width: 30px;
-                    height: 30px;
+                    width: 3rem;
+                    height: 3rem;
                     top: 50%;
-                    margin-top: -15px;
+                    margin-top: -1.5rem;
                     right: 10px;
                     background-repeat: no-repeat;
                     background-position: center;
-                    background-size: 20px 20px;
+                    background-size: 2rem 2rem;
                     background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNy42NSAyMC41NyI+PGRlZnM+PHN0eWxlPi5he2ZpbGw6Izk5OTt9LmJ7ZmlsbDpub25lO3N0cm9rZTojOTk5O3N0cm9rZS1taXRlcmxpbWl0OjEwO3N0cm9rZS13aWR0aDoycHg7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT7otYTmupAgMTwvdGl0bGU+PHBhdGggY2xhc3M9ImEiIGQ9Ik0xMy44MiwxNS43MWE1LjE0LDUuMTQsMCwwLDAsMS43Ny0uMyw3LjY1LDcuNjUsMCwwLDAtLjUzLDIuNzd2LjU5bC0xLjI0LjA2YTE0LjY4LDE0LjY4LDAsMCwxLTguNDQtMi42NUExNS4xMSwxNS4xMSwwLDAsMSwwLDkuNDEsMTUuMDgsMTUuMDgsMCwwLDEsNS4zOCwyLjY1YTE0Ljc4LDE0Ljc4LDAsMCwxLDE2Ljg5LDAsMTUuMDgsMTUuMDgsMCwwLDEsNS4zOCw2Ljc2LDExLjM0LDExLjM0LDAsMCwxLTEuMTgsMi4zLDcuOTIsNy45MiwwLDAsMC0zLjg4LTEuMDYsNy4zNiw3LjM2LDAsMCwwLTIuNzYuNTMsNS4zOSw1LjM5LDAsMCwwLC4yOS0xLjc3LDYuMjgsNi4yOCwwLDEsMC02LjMsNi4zWiIvPjxwYXRoIGNsYXNzPSJhIiBkPSJNMTMuODIsNS42NWEzLjc4LDMuNzgsMCwwLDEsMi42NSwxLjEyLDMuNTUsMy41NSwwLDAsMSwxLjA2LDIuNjQsMy42MiwzLjYyLDAsMCwxLTMuNzEsMy43MSwzLjYyLDMuNjIsMCwwLDEtMy43LTMuNzEsMy41NSwzLjU1LDAsMCwxLDEuMDYtMi42NEEzLjc4LDMuNzgsMCwwLDEsMTMuODIsNS42NVoiLz48bGluZSBjbGFzcz0iYiIgeDE9IjE4LjMxIiB5MT0iMTMuMzYiIHgyPSIyNC44MSIgeTI9IjE5Ljg2Ii8+PGxpbmUgY2xhc3M9ImIiIHgxPSIyNC44MSIgeTE9IjEzLjM2IiB4Mj0iMTguMzEiIHkyPSIxOS44NiIvPjwvc3ZnPg==");
 
                     &.on {
@@ -130,7 +130,7 @@ export default {
     .login-button {
         display: block;
         width: 100%;
-        height: 44px;
+        height: 4.4rem;
         border-radius: 4px;
         background: #FF6801;
         color: white;

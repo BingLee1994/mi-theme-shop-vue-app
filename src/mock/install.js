@@ -14,7 +14,6 @@ const router = {
         if (!path.startsWith('/')) {
             path = '/' + path
         }
-
         console.log('api is: ', ...arguments)
 
         if (this.routes[path]) {

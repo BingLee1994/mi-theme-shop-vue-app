@@ -107,8 +107,8 @@ export default {
 
         .wallpaper-indicator {
             background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MCA0MCI+PGRlZnM+PHN0eWxlPi5he29wYWNpdHk6MC41O30uYntmaWxsOiNmZmY7fS5je2ZpbGw6IzFlMWUxZTt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPui1hOa6kCA0PC90aXRsZT48ZyBjbGFzcz0iYSI+PGNpcmNsZSBjbGFzcz0iYiIgY3g9IjIwIiBjeT0iMjAiIHI9IjIwIi8+PC9nPjxwYXRoIGNsYXNzPSJjIiBkPSJNMzEuMDksOC43M0EyLjU4LDIuNTgsMCwwLDAsMjkuMjMsOEgxMS4wOWEyLjQ5LDIuNDksMCwwLDAtMS44NS43NiwyLjU0LDIuNTQsMCwwLDAtLjc3LDEuODZWMjguNzZhMi42MSwyLjYxLDAsMCwwLDIuNjIsMi42MUgyOS4yM2EyLjYsMi42LDAsMCwwLDIuNjItMi42MVYxMC42MkEyLjU0LDIuNTQsMCwwLDAsMzEuMDksOC43M1ptLTE2LjU0LDRhMi42LDIuNiwwLDEsMS0yLjYsMi42QTIuNiwyLjYsMCwwLDEsMTQuNTUsMTIuNzFaTTExLjA5LDI3LjQ4bDQuNTEtNS44NSwzLjI4LDMuOSw0LjUxLTUuODQsNS44NCw3Ljc5WiIvPjwvc3ZnPg==");
-            width: 25px;
-            height: 25px;
+            width: 2rem;
+            height: 2rem;
             background-repeat: no-repeat;
             position: absolute;
             top: 10px;

@@ -27,9 +27,9 @@ export default {
 
 <style lang="scss" scoped>
     .font-preview-card {
-        border-radius: 6px;
+        border-radius: .6rem;
         border-style: dashed;
-        border-width: 3px;
+        border-width: .3rem;
         border-color: var(--accentColor);
         box-sizing: border-box;
         text-align: center;

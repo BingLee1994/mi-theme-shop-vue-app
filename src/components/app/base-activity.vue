@@ -5,7 +5,7 @@
 <template>
     <div>
         <div
-            :class="['screen', $attrs.class]"
+            :class="['screen', $attrs.class, screenClassName]"
             v-flex.column
             v-full-screen.hidden
             ref="screen"
@@ -19,6 +19,7 @@
                 v-flex-item.0
                 v-show="showHeader"
                 ref="header"
+                :style="`color: ${darkMode? 'white': 'var(--black80)'}`"
             >
                 <div class="action-bar" v-flex.centerY>
                     <BackButton
@@ -26,6 +27,7 @@
                         v-show="showBackButton"
                         ref="backButton"
                         :route="backRoute"
+                        :color="darkMode? 'white': ''"
                     />
                     <p
                         :class="{
@@ -34,6 +36,7 @@
                         }"
                         v-flex-item.1
                         ref="title"
+                        :style="`color: ${darkMode? 'white': ''}`"
                     >
                         {{title}}
                     </p>
@@ -47,10 +50,14 @@
                 ref="content"
                 @scroll="onMainContentScroll"
                 :style="{
-                    padding: `0 ${padding}px`
+                    padding: `0 ${padding}`
                 }"
             >
-                <p class="big-title" ref="bigTitle" v-show="title">{{title}}</p>
+                <p
+                    class="big-title"
+                    :style="`color: ${darkMode? 'white': ''}`"
+                    ref="bigTitle" v-show="title"
+                >{{title}}</p>
                 <slot name="main" :padding="padding"></slot>
             </main>
 
@@ -77,13 +84,15 @@ export default {
         mainClassName: String,
         headerClassName: String,
         footerClassName: String,
-        backRoute: [String, Object]
+        screenClassName: String,
+        backRoute: [String, Object],
+        darkMode: Boolean
     },
 
     data() {
         return {
             showTopTitle: false,
-            padding: 15
+            padding: '1.5rem'
         }
     },
 
@@ -142,10 +151,10 @@ export default {
             let elMain = this.$refs.content
             let { paddingLeft, paddingRight } = getComputedStyle(elMain)
             if (!paddingLeft || paddingLeft === '0px') {
-                this.$refs.bigTitle.style.paddingLeft = '15px'
+                this.$refs.bigTitle.style.paddingLeft = '1.5rem'
             }
             if (!paddingRight || paddingRight === '0px') {
-                this.$refs.bigTitle.style.paddingRight = '15px'
+                this.$refs.bigTitle.style.paddingRight = '1.5rem'
             }
         },
 
@@ -177,13 +186,13 @@ export default {
 
 <style lang="scss" scoped>
 .screen {
-    $paddingH: 15px;
+    $paddingH: 1.5rem;
     font-size: 1.4rem;
     color: var(--black80);
     background-color: var(--white);
 
     & > .header {
-        padding: 10px #{$paddingH};
+        padding: 1rem #{$paddingH};
 
         & > .action-bar {
             line-height: 1;
@@ -193,7 +202,7 @@ export default {
                 opacity: 0;
                 transition: all .15s ease;
                 text-align: center;
-                margin: 0 10px;
+                margin: 0 1rem;
                 transform: translateY(20%);
 
                 &.show {
@@ -212,7 +221,7 @@ export default {
         text-align: left;
         font-size: 2.5rem;
         font-weight: 300;
-        margin: 15px 0;
+        margin: 1.5rem 0;
         margin-top: 0;
         transform-origin: top left;
     }

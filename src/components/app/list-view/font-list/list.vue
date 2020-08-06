@@ -90,6 +90,7 @@ export default {
                 width: 50px;
                 text-align: right;
                 font-size: 1.3rem;
+                white-space: nowrap;
             }
         }
 

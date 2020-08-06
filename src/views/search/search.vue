@@ -169,6 +169,10 @@ export default {
     }, */
 
     activated() {
+        let searchType = this.$route.query.type || 'theme'
+        this.searchType = searchType
+        this.setCategory(searchType)
+
         let lastRoute = this.$router.routeHistory.lastRoute || {}
         if (lastRoute.name !== 'viewItem') {
             console.log('refresh page to reload search')
@@ -183,19 +187,36 @@ export default {
         }
     },
 
+    beforeRouteEnter: (to, from, next) => {
+        document.body.scrollTop = 0
+        next()
+    },
+
     beforeRouteLeave(to, current, next) {
-        console.log(to)
         if (to.name === 'viewItem' || to.name === 'login') {
+            // 前往此页需要缓存当页数据
             next()
             return
         }
-        this.$destroy()
+        // 否则需要清空数据
+        this._cleanCache()
         next()
     },
 
     methods: {
         ...mapMutations(['addHistory', 'setCategory', 'clearHistory', 'removeHistory']),
         ...mapActions(['fetchSearchScreenData']),
+
+        _cleanCache() {
+            this.keyWord = ''
+            this.isFocused = false
+            this.isShowResult = false
+            this.isShowHistory = false
+            this.searchSuggestion = []
+            this.searchResult = []
+            this.categoryList = []
+        },
+
         handlekeyWord(e) {
             this.isShowResult = false
             this.keyWord = e.target.value
@@ -265,11 +286,6 @@ export default {
         goBack() {
             window.history.go(-1)
         }
-    },
-    beforeRouteEnter: (to, from, next) => {
-        console.log(from)
-        document.body.scrollTop = 0
-        next()
     }
 }
 </script>

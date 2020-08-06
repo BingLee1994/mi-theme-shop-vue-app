@@ -13,7 +13,7 @@
             <ListItem
                 v-for="(item, index) in col"
                 :class="['list-item', item.className]"
-                :key="index"
+                :key="item.id"
                 @click="onClick(item, index, $event)"
                 :style="item.style"
                 :item="item"

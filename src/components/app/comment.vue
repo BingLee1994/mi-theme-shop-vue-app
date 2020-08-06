@@ -9,7 +9,7 @@
             </p>
             <p class="comment">{{comment.comment}}</p>
         </div>
-        <Icon type="like" width="15px" @click="likeIt">{{likesCount}}</Icon>
+        <Icon type="like" width="1.5rem" @click="likeIt">{{likesCount}}</Icon>
     </div>
 </template>
 

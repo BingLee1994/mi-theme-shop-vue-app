@@ -8,6 +8,7 @@
             name="recommend view"
         />
         <QuickActions
+            class="mg-v15 mg-b25"
             :items="quickActionItems"
         />
         <Loading v-if="showLoading"/>
@@ -32,15 +33,32 @@ export default {
         return {
             showLoading: false,
             quickActionItems: [
-                { text: '排行榜', routeLink: true, route: 'rank/all' },
-                { text: '分类', routeLink: true, route: 'category' }
+                {
+                    text: '排行榜',
+                    routeLink: true,
+                    imgUrl: require('../../../assets/img/rank.svg'),
+                    route: {
+                        name: 'rank',
+                        params: {
+                            type: 'font'
+                        }
+                    }
+                },
+                {
+                    imgUrl: require('../../../assets/img/category.svg'),
+                    text: '分类',
+                    routeLink: true,
+                    route: {
+                        name: 'category'
+                    }
+                }
             ],
             fontListItems: [],
             swiperItems: []
         }
     },
     mounted() {
-        this.getQuickActionRecommend().then(recommend => {
+        this.getQuickActionRecommend('font').then(recommend => {
             recommend.forEach(r => {
                 this.quickActionItems.push(r)
             })

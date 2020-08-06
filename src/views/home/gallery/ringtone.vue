@@ -7,6 +7,7 @@
             class="adv-swiper"
         />
         <QuickActions
+            class="mg-t20"
             :items="quickActionItems"
         />
         <Loading v-if="showLoading"/>
@@ -31,8 +32,25 @@ export default {
         return {
             swiperItems: [],
             quickActionItems: [
-                { text: '排行榜', routeLink: true, route: 'rank/all' },
-                { text: '分类', routeLink: true, route: 'category' }
+                {
+                    text: '排行榜',
+                    routeLink: true,
+                    imgUrl: require('../../../assets/img/rank.svg'),
+                    route: {
+                        name: 'rank',
+                        params: {
+                            type: 'ringtone'
+                        }
+                    }
+                },
+                {
+                    imgUrl: require('../../../assets/img/category.svg'),
+                    text: '分类',
+                    routeLink: true,
+                    route: {
+                        name: 'category'
+                    }
+                }
             ],
             ringtoneList: [],
             showLoading: false
@@ -40,7 +58,7 @@ export default {
     },
 
     mounted() {
-        this.getQuickActionRecommend().then(recommend => {
+        this.getQuickActionRecommend('ringtone').then(recommend => {
             recommend.forEach(r => {
                 this.quickActionItems.push(r)
             })

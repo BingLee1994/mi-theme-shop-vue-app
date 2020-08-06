@@ -1,4 +1,4 @@
-@media screen and (min-width:550px) {
+@media screen and (min-width:1280px) {
     body::after {
         content: '此应用为移动应用，不支持桌面版，请按下F12，打开控制台并模拟移动设备，或缩小窗口宽度';
         display: block;
@@ -22,6 +22,28 @@
 html {
     height: 100%;
     background: var(--white);
+}
+
+html {
+    @media screen and (min-width:375px) {
+        font-size: 65% !important;
+    }
+    @media screen and (min-width:480px) {
+        font-size: 75% !important;
+    }
+    @media screen and (min-width:640px) {
+        font-size: 90% !important;
+    }
+    @media screen and (min-width:767px) {
+        font-size: 115% !important;
+    }
+    @media screen and (min-width:1024px) {
+        font-size: 125% !important;
+    }
+}
+
+input {
+    font-size: 1.3rem;
 }
 
 button, input {
@@ -69,71 +91,72 @@ button, input {
     color: var(--miOrange);
 }
 
-$space:5,10,15,20,25,30, 35, 40;
+$space: 5, 10, 15, 20, 25, 30, 35, 40;
 
 @each $s in $space {
     .mg {
-        &-t#{$s} {
-            margin-top: #{$s}px;
-        }
-        &-l#{$s} {
-            margin-left: #{$s}px;
+        &-v#{$s} {
+            margin: {
+                top: #{$s / 10}rem !important;
+                bottom: #{$s / 10}rem !important;
+            }
         }
         &-h#{$s} {
             margin: {
-                left: #{$s}px !important;
-                right: #{$s}px !important;
+                left: #{$s / 10}rem !important;
+                right: #{$s / 10}rem !important;
             }
+        }
+        &-t#{$s} {
+            margin-top: #{$s / 10}rem !important;
+        }
+        &-l#{$s} {
+            margin-left: #{$s / 10}rem !important;
         }
         &-b#{$s} {
-            margin-bottom: #{$s}px;
+            margin-bottom: #{$s / 10}rem !important;
         }
         &-r#{$s} {
-            margin-right: #{$s}px;
-        }
-        &-v#{$s} {
-            margin: {
-                top: #{$s}px !important;
-                bottom: #{$s}px !important;
-            }
+            margin-right: #{$s / 10}rem !important;
         }
         &-#{$s} {
             margin: {
-                top: #{$s}px !important;
-                bottom: #{$s}px !important;
-                left: #{$s}px !important;
-                right: #{$s}px !important;
+                top: #{$s / 10}rem !important;
+                bottom: #{$s / 10}rem !important;
+                left: #{$s / 10}rem !important;
+                right: #{$s / 10}rem !important;
             }
         }
     }
+
     .pd {
-        &-t#{$s} {
-            padding-top: #{$s}px;
-        }
-        &-l#{$s} {
-            padding-left: #{$s}px;
+        &-v#{$s} {
+            padding: {
+                top: #{$s / 10}rem !important;
+                bottom: #{$s / 10}rem !important;
+            }
         }
         &-h#{$s} {
             padding: {
-                left: #{$s}px !important;
-                right: #{$s}px !important;
+                left: #{$s / 10}rem !important;
+                right: #{$s / 10}rem !important;
             }
+        }
+        &-t#{$s} {
+            padding-top: #{$s / 10}rem !important;
+        }
+        &-l#{$s} {
+            padding-left: #{$s / 10}rem !important;
         }
         &-b#{$s} {
-            padding-bottom: #{$s}px;
-        }
-        &-v#{$s} {
-            padding: {
-                top: #{$s}px !important;
-                bottom: #{$s}px !important;
-            }
+            padding-bottom: #{$s / 10}rem !important;
         }
         &-#{$s} {
             padding: {
-                top: #{$s}px !important;
-                bottom: #{$s}px !important;
-                left: #{$s}px !important;
-                right: #{$s}px !important;
+                top: #{$s / 10}rem !important;
+                bottom: #{$s / 10}rem !important;
+                left: #{$s / 10}rem !important;
+                right: #{$s / 10}rem !important;
             }
         }
     }
@@ -160,7 +183,7 @@ $space:5,10,15,20,25,30, 35, 40;
 .has-next {
     position: relative;
     --border: 1px solid var(--black30);
-    padding-right: 15px !important;
+    padding-right: 1.5rem !important;
     &::after {
         content: '';
         border-top: var(--border);
@@ -168,10 +191,10 @@ $space:5,10,15,20,25,30, 35, 40;
         transform: rotate(45deg) translateX(calc(-50% - 1px));
         transform-origin: center;
         display: block;
-        width: 7px;
-        height: 7px;
+        width: .7rem;
+        height: .7rem;
         position: absolute;
-        right: 2px;
+        right: .2rem;
         top: 50%;
     }
 }
@@ -257,8 +280,8 @@ $space:5,10,15,20,25,30, 35, 40;
 }
 
 .sys-icn {
-    width: 35px;
-    height: 35px;
+    width: 3.5rem;
+    height: 3.5rem;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;

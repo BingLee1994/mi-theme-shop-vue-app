@@ -19,13 +19,16 @@ $editTextWrapperDisabledOpacity: .6;
         @include shadowBorder(var(--black05), 1px);
         background-color: var(--black05);
         margin: 0 $editTextWrapperPadding;
+        position: relative;
         & >.check-icn {
             display: block;
-            width: 12px;
-            height: 12px;
+            width: 1.2rem;
+            height: 1.2rem;
             fill: var(--white);
             position: absolute;
-            margin: 4px;
+            left: 50%;
+            top: 50%;
+            margin: -0.6rem;
             opacity: 0;
         }
     

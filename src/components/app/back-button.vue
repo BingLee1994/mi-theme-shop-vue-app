@@ -4,7 +4,7 @@
     padding: 5px;
 
     svg {
-        width: 18px;
+        width: 1.8rem;
         display: block;
     }
 }

@@ -126,5 +126,9 @@ export default {
         transition: opacity .2s ease;
         width: 100%;
         height: 100%;
+
+        &[src=""], &:not([src]){
+            opacity:0;
+        }
     }
 </style>

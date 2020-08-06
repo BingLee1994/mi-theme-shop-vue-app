@@ -58,7 +58,7 @@ export default {
 
         playAudio() {
             this.playing = true
-            this.$toast.show('亲，这只是个小demo哦，暂时无法获取音频资源！')
+            this.$toast.show('亲，A r e     y o u     O K！')
             setTimeout(() => {
                 this.playing = false
             }, 200)

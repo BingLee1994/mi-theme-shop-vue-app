@@ -30,6 +30,7 @@ $toastBorderRadius: 2.5rem;
 
 .miui-toast {
     text-align: center;
+    white-space: pre-wrap;
     transform: translate(-50%, 0);
     position: fixed;
     bottom: $toastBottomPosition;

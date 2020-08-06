@@ -11,6 +11,7 @@ import installMyDirective from '@/directives'
 import { install as Api } from '@/api'
 import './style/miui/colors.scss'
 import setupMockjs from './mock/install'
+import orientationListener from './orientation-listener'
 
 import Button from '@/components/app/button'
 import LazyImage from '@/components/app/simple-lazy-load-img'
@@ -34,3 +35,5 @@ new Vue({
   store,
   render(h) { return h(App) }
 }).$mount(elApp)
+
+orientationListener()

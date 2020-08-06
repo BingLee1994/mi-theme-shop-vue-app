@@ -53,7 +53,7 @@ export default {
 
 <style lang="scss">
     .rank-list-wrapper {
-        --radius: 8px;
+        --radius: .8rem;
         background-color: rgb(231, 197, 47);
         border-radius: var(--radius);
 

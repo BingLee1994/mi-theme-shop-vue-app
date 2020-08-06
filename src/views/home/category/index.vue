@@ -178,7 +178,7 @@ export default {
 
 <style lang="scss">
   .category-screen {
-    $sideMenuWidth: 80px;
+    $sideMenuWidth: 8rem;
     .category-group-wrapper {
       height: 100%;
       position: relative;

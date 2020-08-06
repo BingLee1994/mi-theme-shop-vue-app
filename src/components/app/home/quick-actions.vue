@@ -6,11 +6,11 @@
             @click="onClick(item, index, $event)"
         >
             <span
-                :class="['icon', item.className]"
+                :class="['action-icon', item.className]"
             >
-                <img :src="item.imgUrl"/>
+                <img style="height: 100%;object-fit: contain" :src="item.imgUrl"/>
             </span>
-            <p><span class="label">{{item.text}}</span></p>
+            <p class="label">{{item.text}}</p>
         </div>
     </div>
 </template>
@@ -43,15 +43,21 @@ export default {
         display: flex;
         margin: 10px 5px;
         .action-button {
+            overflow: hidden;
             flex: 1;
             text-align: center;
             font-size: 1.1rem;
-            .icon {
-                width: 50px;
-                height: 30px;
-                border: 1px solid yellow;
+            height: 5rem;
+            .action-icon {
+                height: calc(3rem - 5px);
+                width: 100%;
                 display: inline-block;
                 margin-bottom: 5px;
+            }
+            .label {
+                height: 2rem;
+                line-height: 2rem;
+                font-size: 1.3rem;
             }
         }
     }

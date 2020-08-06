@@ -2,7 +2,7 @@
 button.button {
     border: 1px solid var(--miOrange);
     padding: 8px 15px;
-    border-radius: 15px;
+    border-radius: 1.5rem;
     justify-self: center;
     align-self: center;
     font-size: 1.3rem;

@@ -190,7 +190,7 @@ export default {
         padding: 7px 0;
 
         .sort-tab {
-            padding: 0px 15px;
+            padding: 0px 1.5rem;
             font-size: 1.3rem;
             margin: 0 5px;
 
@@ -208,7 +208,7 @@ export default {
                         display: inline-block;
                         width: 0;
                         height: 0;
-                        border: 5px solid transparent;
+                        border: .5rem solid transparent;
                         top: 50%;
                         right: 0;
                         position: absolute;
@@ -216,14 +216,14 @@ export default {
                     &.down {
                         &::after {
                             border-top-color: var(--miOrange);
-                            transform: translateY(-2px);
+                            transform: translateY(-0.2rem);
                         }
                     }
 
                     &.up {
                         &::after {
                             border-bottom-color: var(--miOrange);
-                            transform: translateY(-7px);
+                            transform: translateY(-0.7rem);
                         }
                     }
                 }

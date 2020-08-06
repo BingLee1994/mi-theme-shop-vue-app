@@ -1,0 +1,26 @@
+[
+    { 
+        "text": "小米10",
+        "imgUrl": "",
+        "external": true,
+        "link": "https://www.shanghaidisneyresort.com/"
+    },
+    { 
+        "text": "手写字体",
+        "imgUrl": "",
+        "routeLink": true,
+        "link": "https://www.shanghaidisneyresort.com/"
+    },
+    { 
+        "text": "热门免费",
+        "imgUrl": "",
+        "routeLink": true,
+        "route": {
+            "name": "rank",
+            "params": {
+                "filter": "theme",
+                "keyWord": "精选主题"
+            }
+        }
+    }
+]

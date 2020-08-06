@@ -47,7 +47,7 @@
                     :to="{ name: 'viewOrder', params: {type: 'favorite'} }"
                     class="list-item has-next"
                 >
-                    <Icon width="15px" type="favorite"/>
+                    <Icon width="1.5rem" type="favorite"/>
                     我的点赞与收藏
                     <span class="right-label secondary">{{liked}}</span>
                 </router-link>
@@ -200,10 +200,10 @@ export default {
 
         .avatar-wrapper {
             min-height: 150px;
-            --avatar-size: 60px;
+            --avatar-size: 6rem;
 
             p {
-                margin: 5px 0;
+                margin: .5rem 0;
             }
 
             .avatar {
@@ -236,7 +236,7 @@ export default {
                 margin: 10px;
                 text-align: center;
                 line-height: 1.5;
-                width: 70px;
+                width: 7rem;
 
                 .category-icon {
                     --icn-size: 35px;
@@ -273,7 +273,7 @@ export default {
 
         .preference-list {
             .list-item {
-                padding: 17px;
+                padding: 1.7rem;
                 display: flex;
                 align-items: center;
 
@@ -298,9 +298,9 @@ export default {
                 }
 
                 &.has-next {
-                    padding-right: 25px !important;
+                    padding-right: 2.5rem !important;
                     &::after{
-                        right: 10px;
+                        right: 1rem;
                     }
                 }
             }

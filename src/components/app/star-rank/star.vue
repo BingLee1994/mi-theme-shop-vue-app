@@ -2,7 +2,7 @@
     <div class="star-wrapper"
         :style="{
             'margin-right': `${divider}px`,
-            '--size': `${size}px`
+            '--size': computedSize
         }"
         @click="onClickItem"
     >
@@ -19,8 +19,8 @@ export default {
         point: Number,
         color: String,
         size: {
-            type: Number,
-            default: 15
+            type: [Number, String],
+            default: '1.5rem'
         },
         divider: {
             type: Number,
@@ -31,6 +31,13 @@ export default {
     computed: {
         width() {
             return Math.min(Math.max(this.point, 0), 1)
+        },
+
+        computedSize() {
+            if (typeof this.size === 'number') {
+                return this.size + 'px'
+            }
+            return this.size
         }
     },
 
@@ -47,7 +54,7 @@ export default {
         line-height: 1;
         font-size: 0;
         --color: #FFC666;
-        --size: 15px;
+        --size: 1.5rem;
         display: block;
         width: var(--size);
         height: var(--size);

@@ -1,6 +1,7 @@
 import SplashActivity from '@views/splash-activity'
 import HomeScreen from '@views/home/index'
 import SearchScreen from '@views/search/search'
+import RankScreen from '@views/rank'
 import IntroHomeScreen from '@views/intro/index'
 import NFD from '@views/404'
 import introRoutes from './intro'
@@ -46,6 +47,15 @@ export default [
         },
         redirect: {
             name: 'gallery'
+        }
+    },
+
+    {
+        path: '/rank/:type',
+        name: 'rank',
+        component: RankScreen,
+        meta: {
+            expectedEntry: ['home', 'category']
         }
     },
 

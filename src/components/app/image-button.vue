@@ -62,11 +62,11 @@ export default {
 
 <style scoped lang="scss">
     .image-button {
-        --padding: 10px;
+        --padding: 1rem;
         background-color: var(--miOrange);
         width: calc(50% - 10px);
         margin: 5px;
-        height: 60px;
+        height: 6rem;
         border-radius: 6px;
         box-shadow: 0 0 0 1px var(--black05);
         box-sizing: border-box;

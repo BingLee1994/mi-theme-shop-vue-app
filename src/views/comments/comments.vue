@@ -161,7 +161,7 @@ export default {
 
         .edit-button {
             width: 90%;
-            height: 40px;
+            height: 4rem;
         }
     }
 }

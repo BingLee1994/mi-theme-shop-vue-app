@@ -9,8 +9,8 @@
                         v-for="item in topThemeList"
                         :key="item.name"
                         :item="item"
-                        width="90px"
-                        style="margin:0 10px"
+                        width="9rem"
+                        style="margin:0 1rem"
                         @click="gotoDetail(item)"
                     />
                 </div>
@@ -23,8 +23,8 @@
                         v-for="item in newThemeList"
                         :key="item.name"
                         :item="item"
-                        width="90px"
-                        style="margin:0 10px"
+                        width="9rem"
+                        style="margin:0 1rem"
                         @click="gotoDetail(item)"
                     />
                 </div>
@@ -129,20 +129,20 @@ export default {
 .theme-categiry-screen {
     .top-rank-list-wrapper {
         border-bottom: 1px solid var(--black03);
-        padding: 15px 10px;
+        padding: 1.5rem 1rem;
         padding-bottom: 0;
 
         & > .title {
             font-size: 1.6rem;
             color: var(--black);
-            margin: 15px 10px;
+            margin: 1.5rem 1rem;
             line-height: 1;
         }
 
         .sub-title {
             margin: 10px 15px;
             font-size: 1.2rem;
-            width: 13px;
+            width: 1.3rem;
             height: 100%;
             word-break: break-word;
             color: var(--black60);
