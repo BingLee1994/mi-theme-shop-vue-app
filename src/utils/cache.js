@@ -64,7 +64,7 @@ const cacheUtil = {
             return
         }
         let { lasUpdated, expiredIn, value } = caches[cacheName]
-        if (Date.now() - lasUpdated >= expiredIn) {
+        if (Date.now() - lasUpdated <= expiredIn) {
             return value
         }
     },
