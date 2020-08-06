@@ -158,13 +158,39 @@ export default {
         ...mapGetters(['history', 'recommendations', 'adviertisements', 'styles'])
     },
 
-    mounted() {
+    /* mounted() {
+        console.log('mounted')
         this.fetchSearchScreenData()
         let { keyword } = this.$route.query
         if (keyword) {
             this.keyWord = keyword
             this.doSearch()
         }
+    }, */
+
+    activated() {
+        let lastRoute = this.$router.routeHistory.lastRoute || {}
+        if (lastRoute.name !== 'viewItem') {
+            console.log('refresh page to reload search')
+            this.fetchSearchScreenData()
+            let { keyword } = this.$route.query
+            if (keyword) {
+                this.keyWord = keyword
+                this.doSearch()
+            } else {
+                this.keyWord = ''
+            }
+        }
+    },
+
+    beforeRouteLeave(to, current, next) {
+        console.log(to)
+        if (to.name === 'viewItem' || to.name === 'login') {
+            next()
+            return
+        }
+        this.$destroy()
+        next()
     },
 
     methods: {
