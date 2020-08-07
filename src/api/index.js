@@ -43,7 +43,8 @@ let service = {
         },
         data: {
             style: 'data/style',
-            trend: 'data/trend'
+            trend: 'data/trend',
+            rank: '/data/rank'
         }
     },
     post: {
@@ -275,6 +276,10 @@ const server = {
 
     getStyle(type) {
         return api.get(service.get.data.style, { type })
+    },
+
+    getRankData(type) {
+        return api.get(service.get.data.rank, { type })
     }
 }
 

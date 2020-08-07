@@ -9,6 +9,7 @@ import themeTrend from './theme-trend'
 import themeStyle from './theme-style'
 import Search from './search'
 import QuickAction from './quick-action'
+import RankData from './rank'
 
 const allRoutes = [
     commentsList,
@@ -21,7 +22,8 @@ const allRoutes = [
     themeTrend,
     themeStyle,
     Search,
-    QuickAction
+    QuickAction,
+    RankData
 ]
 
 export default function mountRoute(router) {

@@ -7,24 +7,29 @@
         <template slot="main">
             <div class="bg-divider"></div>
             <div class="top-rank-list">
-                <div class="top-items">
-                    <div class="top-item top-item1">
-                        <span class="number">1</span>
-                        <img class="preview-img" src="http://t4.market.xiaomi.com/thumbnail/jpeg/w118/ThemeMarket/05b35844191c84c8d26577245569a17275da499b3"/>
-                        <span>asdasdasdas</span>
-                    </div>
-                    <div class="top-item top-item2">
-                        <span class="number">1</span>
-                        <img class="preview-img"  src="http://t4.market.xiaomi.com/thumbnail/jpeg/w118/ThemeMarket/05b35844191c84c8d26577245569a17275da499b3"/>
-                        <span>asdasdasdas</span>
-                    </div>
-                    <div class="top-item top-item3">
-                        <span class="number">1</span>
-                        <img class="preview-img"  src="http://t4.market.xiaomi.com/thumbnail/jpeg/w118/ThemeMarket/05b35844191c84c8d26577245569a17275da499b3"/>
-                        <span>asdasdasdas</span>
+                <div :class="`top-items ${$route.params.type}`" v-if="topList && topList.length">
+                    <div
+                        v-for="(topItem, idx) in topList"
+                        :class="`${$route.params.type} top-item top-item${idx + 1}`"
+                        :key="idx"
+                        @click="gotoDetail(topItem)"
+                    >
+                        <span :class="`number number${idx + 1}`">{{idx + 1}}</span>
+                        <img class="preview-img" v-show="topItem.imgUrl" :src="topItem.imgUrl"/>
+                        <p class="title">{{topItem.title}}</p>
                     </div>
                 </div>
-                <div class="secondary-list"></div>
+                <div :class="`secondary-list ${$route.params.type}`">
+                    <div
+                        v-for="(item, idx) in rankList"
+                        :class="`${$route.params.type} item`"
+                        :key="idx"
+                        @click="gotoDetail(item)"
+                    >
+                        <img class="preview-img" v-show="item.imgUrl" :src="item.imgUrl"/>
+                        <p class="title">{{item.title}}</p>
+                    </div>
+                </div>
             </div>
             <Loading v-show="showLoading"/>
         </template>
@@ -40,6 +45,7 @@ export default {
     data() {
         return {
             showLoading: false,
+            topList: [],
             rankList: []
         }
     },
@@ -56,11 +62,11 @@ export default {
     },
 
     async mounted() {
-        this.getRank(this.tabs[0].type)
+        this.getRank()
     },
 
     methods: {
-        async viewDetail(item) {
+        async gotoDetail(item) {
             try {
                 await this.$router.push({
                     name: 'viewItem', params: { id: item.itemId, type: item.type || 'theme' }
@@ -69,20 +75,13 @@ export default {
             }
         },
 
-        async getRank(type) {
+        async getRank() {
             this.showLoading = true
-            let response = await this.$api.getFavorite(type)
-            if (type === 'theme') {
-                response = response.map(theme => {
-                    return {
-                        imgUrl: theme.imgUrl,
-                        id: theme.id,
-                        name: theme.name,
-                        type: 'theme'
-                    }
-                })
-            }
-            this.orderList[type] = response
+            let response = await this.$api.getRankData(this.$route.params.type)
+            let { top1, top2, top3 } = response
+            let topList = [top1, top2, top3]
+            this.topList = topList.filter(item => item)
+            this.rankList = response.rankList
             this.showLoading = false
         }
     }
@@ -96,6 +95,12 @@ export default {
     background-position: center 100px;
     background-size: 150px 150px;
     background-repeat: no-repeat;
+
+    .title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
     .bg-divider {
         height: 200px;
@@ -112,66 +117,134 @@ export default {
             position: relative;
             width: var(--itemWidth);
             margin: 0 auto;
-            height: calc(var(--itemHeight) + var(--topMargin));
+
+            &.theme {
+                height: calc(var(--itemHeight) + var(--topMargin));
+            }
+
             .top-item {
-                width: calc(var(--itemWidth)/3);
-                position: absolute;
-                top: var(--topMargin);
-                height: var(--itemHeight);
                 background: white;
                 padding: 1rem;
-                padding-top: 1.5rem;
-                text-align: center;
-                box-sizing: border-box;
                 transform: scale(1);
+                position: relative;
+
+                &.theme {
+                    padding-top: 1.5rem;
+                    text-align: center;
+                    box-sizing: border-box;
+                    width: calc(var(--itemWidth)/3);
+                    position: absolute;
+                    top: var(--topMargin);
+                    height: var(--itemHeight);
+
+                    &.top-item1 {
+                        top: 0;
+                        left: calc(var(--itemWidth)/3);
+                        border-top-right-radius: var(--radius);
+                        border-top-left-radius: var(--radius);
+                        height: calc(var(--itemHeight) + var(--topMargin));
+                        box-shadow: 1px -6px 6px var(--black10);
+                        z-index: 3;
+                    }
+                    &.top-item2 {
+                        left: 0;
+                        border-top-left-radius: var(--radius);
+                    }
+                    &.top-item3 {
+                        right: 0;
+                        border-top-right-radius: var(--radius);
+                    }
+
+                    .number {
+                        position: absolute;
+                    }
+                }
+
+                &.font {
+                    display: flex;
+                    align-items: center;
+                    padding:1.5rem;
+                }
 
                 .number {
-                    position: absolute;
-                    width: 2rem;
-                    height: 2rem;
-                    border-radius: 1rem;
+                    $size: 2.2rem;
+                    flex: 0 0 auto;
+                    width: $size;
+                    height: $size;
+                    border-radius: $size / 2;
                     text-align: center;
-                    line-height: 2rem;
+                    line-height: $size;
                     color: white;
                     background-color: violet;
                     left: 50%;
-                    top: -1rem;
-                    margin-left: -1rem;
+                    top: -#{$size / 2};
+                    margin-left: -#{$size / 2};
+                    display: inline-block;
+
+                    &.number1 {
+                        background-color: #F9DB0A
+                    }
+                    &.number2 {
+                       background-color: #b0b7b8
+                    }
+                    &.number3 {
+                        background-color: #EAC08F
+                    }
                 }
 
                 .preview-img {
                     display: inline-block;
                     object-fit: contain;
                     height: 80%;
-                    background: gray;
-                }
-
-                &.top-item1 {
-                    top: 0;
-                    left: calc(var(--itemWidth)/3);
-                    border-top-right-radius: var(--radius);
-                    border-top-left-radius: var(--radius);
-                    height: calc(var(--itemHeight) + var(--topMargin));
-                    box-shadow: 1px -6px 6px var(--black10);
-                    z-index: 3;
-                }
-                &.top-item2 {
-                    left: 0;
-                    border-top-left-radius: var(--radius);
-                }
-                &.top-item3 {
-                    right: 0;
-                    border-top-right-radius: var(--radius);
                 }
             }
         }
 
         .secondary-list {
             background: white;
-            height: 500px;
             margin-bottom: 2rem;
             border-bottom-left-radius: var(--radius);
             border-bottom-right-radius: var(--radius);
+            display: flex;
+
+            &.font {
+                align-items: flex-start;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .item {
+                .preview-img{
+                    display: inline-block;
+                }
+                &.theme {
+                    width: calc(100% / 3);
+                    flex-basis: auto;
+                    padding: 1rem;
+                    box-sizing: border-box;
+                    overflow: hidden;
+                    text-align: center;
+
+                    .preview-img{
+                        width: 100%;
+                        border-radius: .5rem;
+                    }
+                }
+
+                &.font {
+                    height: 3rem;
+                    text-align: center;
+                    box-sizing: content-box;
+                    padding: 1.5rem;
+                    padding-left: 2rem;
+
+                    .preview-img{
+                        object-fit: contain;
+                        height: 100%;
+                        border-radius: .5rem;
+                    }
+                }
+            }
         }
     }
 }
