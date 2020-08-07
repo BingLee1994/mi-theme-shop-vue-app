@@ -9,6 +9,7 @@
             v-flex.column
             v-full-screen.hidden
             ref="screen"
+            :style="`--darkModeColor: ${darkModeColor}`"
         >
             <header
                 :class="[
@@ -19,7 +20,6 @@
                 v-flex-item.0
                 v-show="showHeader"
                 ref="header"
-                :style="`color: ${darkMode? 'white': 'var(--black80)'}`"
             >
                 <div class="action-bar" v-flex.centerY>
                     <BackButton
@@ -27,7 +27,7 @@
                         v-show="showBackButton"
                         ref="backButton"
                         :route="backRoute"
-                        :color="darkMode? 'white': ''"
+                        :color="darkModeColor"
                     />
                     <p
                         :class="{
@@ -36,7 +36,6 @@
                         }"
                         v-flex-item.1
                         ref="title"
-                        :style="`color: ${darkMode? 'white': ''}`"
                     >
                         {{title}}
                     </p>
@@ -97,6 +96,10 @@ export default {
     },
 
     computed: {
+        darkModeColor() {
+            let defaultColor = 'var(--black90)'
+            return this.darkMode ? 'white' : defaultColor
+        },
         showHeader() {
             let { title, showBackButton, $slots } = this
             return title || showBackButton || $slots.header
@@ -198,7 +201,7 @@ export default {
             line-height: 1;
 
             .title {
-                color: var(--black);
+                color: var(--darkModeColor);
                 opacity: 0;
                 transition: all .15s ease;
                 text-align: center;
@@ -224,6 +227,7 @@ export default {
         margin: 1.5rem 0;
         margin-top: 0;
         transform-origin: top left;
+        color: var(--darkModeColor);
     }
 
     & > main.content {
