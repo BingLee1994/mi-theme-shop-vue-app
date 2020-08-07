@@ -42,6 +42,22 @@ html {
     }
 }
 
+.orientate-indicator::before {
+    content: '';
+    background-color: white;
+    background-image:url(../assets/img/orientation-change.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 15rem 15rem;
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999999
+}
+
 input {
     font-size: 1.3rem;
 }
