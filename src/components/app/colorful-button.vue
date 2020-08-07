@@ -85,6 +85,7 @@ export default {
             background: var(--accent-color);
             z-index: -1;
             filter: brightness(1.3) saturate(70%);
+            border-radius: 0.5rem;
         }
         &:active {
             &::before {

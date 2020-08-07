@@ -38,7 +38,7 @@
                 </li>
                 <li v-flex.centerY class="search-button list-item" @click="doSearch(null)">
                     <Icon type="search" />
-                    {{keyWord}}
+                    点击搜索 {{keyWord}}
                 </li>
             </ul>
 
