@@ -77,7 +77,7 @@ export default {
                 name: 'viewCategory',
                 params: {
                     filter: 'theme',
-                    keyWord: artist.name
+                    keyWord: `设计师：${artist.name}`
                 }
             })
         }
