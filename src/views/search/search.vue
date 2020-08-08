@@ -80,10 +80,12 @@
                 <ImageButton
                     v-for="item in styles"
                     :key="item.id"
-                    @click="onClickStyle(item)"
+                    @click="gotoCategory(item)"
                     :src="item.imgUrl"
                     cover
-                />
+                >
+                    {{item.text}}
+                </ImageButton>
             </section>
 
             <section
@@ -93,9 +95,9 @@
                 <ImageButton
                     v-for="item in categoryList"
                     :key="item.id"
-                    @click="onClick(item)"
                     :src="item.imgUrl"
                     cover
+                    @click="onClickCategory(item)"
                 >
                     {{item.text}}
                 </ImageButton>
@@ -214,7 +216,6 @@ export default {
             this.isShowHistory = false
             this.searchSuggestion = []
             this.searchResult = []
-            this.categoryList = []
         },
 
         handlekeyWord(e) {
@@ -227,14 +228,35 @@ export default {
         },
 
         onClickAdviertisement(item) {
-            console.log(item)
+            if (!item.external) {
+                this.$router.push({
+                    name: 'viewItem',
+                    params: {
+                        id: item.id || 'test_id',
+                        type: this.$route.query.type || 'theme'
+                    }
+                })
+            }
         },
 
         onClickStyle() {
         },
 
-        onClickCategory({ name }) {
-            console.log(name)
+        gotoCategory(item) {
+            this.$router.push({
+                name: 'viewCategory',
+                params: {
+                    keyWord: item.keyWord,
+                    filter: this.$route.query.type || item.type || 'theme'
+                }
+            })
+        },
+
+        onClickCategory(category) {
+            let item = { ...category }
+            item.keyWord = `${new Date().getMonth() + 1}月${item.text}热搜`
+            item.type = item.name
+            this.gotoCategory(item)
         },
 
         onFocus() {
