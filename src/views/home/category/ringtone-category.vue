@@ -6,7 +6,7 @@
                 :key="item.id"
                 @click="onClick(item)"
                 :src="item.imgUrl"
-                small
+                medium
                 cover
             >
                 {{item.title}}
@@ -39,41 +39,41 @@ export default {
             styles: [
                 {
                     title: '流行金曲',
-                    imgUrl: ''
+                    imgUrl: '/tmp/ringtone/s8.png'
                 },
                 {
                     title: '影视金曲',
-                    imgUrl: ''
+                    imgUrl: '/tmp/ringtone/s5.png'
                 },
                 {
                     title: '说唱',
-                    imgUrl: ''
+                    imgUrl: '/tmp/ringtone/s6.png'
                 },
                 {
                     title: '纯音乐',
-                    imgUrl: ''
+                    imgUrl: '/tmp/ringtone/s7.png'
                 },
                 {
                     title: '古风',
-                    imgUrl: ''
+                    imgUrl: '/tmp/ringtone/s10.png'
                 },
                 {
-                    title: '怀旧金曲',
-                    imgUrl: ''
+                    title: '怀旧',
+                    imgUrl: '/tmp/ringtone/s9.png'
                 }
             ],
             features: [
                 {
                     title: '来电',
-                    imgUrl: ''
+                    imgUrl: '/tmp/ringtone/s1.png'
                 },
                 {
                     title: '闹钟',
-                    imgUrl: ''
+                    imgUrl: '/tmp/ringtone/s2.png'
                 },
                 {
                     title: '通知',
-                    imgUrl: ''
+                    imgUrl: '/tmp/ringtone/s4.png'
                 }
             ]
         }

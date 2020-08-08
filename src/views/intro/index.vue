@@ -25,7 +25,7 @@ export default {
         padding: 20px;
         box-sizing: border-box;
         background: url(../../assets/img/me-bg.png) no-repeat top;
-        background-size: contain;
+        background-size: cover;
 
         .title {
             margin: 20px 15px;

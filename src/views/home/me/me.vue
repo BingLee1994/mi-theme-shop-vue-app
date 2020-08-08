@@ -13,6 +13,7 @@
                 class="avatar-wrapper"
                 v-flex:direction.wrap.centerY="'column'"
             >
+                <!-- <div class="avatar" v-lazy:background="avatar"></div> -->
                 <div class="avatar" v-lazy:background="avatar"></div>
                 <p>{{userName}}</p>
                 <router-link
@@ -107,7 +108,8 @@ export default {
             purchased: {},
             liked: '',
             fav: '',
-            order: ''
+            order: '',
+            avatar: require('../../../assets/img/destiny.png')
         }
     },
 
@@ -119,8 +121,7 @@ export default {
         ...mapGetters({
             hasLogin: 'authenticator/authenticated',
             user: 'authenticator/userContext',
-            userName: 'authenticator/userDisplayName',
-            avatar: 'authenticator/avatar'
+            userName: 'authenticator/userDisplayName'
         })
     },
 

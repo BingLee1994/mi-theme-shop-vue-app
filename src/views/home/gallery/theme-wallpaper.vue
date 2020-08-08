@@ -3,7 +3,7 @@
         <Swiper
             :items="swiperItems"
             :darkIndicator="true"
-            :duration="3000"
+            :duration="4000"
             class="adv-swiper"
             name="theme swiper"
             @clickItem = "handleSwiperClick"
