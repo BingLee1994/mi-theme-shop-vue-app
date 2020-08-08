@@ -27,9 +27,13 @@ export default {
     },
     methods: {
         onClick(item, index, e) {
-            let { route, routeLink } = item
+            let { route, routeLink, external, prompt, link } = item
             if (routeLink && route) {
                 this.$router.push(route)
+            } else if (external) {
+                this.$dialog.alert('', prompt.message, prompt.primaryButton).then(() => {
+                    window.open(link)
+                })
             } else {
                 this.$emit('click', item, index, e)
             }
@@ -43,13 +47,14 @@ export default {
         display: flex;
         margin: 10px 5px;
         .action-button {
+            $height: 6rem;
             overflow: hidden;
             flex: 1;
             text-align: center;
             font-size: 1.1rem;
-            height: 5rem;
+            height: $height;
             .action-icon {
-                height: calc(3rem - 5px);
+                height: calc(4rem - 5px);
                 width: 100%;
                 display: inline-block;
                 margin-bottom: 5px;
