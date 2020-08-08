@@ -11,7 +11,7 @@ export default {
             default: require('../mock-data/search/result.json')
         }
         let response = mock[type] || mock.default
-        response = pickRandomItem(response, 15)
+        response = pickRandomItem(response, 11)
 
         return new Promise((resolve, reject) => {
             setTimeout(() => {

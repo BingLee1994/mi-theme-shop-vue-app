@@ -13,7 +13,7 @@ module.exports = {
                 if (i === 1) {
                     item.type = 'category'
                     item.keyWord = '米粉推荐'
-                    item.filter = 'wallpaper'
+                    item.filter = 'theme'
                 }
                 if (i === 2) {
                     item.type = 'category'

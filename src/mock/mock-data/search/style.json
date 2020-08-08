@@ -1,10 +1,10 @@
 {
     "theme": [
-        { "keyWord": "游戏专区", 
+        { "keyWord": "苹果原生壁纸", 
             "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/029045deeac35057a63c23dee97542d4f214084e0" },
-        { "keyWord": "动漫专区", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/0573575451e394d133c210fdb9a50749b5eed2909" },
-        { "keyWord": "影视专区专区", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/0db78142e438446be1e76d9a633ce8a253c28e937" },
-        { "keyWord": "影视专区专区", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/008a52475546446c93de1ae4b18860e7ff35e5f13", "external": true }
+        { "keyWord": "唯美", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/0573575451e394d133c210fdb9a50749b5eed2909" },
+        { "keyWord": "一言不合就开车", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/0db78142e438446be1e76d9a633ce8a253c28e937" },
+        { "keyWord": "萌宠", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/008a52475546446c93de1ae4b18860e7ff35e5f13", "external": true }
     ],
     "wallpaper": [
         { "keyWord": "自然风光", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/03b7d74d563394ab2018caa52f50e9137540fa2c0" },

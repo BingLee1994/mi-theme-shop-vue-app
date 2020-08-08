@@ -1,5 +1,4 @@
 import SplashActivity from '@views/splash-activity'
-import HomeScreen from '@views/home/index'
 import SearchScreen from '@views/search/search'
 import RankScreen from '@views/rank'
 import IntroHomeScreen from '@views/intro/index'
@@ -15,6 +14,9 @@ import SettingScreen from '@views/setting'
 import ViewOrderScreen from '@views/my-order'
 import ViewWallpaperScreen from '@views/wallpaper-viewer'
 import FollowArtistScreen from '@views/my-follow-artist.vue'
+
+// const HomeScreen = () => import(/* webpackChunkName: "home" */ '@views/home/index.vue')
+import HomeScreen from '@views/home/index.vue'
 
 export default [
     {

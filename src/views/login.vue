@@ -34,8 +34,8 @@ export default {
     name: 'Login',
     data() {
         return {
-            username: '',
-            password: '',
+            username: 'mock user',
+            password: 'qweasd123',
             isShowPassword: false
         }
     },
