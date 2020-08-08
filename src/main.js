@@ -10,13 +10,10 @@ import Toast from '@miui/toast/install'
 import installMyDirective from '@/directives'
 import { install as Api } from '@/api'
 import './style/miui/colors.scss'
-import setupMockjs from './mock/install'
-import orientationListener from './orientation-listener'
+import orientationAlert from './orientation-alert'
 
 import Button from '@/components/app/button'
 import LazyImage from '@/components/app/simple-lazy-load-img'
-
-setupMockjs()
 
 const elApp = document.getElementById('app')
 
@@ -36,4 +33,4 @@ new Vue({
   render(h) { return h(App) }
 }).$mount(elApp)
 
-orientationListener()
+orientationAlert()
