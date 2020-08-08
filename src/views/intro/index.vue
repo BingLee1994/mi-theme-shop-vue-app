@@ -24,7 +24,7 @@ export default {
     .intro-screen {
         padding: 20px;
         box-sizing: border-box;
-        background: url(../../assets/img/me-bg.png) no-repeat top;
+        background: var(--white) url(../../assets/img/me-bg.png) no-repeat top;
         background-size: cover;
 
         .title {

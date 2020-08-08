@@ -35,7 +35,7 @@ export default {
         type: String,
         enableSwipeToLoadMore: {
             type: Boolean,
-            default: true
+            default: false
         },
         loadMoreLoadingMessage: {
             type: String,
@@ -50,7 +50,9 @@ export default {
     },
 
     mounted() {
-        this.enableSwipeToLoadMoreListener()
+        if (this.enableSwipeToLoadMore) {
+            this.enableSwipeToLoadMoreListener()
+        }
         this.loaderHeight = this.$refs.loader.offsetHeight * 1.5
         this.$refs.loader.style.top = `-${this.loaderHeight}px`
         this.touchMoveThreshold = this.loaderHeight * 2
@@ -122,6 +124,7 @@ export default {
                 let moveDis = 0
                 let isCanReload = false
                 let isScrolling = false
+                let isScrollingDown = false
                 let touchDirectionLocked = false
 
                 elListWrapper.addEventListener('touchstart', e => {
@@ -138,6 +141,11 @@ export default {
 
                 // swip down
                 elListWrapper.addEventListener('touchmove', e => {
+                    if (this.showRefreshLoading) {
+                        console.log('阻止默认事件，否则会误触原生下拉刷新')
+                        e.preventDefault()
+                        e.stopPropagation()
+                    }
                     if (this.isCanSwipe()) {
                         let curY = e.touches[0].pageY
                         let deltaY = startY - curY
@@ -151,12 +159,20 @@ export default {
                         if (!touchDirectionLocked) {
                             isScrolling = Math.abs(deltaY) > Math.abs(deltaX)
                             touchDirectionLocked = true
+                            isScrollingDown = deltaY > 0
+                            console.log(isScrollingDown, deltaY, deltaY > 0)
+                        }
+                        if (scrollObserveTarget.scrollTop <= 0 && !isScrollingDown) {
+                            console.log('阻止默认事件，否则会误触原生下拉刷新')
+                            e.preventDefault()
+                            e.stopPropagation()
                         }
                         if (!this.showRefreshLoading &&
                             !this.isAnimationPlaying &&
                             deltaY < 0 &&
                             isScrolling &&
-                            Math.abs(moveDis) <= this.maxTouchMoveThreshold
+                            Math.abs(moveDis) <= this.maxTouchMoveThreshold &&
+                            !isScrollingDown
                         ) {
                             let translateY = startPos - deltaY
                             let { touchMoveThreshold } = this

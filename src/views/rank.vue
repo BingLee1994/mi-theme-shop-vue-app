@@ -164,6 +164,21 @@ export default {
                     display: flex;
                     align-items: center;
                     padding:1.5rem;
+                    overflow: hidden;
+
+                    &.top-item1 {
+                        border-top-right-radius: var(--radius);
+                        border-top-left-radius: var(--radius);
+                    }
+
+                    .number {
+                        margin: 0;
+                    }
+
+                    .preview-img {
+                        width: calc(100% - 5rem);
+                        margin: 0 1.5rem
+                    }
                 }
 
                 .number {
@@ -235,8 +250,8 @@ export default {
                     height: 3rem;
                     text-align: center;
                     box-sizing: content-box;
-                    padding: 1.5rem;
-                    padding-left: 2rem;
+                    padding: 2rem;
+                    overflow: hidden;
 
                     .preview-img{
                         object-fit: contain;

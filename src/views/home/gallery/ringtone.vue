@@ -53,12 +53,14 @@ export default {
                 }
             ],
             ringtoneList: [],
-            showLoading: false
+            showLoading: true
         }
     },
 
     mounted() {
+        this.showLoading = true
         this.getQuickActionRecommend('ringtone').then(recommend => {
+            this.showLoading = false
             recommend.forEach(r => {
                 this.quickActionItems.push(r)
             })

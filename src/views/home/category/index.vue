@@ -232,12 +232,12 @@ export default {
           padding: 10px 0;
           transition: all .2s ease;
           opacity: 0;
-          transform: translateY(10px);
+          transform: scale(.9);
           transform-origin: bottom center;
 
           &.active {
             opacity: 1;
-          transform: translateY(0px);
+            transform: scale(1);
           }
         }
       }

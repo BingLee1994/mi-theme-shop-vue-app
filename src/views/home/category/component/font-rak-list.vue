@@ -21,11 +21,10 @@
                 <slot name="rankNumber" :rankNumber="index +1">
                     <span class="bold">{{index + 1}}.</span>
                 </slot>
-                <LazyImage
+                <img
                     class="mg-h15"
                     v-flex-item.1
                     :src="item.imgUrl"
-                    block
                 />
             </div>
         </div>
@@ -66,6 +65,13 @@ export default {
         .rank-list {
             border-radius: var(--radius);
             background-color: rgb(253, 253, 253);
+
+            img {
+                display: block;
+                flex: 1 1 0px;
+                object-fit: contain;
+                overflow: hidden;
+            }
         }
     }
 </style>

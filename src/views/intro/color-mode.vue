@@ -4,7 +4,7 @@
 
 <template>
     <div v-flex.column>
-        <p class="sub-title">请选择颜色模式</p>
+        <p class="sub-title">请选择颜色模式（可于稍后在设置里更改）</p>
         <main v-flex-item.1 v-flex class="c-mode-card-wrapper mg-t10">
             <div class="c-mode-card" style="margin-right: 25px" v-flex-item.1>
                 <Checkbox :checked="isDarkMode" @change="toggleDarkMode(true)" label="暗色"/>
