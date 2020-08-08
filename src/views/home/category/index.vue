@@ -83,6 +83,7 @@ export default {
       this.canShowNextComponent = false
       this.moveStartY = 0
       this.moveDis = 0
+      this.maskAsPageUp = false
     },
 
     watch: {
@@ -112,6 +113,14 @@ export default {
     },
 
     methods: {
+      isScrollToBottom() {
+        let elComponentWrapper = this.$refs.componentWrapper
+        if (elComponentWrapper.scrollTop >= elComponentWrapper.scrollHeight - elComponentWrapper.offsetHeight - 1) {
+          return true
+        }
+        return false
+      },
+
       checkShowLoader() {
         setTimeout(() => {
           let elComponentWrapper = this.$refs.componentWrapper
@@ -138,24 +147,24 @@ export default {
       },
 
       handleTouchStart(e) {
+        this.maskAsPageUp = this.isScrollToBottom()
         this.moveStartY = e.touches[0].pageY
       },
 
       handleTouchMove(e) {
-        let curY = e.touches[0].pageY
-        this.moveDis = curY - this.moveStartY
-        let elComponentWrapper = e.currentTarget
-
-        if (elComponentWrapper.scrollTop !== elComponentWrapper.scrollHeight - elComponentWrapper.offsetHeight) {
+        if (this.maskAsPageUp) {
+          let curY = e.touches[0].pageY
+          this.moveDis = curY - this.moveStartY
+        } else {
           this.moveDis = 0
         }
       },
 
       handleTouchCancel(e) {
-        let { currentTarget: elComponentWrapper } = e
         if (
           this.moveDis < -10 &&
-          elComponentWrapper.scrollTop >= elComponentWrapper.scrollHeight - elComponentWrapper.offsetHeight - 2) {
+          this.maskAsPageUp
+        ) {
           this.canShowNextComponent = true
         } else {
           this.canShowNextComponent = false
