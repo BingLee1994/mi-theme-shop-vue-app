@@ -83,7 +83,7 @@ export default [
             authenticate: true,
             authenticateReason: '登录以浏览或者购买商品',
             keepAlive: true,
-            expectedEntry: ['search', 'home', 'viewCategory', 'category', 'viewOrder']
+            expectedEntry: ['search', 'home', 'rank', 'viewCategory', 'category', 'viewOrder']
         }
     },
 
@@ -124,7 +124,7 @@ export default [
         name: 'viewCategory',
         component: ViewCategoryScreen,
         meta: {
-            expectedEntry: ['viewFollowArtist', 'home']
+            expectedEntry: ['viewFollowArtist', 'home', 'search']
         }
     },
 
