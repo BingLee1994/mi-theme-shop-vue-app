@@ -84,6 +84,14 @@ export default {
       gotoSearch() {
         this.$router.push({ name: 'search', query: { type: this.currentNavName } })
       }
+    },
+
+    beforeRouteLeave(to, cur, nxt) {
+      if (!to.path.includes('intro')) {
+        nxt(true)
+      } else {
+        nxt(false)
+      }
     }
 
     /* beforeRouteLeave(to, from, next) {
