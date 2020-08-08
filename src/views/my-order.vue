@@ -11,6 +11,7 @@
                     :selectedNav="currentTabIndex"
                     @clickNavItem="onTabChange"
                     class="nav-list-wrapper"
+                    :enableSwipeToLoadMore="true"
                 />
             </div>
             <SwiperActivity
@@ -28,6 +29,7 @@
                         @click="viewDetail"
                         :showRefreshLoading="loadMoreloading === 'theme'"
                         @willLoadMore="requestMoreItem"
+                        :enableSwipeToLoadMore="true"
                     />
                 </Item>
 
@@ -40,6 +42,7 @@
                         @click="viewDetail"
                         @loadMore="loadMoreFont"
                         @willLoadMore="requestMoreItem"
+                        :enableSwipeToLoadMore="true"
                     />
                 </Item>
 
