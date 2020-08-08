@@ -38,7 +38,7 @@
                 </li>
                 <li class="list-item">
                     <div class="content">
-                        <a class="title" href=mailto:791188716@qq.com>联系作者</a>
+                        <a style="display: block" class="title" href=mailto:791188716@qq.com>联系作者</a>
                     </div>
                 </li>
             </ul>
@@ -57,7 +57,7 @@ export default {
     data() {
         return {
             applyRingtone: true,
-            dataProtection: false,
+            dataProtection: true,
             adv: false
         }
     },
