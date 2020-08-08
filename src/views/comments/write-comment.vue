@@ -89,10 +89,12 @@ export default {
                     secondaryButton: '舍弃'
                 }
             ).catch(() => {
-                next(to)
+                next(true)
+            }).then(() => {
+                next(false)
             })
         } else {
-            next()
+            next(false)
         }
     }
 }
