@@ -1,25 +1,36 @@
 [
     { 
-        "text": "迪士尼",
+        "text": "小米10",
         "imgUrl": "",
         "external": true,
-        "link": "https://www.shanghaidisneyresort.com/"
+        "imgUrl": "/tmp/m10.gif",
+        "prompt": {
+            "message": "小米10周年梦幻之作 骁龙865 真5G, 1亿像素8K电影相机 50倍变焦 平衡立体声。",
+            "primaryButton": "前往小米官方网店购买"
+        },
+        "link": "https://www.mi.com/buy/detail?product_id=10000214&client_id=180100041080&masid=2111.0141&gsadid=gad_472_yi0fg32l&utm_Account=Default&utm_Adgroup=%e5%b0%8f%e7%b1%b310%e5%9b%bd%e9%a3%8e%e7%89%88&utm_Campaign=2020%e5%b9%b4%e5%85%a8%e5%b9%b4%e7%99%be%e5%ba%a6%e6%8a%95%e6%94%be%e9%a1%b9%e7%9b%ae&utm_Medium=Display&utm_Channel=%e7%99%be%e5%ba%a6PC&utm_Source=%e7%99%be%e5%ba%a6%e5%93%81%e4%b8%93&utm_Term=%e5%b0%8f%e7%b1%b310%e5%9b%bd%e9%a3%8e%e7%89%88"
     },
     { 
         "text": "次元之约",
-        "imgUrl": "",
+        "imgUrl": "/tmp/cy.png",
         "routeLink": true,
-        "link": "https://www.shanghaidisneyresort.com/"
+        "route": {
+            "name": "viewCategory",
+            "params": {
+                "keyWord": "次元之约",
+                "filter": "theme"
+            }
+        }
     },
     { 
         "text": "精选主题",
-        "imgUrl": "",
+        "imgUrl": "/tmp/top.png",
         "routeLink": true,
         "route": {
-            "name": "rank",
+            "name": "viewCategory",
             "params": {
-                "filter": "theme",
-                "keyWord": "精选主题"
+                "keyWord": "8月精选",
+                "filter": "theme"
             }
         }
     }

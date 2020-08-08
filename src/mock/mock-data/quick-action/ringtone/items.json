@@ -1,21 +1,39 @@
 
 [
     { 
-        "text": "抖音",
-        "imgUrl": "",
-        "external": true,
-        "link": "https://www.shanghaidisneyresort.com/"
+        "text": "抖音神曲",
+        "imgUrl": "/tmp/ticktok.gif",
+        "external": false,
+        "route": {
+            "name": "viewCategory",
+            "params": {
+                "keyWord": "抖音神曲",
+                "filter": "ringtone"
+            }
+        }
     },
     { 
         "text": "快手热歌",
-        "imgUrl": "",
+        "imgUrl": "/tmp/gifmaker.png",
         "routeLink": true,
-        "route": "result/次元"
+        "route": {
+            "name": "viewCategory",
+            "params": {
+                "keyWord": "老铁最爱",
+                "filter": "ringtone"
+            }
+        }
     },
     { 
         "text": "怀旧金曲",
-        "imgUrl": "",
+        "imgUrl": "/tmp/memory.png",
         "routeLink": true,
-        "route": "result/top"
+        "route": {
+            "name": "viewCategory",
+            "params": {
+                "keyWord": "选一首给父母",
+                "filter": "ringtone"
+            }
+        }
     }
 ]

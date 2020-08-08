@@ -1,25 +1,35 @@
 [
+    
     { 
-        "text": "小米10",
-        "imgUrl": "",
+        "text": "迪士尼",
+        "imgUrl": "/tmp/dsn.png",
         "external": true,
+        "prompt": {
+            "message": "您将会离开主题商店并前往上海Destiny官网",
+            "primaryButton": "好"
+        },
         "link": "https://www.shanghaidisneyresort.com/"
-    },
-    { 
+    },{ 
         "text": "手写字体",
-        "imgUrl": "",
+        "imgUrl": "/tmp/sh.png",
         "routeLink": true,
-        "link": "https://www.shanghaidisneyresort.com/"
+        "route": {
+            "name": "viewCategory",
+            "params": {
+                "keyWord": "手写字体",
+                "filter": "font"
+            }
+        }
     },
     { 
         "text": "热门免费",
-        "imgUrl": "",
+        "imgUrl": "/tmp/free-font.png",
         "routeLink": true,
         "route": {
-            "name": "rank",
+            "name": "viewCategory",
             "params": {
-                "filter": "theme",
-                "keyWord": "精选主题"
+                "filter": "font",
+                "keyWord": "精选免费，任君挑选"
             }
         }
     }

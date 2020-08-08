@@ -1,27 +1,27 @@
 {
     "theme": [
-        { "keywords": "游戏专区", 
+        { "keyWord": "游戏专区", 
             "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/029045deeac35057a63c23dee97542d4f214084e0" },
-        { "keywords": "动漫专区", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/0573575451e394d133c210fdb9a50749b5eed2909" },
-        { "keywords": "影视专区专区", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/0db78142e438446be1e76d9a633ce8a253c28e937" },
-        { "url": "影视专区专区", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/008a52475546446c93de1ae4b18860e7ff35e5f13", "external": true }
+        { "keyWord": "动漫专区", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/0573575451e394d133c210fdb9a50749b5eed2909" },
+        { "keyWord": "影视专区专区", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/0db78142e438446be1e76d9a633ce8a253c28e937" },
+        { "keyWord": "影视专区专区", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/008a52475546446c93de1ae4b18860e7ff35e5f13", "external": true }
     ],
     "wallpaper": [
-        { "keywords": "自然风光", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/03b7d74d563394ab2018caa52f50e9137540fa2c0" },
-        { "keywords": "萌宠", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/038664440dd3a4b941536de272190aea97c1ed93e" },
-        { "keywords": "中国风", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/00e16e56cdae944b31cf08b574802c3b221c73bd5" },
-        { "url": "二次元", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/060444d3aef092da1883599ee76378133e74277e3", "external": true }
+        { "keyWord": "自然风光", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/03b7d74d563394ab2018caa52f50e9137540fa2c0" },
+        { "keyWord": "萌宠", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/038664440dd3a4b941536de272190aea97c1ed93e" },
+        { "keyWord": "中国风", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/00e16e56cdae944b31cf08b574802c3b221c73bd5" },
+        { "keyWord": "二次元", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/060444d3aef092da1883599ee76378133e74277e3", "external": true }
     ],
     "font": [
-        { "keywords": "汉仪细楷体", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/0526e55279d1745f5f0edebfddf4e8c13c7419139" },
-        { "keywords": "文鼎中行书", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/093d765d654644b273e2b5fd383d8723a6b774b39" },
-        { "keywords": "方正隶变体", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/0e4254e5c0cab88058dde1678a506ae9b904123ce" },
-        { "url": "方正硬笔行书", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/0fa94e5eeb270424829d5343ae47dcaba6d90819c" }
+        { "keyWord": "汉仪细楷体系列", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/0526e55279d1745f5f0edebfddf4e8c13c7419139" },
+        { "keyWord": "文鼎中行书系列", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/093d765d654644b273e2b5fd383d8723a6b774b39" },
+        { "keyWord": "方正隶变体系列", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/0e4254e5c0cab88058dde1678a506ae9b904123ce" },
+        { "keyWord": "方正硬笔行书系列", "imgUrl": "http://file.market.xiaomi.com/thumbnail/jpeg/w330/ThemeMarket/0fa94e5eeb270424829d5343ae47dcaba6d90819c" }
     ],
     "ringtone": [
-        { "keywords": "伤感", "imgUrl": "" },
-        { "keywords": "爱情", "imgUrl": "" },
-        { "keywords": "搞笑", "imgUrl": "" },
-        { "url": "热门", "imgUrl": "", "external": true }
+        { "keyWord": "伤感", "text": "伤感", "imgUrl": "/tmp/ringtone/s8.png" },
+        { "keyWord": "爱情", "text": "爱情", "imgUrl": "/tmp/ringtone/s1.png" },
+        { "keyWord": "搞笑", "text": "搞笑", "imgUrl": "/tmp/ringtone/s6.png" },
+        { "keyWord": "热门", "text": "热门", "url": "热门", "imgUrl": "/tmp/ringtone/s4.png"}
     ]
 }
